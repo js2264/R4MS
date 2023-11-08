@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>R for Mass Spectrometry - 2&nbsp; Raw MS data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pages/introduction.html" rel="prev">
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/raw-ms-data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">R for Mass Spectrometry</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-git"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/js2264/R4MS/">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://js2264.github.io/R4MS/devel/">
+            Browse version `devel`
+            </a>
+          </li>
+      </ul>
+</div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/raw-ms-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#what-is-raw-data-in-r" id="toc-what-is-raw-data-in-r" class="nav-link active" data-scroll-target="#what-is-raw-data-in-r"><span class="header-section-number">2.1</span> What is raw data in R</a>
+  <ul class="collapse">
+<li><a href="#the-spectra-class" id="toc-the-spectra-class" class="nav-link" data-scroll-target="#the-spectra-class"><span class="header-section-number">2.1.1</span> The <code>Spectra</code> class</a></li>
+  <li><a href="#spectra-from-mzml-files" id="toc-spectra-from-mzml-files" class="nav-link" data-scroll-target="#spectra-from-mzml-files"><span class="header-section-number">2.1.2</span> <code>Spectra</code> from mzML files</a></li>
+  <li><a href="#backends" id="toc-backends" class="nav-link" data-scroll-target="#backends"><span class="header-section-number">2.1.3</span> Backends</a></li>
+  </ul>
+</li>
+  <li><a href="#visualisation-of-raw-ms-data" id="toc-visualisation-of-raw-ms-data" class="nav-link" data-scroll-target="#visualisation-of-raw-ms-data"><span class="header-section-number">2.2</span> Visualisation of raw MS data</a></li>
+  <li><a href="#raw-data-processing-and-manipulation" id="toc-raw-data-processing-and-manipulation" class="nav-link" data-scroll-target="#raw-data-processing-and-manipulation"><span class="header-section-number">2.3</span> Raw data processing and manipulation</a></li>
+  <li>
+<a href="#a-note-on-efficiency" id="toc-a-note-on-efficiency" class="nav-link" data-scroll-target="#a-note-on-efficiency"><span class="header-section-number">2.4</span> A note on efficiency</a>
+  <ul class="collapse">
+<li><a href="#backends-1" id="toc-backends-1" class="nav-link" data-scroll-target="#backends-1"><span class="header-section-number">2.4.1</span> Backends</a></li>
+  <li><a href="#parallel-processing" id="toc-parallel-processing" class="nav-link" data-scroll-target="#parallel-processing"><span class="header-section-number">2.4.2</span> Parallel processing</a></li>
+  <li><a href="#lazy-evaluation" id="toc-lazy-evaluation" class="nav-link" data-scroll-target="#lazy-evaluation"><span class="header-section-number">2.4.3</span> Lazy evaluation</a></li>
+  </ul>
+</li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-raw" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p>In this section, we will learn how to read raw data in one of the commonly used open formats (<code>mzML</code>, <code>mzXML</code>, <code>netCDF</code> or <code>mgf</code>) into R.</p>
+<section id="what-is-raw-data-in-r" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="what-is-raw-data-in-r">
+<span class="header-section-number">2.1</span> What is raw data in R</h2>
+<p>When we manipulate complex data, we need a way to abstract it.</p>
+<p>The abstraction saves us from having to know about all the details of that data <strong>and</strong> its associated metadata. In R, we think of MS data as illustrated on the figure below (taken from <span class="citation" data-cites="Gatto:2020">(<a href="#ref-Gatto:2020" role="doc-biblioref">Gatto, Gibb, and Rainer 2020</a>)</span>): a metadata table and a set of raw spectra. This allows to rely on a few easy-to-remember conventions to make mundane and repetitive tasks trivial and be able to complete more complex things easily. Abstractions provide a smoother approach to handle complex data using common patterns.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/raw.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Schematic representation of what is referred to by <em>raw data</em>: a collection of mass spectra and a table containing spectrum-level annotations along the lines. Raw data are imported from one of the many community-maintained open standards formats (mzML, mzXML, mzData or ANDI-MS/netCDF).</figcaption></figure>
+</div>
+</div>
+</div>
+<section id="the-spectra-class" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="the-spectra-class">
+<span class="header-section-number">2.1.1</span> The <code>Spectra</code> class</h3>
+<p>We are going to use the <a href="https://rformassspectrometry.github.io/Spectra/"><code>Spectra</code></a> package as an abstraction to raw mass spectrometry data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra">Spectra</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Spectra</code> is part of the <a href="https://www.rformassspectrometry.org/">R for Mass Spectrometry initiative</a>. It defines the <code>Spectra</code> class that is used as a raw data abstraction, to manipulate MS data and metadata. The best way to learn about a data structure is to create one by hand.</p>
+<p>Let’s create a <code>DataFrame</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> containing MS levels, retention time, m/z and intensities for 2 spectra:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>msLevel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>, rtime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spd</span><span class="op">$</span><span class="va">mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">103.2</span>, <span class="fl">104.3</span>, <span class="fl">106.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45.6</span>, <span class="fl">120.4</span>, <span class="fl">190.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spd</span><span class="op">$</span><span class="va">intensity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">400</span>, <span class="fl">34.2</span>, <span class="fl">17</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">12.3</span>, <span class="fl">15.2</span>, <span class="fl">6.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spd</span></span>
+<span><span class="co">##  DataFrame with 2 rows and 4 columns</span></span>
+<span><span class="co">##      msLevel     rtime                    mz             intensity</span></span>
+<span><span class="co">##    &lt;integer&gt; &lt;numeric&gt;                &lt;list&gt;                &lt;list&gt;</span></span>
+<span><span class="co">##  1         1       1.1 100.0,103.2,104.3,... 200.0,400.0, 34.2,...</span></span>
+<span><span class="co">##  2         2       1.2      45.6,120.4,190.2        12.3,15.2, 6.8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now convert this <code>DataFrame</code> into a <code>Spectra</code> object:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">spd</span><span class="op">)</span></span>
+<span><span class="va">sp0</span></span>
+<span><span class="co">##  MSn data (Spectra) with 2 spectra in a MsBackendMemory backend:</span></span>
+<span><span class="co">##      msLevel     rtime scanIndex</span></span>
+<span><span class="co">##    &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1         1       1.1        NA</span></span>
+<span><span class="co">##  2         2       1.2        NA</span></span>
+<span><span class="co">##   ... 16 more variables/columns.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exercise" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise">Exercise</h4>
+<p>Explore the newly created object using</p>
+<ul>
+<li>
+<code>spectraVariables</code> to extract all the metadata variables. Compare these to the spectra variables available from the previous example.</li>
+<li>
+<code>spectraData</code> to extract all the metadata.</li>
+<li>
+<code>peaksData</code> to extract a list containing the raw data.</li>
+<li>
+<code>[</code> to create subsets.</li>
+</ul></section></section><section id="spectra-from-mzml-files" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="spectra-from-mzml-files">
+<span class="header-section-number">2.1.2</span> <code>Spectra</code> from mzML files</h3>
+<p>Let’s now create a new object using the mzML data previously downloaded and available in the <code>mzf</code> file.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lgatto/rpx">rpx</a></span><span class="op">)</span></span>
+<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
+<span><span class="va">px</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">PXDataset</a></span><span class="op">(</span><span class="st">"PXD000001"</span><span class="op">)</span></span>
+<span><span class="co">##  Loading PXD000001 from cache.</span></span>
+<span><span class="va">mzf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxget</a></span><span class="op">(</span><span class="va">px</span>, <span class="va">fn</span><span class="op">)</span></span>
+<span><span class="co">##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.</span></span>
+<span><span class="va">mzf</span></span>
+<span><span class="co">##  [1] "/root/.cache/R/rpx/cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">mzf</span><span class="op">)</span></span>
+<span><span class="va">sp</span></span>
+<span><span class="co">##  MSn data (Spectra) with 7534 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">##         msLevel     rtime scanIndex</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1            1    0.4584         1</span></span>
+<span><span class="co">##  2            1    0.9725         2</span></span>
+<span><span class="co">##  3            1    1.8524         3</span></span>
+<span><span class="co">##  4            1    2.7424         4</span></span>
+<span><span class="co">##  5            1    3.6124         5</span></span>
+<span><span class="co">##  ...        ...       ...       ...</span></span>
+<span><span class="co">##  7530         2   3600.47      7530</span></span>
+<span><span class="co">##  7531         2   3600.83      7531</span></span>
+<span><span class="co">##  7532         2   3601.18      7532</span></span>
+<span><span class="co">##  7533         2   3601.57      7533</span></span>
+<span><span class="co">##  7534         2   3601.98      7534</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##  cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exercise-1" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h4>
+<ul>
+<li>Repeat the data manipulations above.</li>
+<li>Check the number of scans in the object with <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>.</li>
+<li>Note the difference in the first line when showing the object in the console. We will get back to this idea of backend later.</li>
+</ul>
+<p>Mass spectrometry data in <code>Spectra</code> objects can be thought of as a list of individual spectra, with each spectrum having a set of variables associated with it. Besides <em>core</em> spectra variables (such as MS level or retention time) an arbitrary number of optional variables can be assigned to a spectrum. The core spectra variables all have their own accessor method and it is guaranteed that a value is returned by it (or <code>NA</code> if the information is not available). The core variables and their data type are (alphabetically ordered):</p>
+<ul>
+<li>
+<em>acquisitionNum</em> <code>integer(1)</code>: the index of acquisition of a spectrum during a MS run.</li>
+<li>
+<em>centroided</em> <code>logical(1)</code>: whether the spectrum is in profile or centroid mode.</li>
+<li>
+<em>collisionEnergy</em> <code>numeric(1)</code>: collision energy used to create an MSn spectrum.</li>
+<li>
+<em>dataOrigin</em> <code>character(1)</code>: the <em>origin</em> of the spectrum’s data, e.g.&nbsp;the mzML file from which it was read.</li>
+<li>
+<em>dataStorage</em> <code>character(1)</code>: the (current) storage location of the spectrum data. This value depends on the backend used to handle and provide the data. For an <em>in-memory</em> backend like the <code>MsBackendMemory</code> this will be <code>"&lt;memory&gt;"</code>, for an on-disk backend such as the <code>MsBackendHdf5Peaks</code> it will be the name of the HDF5 file where the spectrum’s peak data is stored.</li>
+<li>
+<em>intensity</em> <code>numeric</code>: intensity values for the spectrum’s peaks.</li>
+<li>
+<em>isolationWindowLowerMz</em> <code>numeric(1)</code>: lower m/z for the isolation window in which the (MSn) spectrum was measured.</li>
+<li>
+<em>isolationWindowTargetMz</em> <code>numeric(1)</code>: the target m/z for the isolation window in which the (MSn) spectrum was measured.</li>
+<li>
+<em>isolationWindowUpperMz</em> <code>numeric(1)</code>: upper m/z for the isolation window in which the (MSn) spectrum was measured.</li>
+<li>
+<em>msLevel</em> <code>integer(1)</code>: the MS level of the spectrum.</li>
+<li>
+<em>mz</em> <code>numeric</code>: the m/z values for the spectrum’s peaks.</li>
+<li>
+<em>polarity</em> <code>integer(1)</code>: the polarity of the spectrum (<code>0</code> and <code>1</code> representing negative and positive polarity, respectively).</li>
+<li>
+<em>precScanNum</em> <code>integer(1)</code>: the scan (acquisition) number of the precursor for an MSn spectrum.</li>
+<li>
+<em>precursorCharge</em> <code>integer(1)</code>: the charge of the precursor of an MSn spectrum.</li>
+<li>
+<em>precursorIntensity</em> <code>numeric(1)</code>: the intensity of the precursor of an MSn spectrum.</li>
+<li>
+<em>precursorMz</em> <code>numeric(1)</code>: the m/z of the precursor of an MSn spectrum.</li>
+<li>
+<em>rtime</em> <code>numeric(1)</code>: the retention time of a spectrum.</li>
+<li>
+<em>scanIndex</em> <code>integer(1)</code>: the index of a spectrum within a (raw) file.</li>
+<li>
+<em>smoothed</em> <code>logical(1)</code>: whether the spectrum was smoothed.</li>
+</ul>
+<p>For details on the individual variables and their getter/setter function see the help for <code>Spectra</code> (<code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">?Spectra</a></code>). Also note that these variables are suggested, but not required to characterize a spectrum. Also, some only make sense for MSn, but not for MS1 spectra.</p>
+<p>In addition to the core spectra variables it is also possible to add additional spectra variables to a <code>Spectra</code> object. As an example we add below a spectra variable representing the retention times in minutes to the object. This information can then be extracted again using the <code>$</code> notation (similar to accessing a column in a <code>data.frame</code>, i.e., <code>$</code> and the name of the spectra variable).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp</span><span class="op">$</span><span class="va">rtime_minute</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">rtime</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span> <span class="op">/</span> <span class="fl">60</span></span>
+<span><span class="va">sp</span><span class="op">$</span><span class="va">rtime_minute</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 0.00764000 0.01620833 0.03087333 0.04570667 0.06020667 0.07487500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="exercise-2" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-2">Exercise</h4>
+<ul>
+<li>Extract a set of spectra variables using the accessor (for example <code>msLevel(.)</code>) or using the <code>$</code> notation (for example <code>.$msLevel</code>).</li>
+<li>How many MS level are there, and how many scans of each level?</li>
+<li>Extract the index of the MS2 spectrum with the highest base peak intensity.</li>
+<li>Are the data centroided or in profile mode?</li>
+<li>Pick a spectrum of each level and visually check whether it is centroided or in profile mode. You can use the <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra()</a></code> function to visualise peaks and set the m/z range with the <code>xlim</code> arguments.</li>
+</ul></section><section id="exercise-3" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-3">Exercise</h4>
+<p>Using the first raw data file starting with <code>MS3TMT10</code>, answer the following questions:</p>
+<ul>
+<li>How many spectra are there in that file?</li>
+<li>How many MS levels, and how many spectra per MS level?</li>
+<li>What is the index of the MS2 spectrum with the highest precursor intensity?</li>
+<li>Plot one spectrum of each level. Are they centroided or in profile mode?</li>
+</ul>
+<p>These objects and their manipulations are not limited to single files or samples. Below we load data from two mzML files. The MS data from both files in the <code>Spectra</code> is organized linearly (first all spectra from the first file and then from the second). The <code>dataOrigin</code> function can be used to identify spectra from the different data files.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"sciex"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">sp_sciex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">fls</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">dataOrigin</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_1_105-134.mzML </span></span>
+<span><span class="co">##                                                                          931 </span></span>
+<span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML </span></span>
+<span><span class="co">##                                                                          931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="backends" class="level3" data-number="2.1.3"><h3 data-number="2.1.3" class="anchored" data-anchor-id="backends">
+<span class="header-section-number">2.1.3</span> Backends</h3>
+<p>Backends allow to use different <em>backends</em> to store mass spectrometry data while providing <em>via</em> the <code>Spectra</code> class a unified interface to use that data. With the <code>setBackend</code> function it is possible to change between different backends and hence different data representations. The <code>Spectra</code> package defines a set of example backends but any object extending the base <code>MsBackend</code> class could be used instead. The default backends are:</p>
+<ul>
+<li>
+<code>MsBackendMzR</code>: this backend keeps only general spectra variables in memory and relies on the <em><a href="https://bioconductor.org/packages/3.19/mzR">mzR</a></em> package to read mass peaks (m/z and intensity values) from the original MS files on-demand.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp_sciex</span></span>
+<span><span class="co">##  MSn data (Spectra) with 1862 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">##         msLevel     rtime scanIndex</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1            1     0.280         1</span></span>
+<span><span class="co">##  2            1     0.559         2</span></span>
+<span><span class="co">##  3            1     0.838         3</span></span>
+<span><span class="co">##  4            1     1.117         4</span></span>
+<span><span class="co">##  5            1     1.396         5</span></span>
+<span><span class="co">##  ...        ...       ...       ...</span></span>
+<span><span class="co">##  1858         1   258.636       927</span></span>
+<span><span class="co">##  1859         1   258.915       928</span></span>
+<span><span class="co">##  1860         1   259.194       929</span></span>
+<span><span class="co">##  1861         1   259.473       930</span></span>
+<span><span class="co">##  1862         1   259.752       931</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##  20171016_POOL_POS_1_105-134.mzML</span></span>
+<span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>
+<code>MsBackendMemory</code> and <code>MsBackendDataFrame</code>: the full mass spectrometry data is stored (in-memory) within the object. Keeping the data in memory guarantees high performance but has also, depending on the number of mass peaks in each spectrum, a much higher memory footprint.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">setBackend</a></span><span class="op">(</span><span class="va">sp_sciex</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html">MsBackendMemory</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  MSn data (Spectra) with 1862 spectra in a MsBackendMemory backend:</span></span>
+<span><span class="co">##         msLevel     rtime scanIndex</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1            1     0.280         1</span></span>
+<span><span class="co">##  2            1     0.559         2</span></span>
+<span><span class="co">##  3            1     0.838         3</span></span>
+<span><span class="co">##  4            1     1.117         4</span></span>
+<span><span class="co">##  5            1     1.396         5</span></span>
+<span><span class="co">##  ...        ...       ...       ...</span></span>
+<span><span class="co">##  1858         1   258.636       927</span></span>
+<span><span class="co">##  1859         1   258.915       928</span></span>
+<span><span class="co">##  1860         1   259.194       929</span></span>
+<span><span class="co">##  1861         1   259.473       930</span></span>
+<span><span class="co">##  1862         1   259.752       931</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  Processing:</span></span>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendMemory [Wed Nov  8 19:53:21 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>
+<code>MsBackendHdf5Peaks</code>: similar to <code>MsBackendMzR</code> this backend reads peak data only on-demand from disk while all other spectra variables are kept in memory. The peak data are stored in Hdf5 files which guarantees scalability.</li>
+</ul>
+<p>With the example below we load the data from a single mzML file and use a <code>MsBackendHdf5Peaks</code> backend for data storage. The <code>hdf5path</code> parameter allows us to specify the storage location of the HDF5 file.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp_hdf5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">setBackend</a></span><span class="op">(</span><span class="va">sp_sciex</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html">MsBackendHdf5Peaks</a></span><span class="op">(</span><span class="op">)</span>, hdf5path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sp_hdf5</span></span>
+<span><span class="co">##  MSn data (Spectra) with 1862 spectra in a MsBackendHdf5Peaks backend:</span></span>
+<span><span class="co">##         msLevel     rtime scanIndex</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1            1     0.280         1</span></span>
+<span><span class="co">##  2            1     0.559         2</span></span>
+<span><span class="co">##  3            1     0.838         3</span></span>
+<span><span class="co">##  4            1     1.117         4</span></span>
+<span><span class="co">##  5            1     1.396         5</span></span>
+<span><span class="co">##  ...        ...       ...       ...</span></span>
+<span><span class="co">##  1858         1   258.636       927</span></span>
+<span><span class="co">##  1859         1   258.915       928</span></span>
+<span><span class="co">##  1860         1   259.194       929</span></span>
+<span><span class="co">##  1861         1   259.473       930</span></span>
+<span><span class="co">##  1862         1   259.752       931</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##   20171016_POOL_POS_1_105-134.h5</span></span>
+<span><span class="co">##   20171016_POOL_POS_3_105-134.h5</span></span>
+<span><span class="co">##  Processing:</span></span>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Wed Nov  8 19:53:30 2023]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataOrigin</span><span class="op">)</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_1_105-134.mzML </span></span>
+<span><span class="co">##                                                                          931 </span></span>
+<span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML </span></span>
+<span><span class="co">##                                                                          931</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataStorage</span><span class="op">)</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  /tmp/RtmpQlMUKy/20171016_POOL_POS_1_105-134.h5 </span></span>
+<span><span class="co">##                                             931 </span></span>
+<span><span class="co">##  /tmp/RtmpQlMUKy/20171016_POOL_POS_3_105-134.h5 </span></span>
+<span><span class="co">##                                             931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All of the above mentioned backends support changing all of their their spectra variables, <strong>except</strong> the <code>MsBackendMzR</code> that does not support changing m/z or intensity values for the mass peaks.</p>
+<p>Next to these default backends there are a set of other backend implementations provided by additional R packages. The <a href="https://rformassspectrometry.github.io/MsBackendSql"><code>MsBackendSql</code></a> for example allows to store (and retrieve) all MS data in (from) an SQL database guaranteeing thus a minimal memory footprint.</p>
+<p>Other backends focus on specific file formats such as <a href="https://rformassspectrometry.github.io/MsBackendMgf/"><code>MsBackendMgf</code></a> for files in <code>mgf</code> file format or on specific acquisitions such as <a href="https://rformassspectrometry.github.io/MsBackendTimsTof/"><code>MsBackendTimsTof</code></a> or provide access to certain MS data resources such as the <a href="https://rformassspectrometry.github.io/MsBackendMassbank/"><code>MsBackendMassbank</code></a>. Additional backends are being developed to address specific needs or technologies, while remaining compliant with the <code>Spectra</code> interface.</p>
+<p>If you would like to learn more about how the raw MS formats are handled by <code>Spectra</code> via the <em><a href="https://bioconductor.org/packages/3.19/mzR">mzR</a></em> package, check out the @ref(sec-raw2) section in the annex.</p>
+<p>See also <a href="https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html">Spectra backends</a> for more information on different backends, their properties and advantages/disadvantages.</p>
+</section></section><section id="visualisation-of-raw-ms-data" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="visualisation-of-raw-ms-data">
+<span class="header-section-number">2.2</span> Visualisation of raw MS data</h2>
+<p>The importance of flexible access to specialised data becomes visible in the figure below (taken from the <code>RforProteomics</code> <a href="http://bioconductor.org/packages/release/data/experiment/vignettes/RforProteomics/inst/doc/RProtVis.html">visualisation vignette</a>). Not only can we access specific data and understand/visualise them, but we can transverse all the data and extract/visualise/understand structured slices of data.</p>
+<p>The figure below shows an illustration of how mass spectrometry works:</p>
+<ol type="1">
+<li><p>The chromatogram at the top displays the total ion current along the retention time. The vertical line identifies one scan in particular at retention time 1800.68 seconds (the 2807th scan).</p></li>
+<li><p>The spectra on the second line represent the full MS1 spectrum marked by the red line. The vertical lines identify the 10 precursor ions that where selected for MS2 analysis. The zoomed in on the right shows one specific precursor peak.</p></li>
+<li><p>The MS2 spectra displayed along the two rows at the bottom are those resulting from the fragmentation of the 10 precursor peaks identified by the vertical bars above.</p></li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/msvisfig.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We are going to reproduce the figure above through a set of exercices.</p>
+<ul>
+<li>The chromatogram can be created by extracting the <code>totIonCurrent</code> and <code>rtime</code> variables for all MS1 spectra. Annotate the spectrum of interest.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">spectraData</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">rtime</span>, <span class="va">totIonCurrent</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">rtime</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>The <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterPrecursorScan()</a></code> function can be used to retain a set parent (MS1) and children scans (MS2), as defined by an acquisition number. Use it to extract the MS1 scan of interest and all its MS2 children.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">ms_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterPrecursorScan</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2807</span><span class="op">)</span></span>
+<span><span class="va">ms_2</span></span>
+<span><span class="co">##  MSn data (Spectra) with 11 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">##       msLevel     rtime scanIndex</span></span>
+<span><span class="co">##     &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1          1   1800.68      2807</span></span>
+<span><span class="co">##  2          2   1801.26      2808</span></span>
+<span><span class="co">##  3          2   1801.92      2809</span></span>
+<span><span class="co">##  4          2   1802.20      2810</span></span>
+<span><span class="co">##  5          2   1802.48      2811</span></span>
+<span><span class="co">##  6          2   1802.77      2812</span></span>
+<span><span class="co">##  7          2   1803.05      2813</span></span>
+<span><span class="co">##  8          2   1803.34      2814</span></span>
+<span><span class="co">##  9          2   1803.64      2815</span></span>
+<span><span class="co">##  10         2   1803.93      2816</span></span>
+<span><span class="co">##  11         2   1804.21      2817</span></span>
+<span><span class="co">##   ... 34 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##  cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
+<span><span class="co">##  Processing:</span></span>
+<span><span class="co">##   Filter: select parent/children scans for 2807 [Wed Nov  8 19:53:30 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Plot the MS1 spectrum of interest and highlight all the peaks that will be selected for MS2 analysis.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">400</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Zoom in mz values 521.1 and 522.5 to reveal the isotopic envelope of that peak.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">521.2</span>, <span class="fl">522.5</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>The <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra()</a></code> function is used to plot all 10 MS2 spectra in one call.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>It is possible to label the peaks with the <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra()</a></code> function. The <code>labels</code> argument is either a <code>character</code> of appropriate length (i.e.&nbsp;with a label for each peak) or, as illustrated below, a function that computes the labels.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mzLabel</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">peaksData</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
+<span>    <span class="va">lbls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">z</span><span class="op">[</span>, <span class="st">"mz"</span><span class="op">]</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span>    <span class="va">lbls</span><span class="op">[</span><span class="va">z</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span> <span class="op">&lt;</span> <span class="fl">1e5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
+<span>    <span class="va">lbls</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span>,</span>
+<span>            xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">126</span>, <span class="fl">132</span><span class="op">)</span>,</span>
+<span>            labels <span class="op">=</span> <span class="va">mzLabel</span>,</span>
+<span>            labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span>, labelPos <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>            labelOffset <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Spectra can also be compared either by overlay or mirror plotting using the <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraOverlay()</a></code> and <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror()</a></code> functions.</p>
+<ul>
+<li>Filter MS2 level spectra and find any 2 MS2 spectra that have matching precursor peaks based on the precursor m/z values.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">sp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">anyDuplicated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 37</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">sp2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">sp2</span><span class="op">)</span><span class="op">[</span><span class="fl">37</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">sp2i</span> <span class="op">&lt;-</span> <span class="va">sp2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Visualise the matching pair using the <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraOverlay()</a></code> and <code><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror()</a></code> functions.</li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraOverlay</a></span><span class="op">(</span><span class="va">sp2i</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror</a></span><span class="op">(</span><span class="va">sp2i</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">sp2i</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>It is also possible to explore raw data interactively with the <a href="https://rformassspectrometry.github.io/SpectraVis/"><code>SpectraVis</code> package</a>:</p>
+<ul>
+<li><p>The <a href="https://rformassspectrometry.github.io/SpectraVis/reference/browseSpectra.html"><code>browseSpectra()</code></a> function opens a simple shiny application that allows to browse through the individual scans of a Spectra object.</p></li>
+<li><p>The <a href="https://rformassspectrometry.github.io/SpectraVis/reference/plotlySpectra.html"><code>plotlySpectra()</code></a> function displays a single spectrum using <a href="https://plotly.com/r/"><code>plotly</code></a> allowing to explore (zooming, panning) the spectrum interactively.</p></li>
+<li><p>Test the <code>SpectraVis</code> function on some the <code>Spectra</code> objects produce above.</p></li>
+</ul></section><section id="raw-data-processing-and-manipulation" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="raw-data-processing-and-manipulation">
+<span class="header-section-number">2.3</span> Raw data processing and manipulation</h2>
+<p>Apart from <em>classical</em> subsetting operations such as <code>[</code> and <code>split</code>, a set of filter functions are defined for <code>Spectra</code> objects that filter/reduce the number of spectra within the object (for detailed help please see the <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">?Spectra</a></code> help):</p>
+<ul>
+<li>
+<code>filterAcquisitionNum</code>: retains spectra with certain acquisition numbers.</li>
+<li>
+<code>filterDataOrigin</code>: subsets to spectra from specific origins.</li>
+<li>
+<code>filterDataStorage</code>: subsets to spectra from certain data storage files.</li>
+<li>
+<code>filterEmptySpectra</code>: removes spectra without mass peaks.</li>
+<li>
+<code>filterMzRange</code>: subsets spectra keeping only peaks with an m/z within the provided m/z range.</li>
+<li>
+<code>filterIsolationWindow</code>: keeps spectra with the provided <code>mz</code> in their isolation window (m/z range).</li>
+<li>
+<code>filterMsLevel</code>: filters by MS level.</li>
+<li>
+<code>filterPolarity</code>: filters by polarity.</li>
+<li>
+<code>filterPrecursorIsotopes</code>: identifies precursor ions (from fragment spectra) that could represent isotopes of the same molecule. For each of these spectra groups only the spectrum of the monoisotopic precursor ion is returned. MS1 spectra are returned without filtering.</li>
+<li>
+<code>filterPrecursorMaxIntensity</code>: filters spectra keeping, for groups of spectra with similar precursor m/z, the one spectrum with the highest precursor intensity. All MS1 spectra are returned without filtering.</li>
+<li>
+<code>filterPrecursorMzRange</code>: retains (MSn) spectra with a precursor m/z within the provided m/z range.</li>
+<li>
+<code>filterPrecursorMzValues</code>: retains (MSn) spectra with precursor m/z value matching the provided value(s) considering also a <code>tolerance</code> and <code>ppm</code>.</li>
+<li>
+<code>filterPrecursorCharge</code>: retains (MSn) spectra with speified precursor charge(s).</li>
+<li>
+<code>filterPrecursorScan</code>: retains (parent and children) scans of an acquisition number.</li>
+<li>
+<code>filterRt</code>: filters based on retention time range.</li>
+</ul>
+<p>In addition to these, there is also a set of filter functions that operate on the peak data, filtering and modifying the number of peaks of each spectrum within a <code>Spectra</code>:</p>
+<ul>
+<li><p><code>combinePeaks</code>: groups peaks within each spectrum based on similarity of their m/z values and combines these into a single peak per peak group.</p></li>
+<li><p><code>deisotopeSpectra</code>: deisotopes each individual spectrum keeping only the monoisotopic peak for peaks groups of potential isotopologues.</p></li>
+<li><p><code>filterIntensity</code>: filter each spectrum keeping only peaks with intensities meeting certain criteria.</p></li>
+<li><p><code>filterMzRange</code>: subsets peaks data within each spectrum keeping only peaks with their m/z values within the specified m/z range.</p></li>
+<li><p><code>filterPrecursorPeaks</code>: removes peaks with either an m/z value matching the precursor m/z of the respective spectrum (with parameter <code>mz = "=="</code>) or peaks with an m/z value larger or equal to the precursor m/z (with parameter <code>mz = "&gt;="</code>).</p></li>
+<li><p><code>filterMzValues</code>: subsets peaks within each spectrum keeping or removing (all) peaks matching provided m/z value(s) (given parameters <code>ppm</code> and <code>tolerance</code>).</p></li>
+<li><p><code>reduceSpectra</code>: filters individual spectra keeping only the largest peak for groups of peaks with similar m/z values.</p></li>
+<li><p>Using the <code>sp_sciex</code> data, select all spectra measured in the second mzML file and subsequently filter them to retain spectra measured between 175 and 189 seconds in the measurement run.</p></li>
+</ul>
+<div class="icon callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">dataOrigin</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fls</span></span>
+<span><span class="co">##  [1] "/usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_1_105-134.mzML"</span></span>
+<span><span class="co">##  [2] "/usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML"</span></span>
+<span><span class="va">file_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterDataOrigin</a></span><span class="op">(</span><span class="va">sp_sciex</span>, dataOrigin <span class="op">=</span> <span class="va">fls</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">file_2</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 931</span></span>
+<span><span class="va">sps_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterRt</a></span><span class="op">(</span><span class="va">file_2</span>, rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">175</span>, <span class="fl">189</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">sps_sub</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp_sciex</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterDataOrigin</a></span><span class="op">(</span><span class="va">fls</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterRt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">175</span>, <span class="fl">189</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  MSn data (Spectra) with 50 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">##        msLevel     rtime scanIndex</span></span>
+<span><span class="co">##      &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1           1   175.212       628</span></span>
+<span><span class="co">##  2           1   175.491       629</span></span>
+<span><span class="co">##  3           1   175.770       630</span></span>
+<span><span class="co">##  4           1   176.049       631</span></span>
+<span><span class="co">##  5           1   176.328       632</span></span>
+<span><span class="co">##  ...       ...       ...       ...</span></span>
+<span><span class="co">##  46          1   187.768       673</span></span>
+<span><span class="co">##  47          1   188.047       674</span></span>
+<span><span class="co">##  48          1   188.326       675</span></span>
+<span><span class="co">##  49          1   188.605       676</span></span>
+<span><span class="co">##  50          1   188.884       677</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
+<span><span class="co">##  Processing:</span></span>
+<span><span class="co">##   Filter: select data origin(s) /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML [Wed Nov  8 19:53:32 2023]</span></span>
+<span><span class="co">##   Filter: select retention time [175..189] on MS level(s) 1 [Wed Nov  8 19:53:32 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>As an example of data processing, we use below the <code><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">pickPeaks()</a></code> function. This function allows to convert <em>profile mode</em> MS data to <em>centroid mode</em> data (a process also referred to as <em>centroiding</em>).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">521.2</span>, <span class="fl">522.5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Centroiding reduces the profile mode MS data to a <em>representative</em> single mass peak per ion.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">pickPeaks</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterIntensity</a></span><span class="op">(</span><span class="fl">1e7</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">521.2</span>, <span class="fl">522.5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="a-note-on-efficiency" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="a-note-on-efficiency">
+<span class="header-section-number">2.4</span> A note on efficiency</h2>
+<section id="backends-1" class="level3" data-number="2.4.1"><h3 data-number="2.4.1" class="anchored" data-anchor-id="backends-1">
+<span class="header-section-number">2.4.1</span> Backends</h3>
+<p>The figure below (taken from <span class="citation" data-cites="Gatto:2020">(<a href="#ref-Gatto:2020" role="doc-biblioref">Gatto, Gibb, and Rainer 2020</a>)</span>) illustrates the respective advantages of storing data in memory or on disk. The benchmarking was done for the <code>MSnbase</code> package but also applies to the <code>Spectra</code> backends.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/pr0c00313_0002.gif" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption class="figure-caption">(a) Reading time (triplicates, in seconds) and (b) data size in memory (in MB) to read/store 1, 5, and 10 files containing 1431 MS1 (on-disk only) and 6103 MS2 (on-disk and in-memory) spectra. (c) Filtering benchmark assessed over 10 interactions on in-memory and on-disk data containing 6103 MS2 spectra. (d) Access time to spectra for the in-memory (left) and on-disk (right) backends for 1, 10, 100 1000, 5000, and all 6103 spectra. Benchmarks were performed on a Dell XPS laptop with an Intel i5-8250U processor 1.60 GHz (4 cores, 8 threads), 7.5 GB RAM running Ubuntu 18.04.4 LTS 64-bit, and an SSD drive. The data used for the benchmarking are a TMT 4-plex experiment acquired on a LTQ Orbitrap Velos (Thermo Fisher Scientific) available in the msdata package.</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="parallel-processing" class="level3" data-number="2.4.2"><h3 data-number="2.4.2" class="anchored" data-anchor-id="parallel-processing">
+<span class="header-section-number">2.4.2</span> Parallel processing</h3>
+<p>Most functions on <code>Spectra</code> support (and use) parallel processing out of the box. Peak data access and manipulation methods perform by default parallel processing on a per-file basis (i.e.&nbsp;using the dataStorage variable as splitting factor). Spectra uses <a href="https://bioconductor.org/packages/BiocParallel"><code>BiocParallel</code></a> for parallel processing and all functions use the default registered parallel processing setup of that package.</p>
+</section><section id="lazy-evaluation" class="level3" data-number="2.4.3"><h3 data-number="2.4.3" class="anchored" data-anchor-id="lazy-evaluation">
+<span class="header-section-number">2.4.3</span> Lazy evaluation</h3>
+<p>Data manipulations on Spectra objects are not immediately applied to the peak data. They are added to a so called processing queue which is applied each time peak data is accessed (with the <code>peaksData</code>, <code>mz</code> or <code>intensity</code> functions). Thanks to this processing queue data manipulation operations are also possible for read-only backends (e.g.&nbsp;mzML-file based backends or database-based backends). The information about the number of such processing steps can be seen below (next to Lazy evaluation queue).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">intensity</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 0</span></span>
+<span><span class="va">sp_sciex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterIntensity</a></span><span class="op">(</span><span class="va">sp_sciex</span>, intensity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sp_sciex</span> <span class="co">## Note the lazy evaluation queue</span></span>
+<span><span class="co">##  MSn data (Spectra) with 1862 spectra in a MsBackendMzR backend:</span></span>
+<span><span class="co">##         msLevel     rtime scanIndex</span></span>
+<span><span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span></span>
+<span><span class="co">##  1            1     0.280         1</span></span>
+<span><span class="co">##  2            1     0.559         2</span></span>
+<span><span class="co">##  3            1     0.838         3</span></span>
+<span><span class="co">##  4            1     1.117         4</span></span>
+<span><span class="co">##  5            1     1.396         5</span></span>
+<span><span class="co">##  ...        ...       ...       ...</span></span>
+<span><span class="co">##  1858         1   258.636       927</span></span>
+<span><span class="co">##  1859         1   258.915       928</span></span>
+<span><span class="co">##  1860         1   259.194       929</span></span>
+<span><span class="co">##  1861         1   259.473       930</span></span>
+<span><span class="co">##  1862         1   259.752       931</span></span>
+<span><span class="co">##   ... 33 more variables/columns.</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  file(s):</span></span>
+<span><span class="co">##  20171016_POOL_POS_1_105-134.mzML</span></span>
+<span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
+<span><span class="co">##  Lazy evaluation queue: 1 processing step(s)</span></span>
+<span><span class="co">##  Processing:</span></span>
+<span><span class="co">##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Wed Nov  8 19:53:33 2023]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">intensity</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 412</span></span>
+<span><span class="va">sp_sciex</span><span class="op">@</span><span class="va">processingQueue</span></span>
+<span><span class="co">##  [[1]]</span></span>
+<span><span class="co">##  Object of class "ProcessingStep"</span></span>
+<span><span class="co">##   Function: user-provided function</span></span>
+<span><span class="co">##   Arguments:</span></span>
+<span><span class="co">##    o intensity = 10Inf</span></span>
+<span><span class="co">##    o msLevel = 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Through this lazy evaluation system it is also possible to <em>undo</em> data manipulations:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp_sciex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">reset</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">)</span></span>
+<span><span class="va">sp_sciex</span><span class="op">@</span><span class="va">processingQueue</span></span>
+<span><span class="co">##  list()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">intensity</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  [1] 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>More information on this lazy evaluation concept implemented in <code>Spectra</code> is provided in the <a href="https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html">Spectra backends</a> vignette.</p>
+</section></section><section id="references" class="level1 unnumbered"><h1 class="unnumbered">References</h1>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Gatto:2020" class="csl-entry" role="listitem">
+Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbase</span>, Efficient and Elegant r-Based Processing and Visualisation of Raw Mass Spectrometry Data.”</span> <em>J. Proteome Res.</em>, September.
+</div>
+</div>
+</section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>As defined in the Bioconductor <code>S4Vectors</code> package.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../pages/introduction.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">This book was built with <a href="https://github.com/js2264/BiocBook/">BiocBook</a> with <span class="emoji" data-emoji="heart">❤️</span></div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+</body></html>
