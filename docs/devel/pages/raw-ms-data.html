@@ -79,6 +79,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../pages/20-id.html" rel="next">
 <link href="../pages/introduction.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -139,7 +140,7 @@ div.csl-indent {
             </a>
           </li>
           <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://js2264.github.io/R4MS/devel/">
+            <a class="dropdown-item sidebar-tools-main-item" href="https://js2264.github.io/R4MS/docs/devel/">
             Browse version `devel`
             </a>
           </li>
@@ -171,6 +172,30 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="../pages/raw-ms-data.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/20-id.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Identification data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/30-quant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quantitative data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/95-annex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Annex</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/99-si.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Additional materials and help</span></span></a>
   </div>
 </li>
     </ul>
@@ -261,7 +286,7 @@ div.csl-indent {
 <span><span class="co">##   ... 16 more variables/columns.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="exercise" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise">Exercise</h4>
-<p>Explore the newly created object using</p>
+<p>Explore the newly created object using:</p>
 <ul>
 <li>
 <code>spectraVariables</code> to extract all the metadata variables. Compare these to the spectra variables available from the previous example.</li>
@@ -282,7 +307,7 @@ div.csl-indent {
 <span><span class="va">mzf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxget</a></span><span class="op">(</span><span class="va">px</span>, <span class="va">fn</span><span class="op">)</span></span>
 <span><span class="co">##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.</span></span>
 <span><span class="va">mzf</span></span>
-<span><span class="co">##  [1] "/root/.cache/R/rpx/cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
+<span><span class="co">##  [1] "/root/.cache/R/rpx/d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">mzf</span><span class="op">)</span></span>
 <span><span class="va">sp</span></span>
 <span><span class="co">##  MSn data (Spectra) with 7534 spectra in a MsBackendMzR backend:</span></span>
@@ -302,7 +327,7 @@ div.csl-indent {
 <span><span class="co">##   ... 33 more variables/columns.</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  file(s):</span></span>
-<span><span class="co">##  cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="exercise-1" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h4>
 <ul>
@@ -435,7 +460,7 @@ div.csl-indent {
 <span><span class="co">##  1862         1   259.752       931</span></span>
 <span><span class="co">##   ... 33 more variables/columns.</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendMemory [Wed Nov  8 19:53:21 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendMemory [Tue Nov 14 16:58:38 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>
@@ -465,7 +490,7 @@ div.csl-indent {
 <span><span class="co">##   20171016_POOL_POS_1_105-134.h5</span></span>
 <span><span class="co">##   20171016_POOL_POS_3_105-134.h5</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Wed Nov  8 19:53:30 2023]</span></span>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Tue Nov 14 16:58:44 2023]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataOrigin</span><span class="op">)</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_1_105-134.mzML </span></span>
@@ -474,9 +499,9 @@ div.csl-indent {
 <span><span class="co">##                                                                          931</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataStorage</span><span class="op">)</span></span>
 <span><span class="co">##  </span></span>
-<span><span class="co">##  /tmp/RtmpQlMUKy/20171016_POOL_POS_1_105-134.h5 </span></span>
+<span><span class="co">##  /tmp/Rtmpxn44cX/20171016_POOL_POS_1_105-134.h5 </span></span>
 <span><span class="co">##                                             931 </span></span>
-<span><span class="co">##  /tmp/RtmpQlMUKy/20171016_POOL_POS_3_105-134.h5 </span></span>
+<span><span class="co">##  /tmp/Rtmpxn44cX/20171016_POOL_POS_3_105-134.h5 </span></span>
 <span><span class="co">##                                             931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All of the above mentioned backends support changing all of their their spectra variables, <strong>except</strong> the <code>MsBackendMzR</code> that does not support changing m/z or intensity values for the mass peaks.</p>
@@ -518,8 +543,7 @@ Answer
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">spectraData</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">spectraData</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>     <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">rtime</span>, <span class="va">totIonCurrent</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">rtime</a></span><span class="op">(</span><span class="va">sp</span><span class="op">)</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -548,8 +572,7 @@ Answer
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="va">ms_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterPrecursorScan</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2807</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ms_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterPrecursorScan</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2807</span><span class="op">)</span></span>
 <span><span class="va">ms_2</span></span>
 <span><span class="co">##  MSn data (Spectra) with 11 spectra in a MsBackendMzR backend:</span></span>
 <span><span class="co">##       msLevel     rtime scanIndex</span></span>
@@ -568,9 +591,9 @@ Answer
 <span><span class="co">##   ... 34 more variables/columns.</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  file(s):</span></span>
-<span><span class="co">##  cdb6ce236_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
+<span><span class="co">##  d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Filter: select parent/children scans for 2807 [Wed Nov  8 19:53:30 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Filter: select parent/children scans for 2807 [Tue Nov 14 16:58:44 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -591,8 +614,7 @@ Answer
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">400</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">400</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -621,8 +643,7 @@ Answer
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">521.2</span>, <span class="fl">522.5</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sp</span><span class="op">[</span><span class="fl">2807</span><span class="op">]</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">521.2</span>, <span class="fl">522.5</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -650,8 +671,7 @@ Answer
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">ms_2</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
@@ -700,8 +720,7 @@ Answer
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="va">sp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2L</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">anyDuplicated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">filterMsLevel</a></span><span class="op">(</span><span class="va">sp</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##  [1] 37</span></span>
 <span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">sp2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">precursorMz</a></span><span class="op">(</span><span class="va">sp2</span><span class="op">)</span><span class="op">[</span><span class="fl">37</span><span class="op">]</span><span class="op">)</span></span>
@@ -726,8 +745,7 @@ Answer
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraOverlay</a></span><span class="op">(</span><span class="va">sp2i</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraOverlay</a></span><span class="op">(</span><span class="va">sp2i</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="raw-ms-data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
@@ -845,8 +863,8 @@ Answer
 <span><span class="co">##  file(s):</span></span>
 <span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Filter: select data origin(s) /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML [Wed Nov  8 19:53:32 2023]</span></span>
-<span><span class="co">##   Filter: select retention time [175..189] on MS level(s) 1 [Wed Nov  8 19:53:32 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Filter: select data origin(s) /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML [Tue Nov 14 16:58:45 2023]</span></span>
+<span><span class="co">##   Filter: select retention time [175..189] on MS level(s) 1 [Tue Nov 14 16:58:45 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -918,7 +936,7 @@ Answer
 <span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
 <span><span class="co">##  Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Wed Nov  8 19:53:33 2023]</span></span>
+<span><span class="co">##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Tue Nov 14 16:58:46 2023]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">intensity</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##  [1] 412</span></span>
 <span><span class="va">sp_sciex</span><span class="op">@</span><span class="va">processingQueue</span></span>
@@ -1187,6 +1205,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../pages/20-id.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Identification data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
