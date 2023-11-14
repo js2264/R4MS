@@ -307,7 +307,7 @@ div.csl-indent {
 <span><span class="va">mzf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxget</a></span><span class="op">(</span><span class="va">px</span>, <span class="va">fn</span><span class="op">)</span></span>
 <span><span class="co">##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.</span></span>
 <span><span class="va">mzf</span></span>
-<span><span class="co">##  [1] "/root/.cache/R/rpx/d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
+<span><span class="co">##  [1] "/root/.cache/R/rpx/d11fbf7e_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
 <span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">mzf</span><span class="op">)</span></span>
 <span><span class="va">sp</span></span>
 <span><span class="co">##  MSn data (Spectra) with 7534 spectra in a MsBackendMzR backend:</span></span>
@@ -327,7 +327,7 @@ div.csl-indent {
 <span><span class="co">##   ... 33 more variables/columns.</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  file(s):</span></span>
-<span><span class="co">##  d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  d11fbf7e_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="exercise-1" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h4>
 <ul>
@@ -460,7 +460,7 @@ div.csl-indent {
 <span><span class="co">##  1862         1   259.752       931</span></span>
 <span><span class="co">##   ... 33 more variables/columns.</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendMemory [Tue Nov 14 16:58:38 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendMemory [Tue Nov 14 18:46:07 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>
@@ -490,7 +490,7 @@ div.csl-indent {
 <span><span class="co">##   20171016_POOL_POS_1_105-134.h5</span></span>
 <span><span class="co">##   20171016_POOL_POS_3_105-134.h5</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Tue Nov 14 16:58:44 2023]</span></span>
+<span><span class="co">##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Tue Nov 14 18:46:12 2023]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataOrigin</span><span class="op">)</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_1_105-134.mzML </span></span>
@@ -499,9 +499,9 @@ div.csl-indent {
 <span><span class="co">##                                                                          931</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">sp_hdf5</span><span class="op">$</span><span class="va">dataStorage</span><span class="op">)</span></span>
 <span><span class="co">##  </span></span>
-<span><span class="co">##  /tmp/Rtmpxn44cX/20171016_POOL_POS_1_105-134.h5 </span></span>
+<span><span class="co">##  /tmp/Rtmp6GEFJc/20171016_POOL_POS_1_105-134.h5 </span></span>
 <span><span class="co">##                                             931 </span></span>
-<span><span class="co">##  /tmp/Rtmpxn44cX/20171016_POOL_POS_3_105-134.h5 </span></span>
+<span><span class="co">##  /tmp/Rtmp6GEFJc/20171016_POOL_POS_3_105-134.h5 </span></span>
 <span><span class="co">##                                             931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All of the above mentioned backends support changing all of their their spectra variables, <strong>except</strong> the <code>MsBackendMzR</code> that does not support changing m/z or intensity values for the mass peaks.</p>
@@ -591,9 +591,9 @@ Answer
 <span><span class="co">##   ... 34 more variables/columns.</span></span>
 <span><span class="co">##  </span></span>
 <span><span class="co">##  file(s):</span></span>
-<span><span class="co">##  d17f90d691_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
+<span><span class="co">##  d11fbf7e_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Filter: select parent/children scans for 2807 [Tue Nov 14 16:58:44 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Filter: select parent/children scans for 2807 [Tue Nov 14 18:46:12 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -863,8 +863,8 @@ Answer
 <span><span class="co">##  file(s):</span></span>
 <span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Filter: select data origin(s) /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML [Tue Nov 14 16:58:45 2023]</span></span>
-<span><span class="co">##   Filter: select retention time [175..189] on MS level(s) 1 [Tue Nov 14 16:58:45 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##   Filter: select data origin(s) /usr/local/lib/R/site-library/msdata/sciex/20171016_POOL_POS_3_105-134.mzML [Tue Nov 14 18:46:13 2023]</span></span>
+<span><span class="co">##   Filter: select retention time [175..189] on MS level(s) 1 [Tue Nov 14 18:46:13 2023]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -936,7 +936,7 @@ Answer
 <span><span class="co">##  20171016_POOL_POS_3_105-134.mzML</span></span>
 <span><span class="co">##  Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">##  Processing:</span></span>
-<span><span class="co">##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Tue Nov 14 16:58:46 2023]</span></span>
+<span><span class="co">##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Tue Nov 14 18:46:14 2023]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html">intensity</a></span><span class="op">(</span><span class="va">sp_sciex</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##  [1] 412</span></span>
 <span><span class="va">sp_sciex</span><span class="op">@</span><span class="va">processingQueue</span></span>
