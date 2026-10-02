@@ -75,11 +75,6 @@ data structures such as data frames, vectors, matrices, ... and their
 manipulation) is required. Familiarity with other Bioconductor omics
 data classes and the tidyverse syntax is useful, but not necessary.
 
-```{r bib, include=FALSE}
-# create a bib file for the R packages used in this document
-knitr::write_bib(c('base', 'rmarkdown', 'bookdown', 'msmbstyle'), file = 'skeleton.bib')
-```
-
 ```{r env_0, echo = FALSE, message = FALSE, warning = FALSE}
 suppressPackageStartupMessages(library("BiocStyle"))
 suppressPackageStartupMessages(library("mzR"))
