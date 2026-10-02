@@ -760,7 +760,7 @@ Bayesian PCA imputation.
 
 #### Solution
 
-```{r naex2, cache = TRUE}
+```{r naex2}
 imp1 <- impute(se_na2, method = "knn")
 imp2 <- impute(se_na2, method = "bpca")
 summary(abs(assay(imp1)[is.na(assay(se_na2))] - assay(imp2)[is.na(assay(se_na2))]))
@@ -794,7 +794,7 @@ plot(density(na.omit(assay(se_na2))))
 
 #### Solution
 
-```{r naex3, cache = TRUE}
+```{r naex3}
 cls <- c("black", "red", "blue", "steelblue", "orange")
 plot(density(na.omit(assay(se_na2))), col = cls[1])
 lines(density(assay(impute(se_na2, method = "knn"))), col = cls[2])
