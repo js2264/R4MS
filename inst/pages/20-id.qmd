@@ -1,0 +1,913 @@
+# Identification data {#sec-id}
+
+```{r}
+#| include: false
+## bookdown ran every chapter in a single R session, quarto runs
+## each in its own: setup repeated by BiocBook::from_bookdown()
+options(bitmapType="cairo")
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("mzR"))
+suppressPackageStartupMessages(library("Spectra"))
+suppressPackageStartupMessages(library("QFeatures"))
+suppressPackageStartupMessages(library("MsCoreUtils"))
+```
+
+Peptide identification is performed using third-party software - there
+is no package to run these searches directly in R. When using command
+line search engines it possible to hard-code or automatically generate
+the search command lines and run them from R using a `system()`
+call. This allows to generate these reproducibly (especially useful if
+many command lines need to be run) and to keep a record in the R
+script of the exact command.
+
+The example below illustrates this for 3 mzML files to be searched
+using `MSGFplus`:
+
+```{r msgf, eval = TRUE}
+(mzmls <- paste0("file_", 1:3, ".mzML"))
+(mzids <- sub("mzML", "mzid", mzmls))
+
+paste0("java -jar /path/to/MSGFPlus.jar",
+       " -s ", mzmls,
+       " -o ", mzids,
+       " -d uniprot.fas",
+       " -t 20ppm",
+       " -m 0",
+       " int 1")
+```
+
+## Identification data.frame
+
+Let's use the identification from `MsDataHub`:
+
+```{r mzrvsid, eval = TRUE}
+idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
+idf
+```
+
+The easiest way to read identification data in `mzIdentML` (often
+abbreviated with `mzid`) into R is to read it with the `PSM()`
+constructor function from the
+[`PSMatch`](https://rformassspectrometry.github.io/PSMatch/)
+package[^oldname]. The function will parse the file and return a
+`DataFrame`.
+
+[^oldname]: Previously named `PSM`.
+
+```{r readid, message = FALSE}
+library(PSMatch)
+id <- PSM(idf)
+dim(id)
+names(id)
+```
+
+```{r, echo = FALSE}
+n_matches <- nrow(id)
+n_scans <- length(unique(id$spectrumID))
+n_seqs <- length(unique(id$sequence))
+```
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+Verify that this table contains `r n_matches` matches for `r n_scans`
+scans and `r n_seqs` peptides sequences.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r}
+nrow(id) ## number of matches
+length(unique(id$spectrumID)) ## number of scans
+length(unique(id$sequence))   ## number of peptide sequences
+```
+
+:::
+::::
+
+The PSM data are read as is, without any filtering. As we can see
+below, we still have all the hits from the forward and reverse (decoy)
+databases.
+
+```{r}
+table(id$isDecoy)
+```
+
+## Keeping all matches
+
+The data also contains multiple matches for several spectra. The table
+below shows the number of number of spectra that have 1, 2, ... up to
+5 matches.
+
+```{r}
+table(table(id$spectrumID))
+```
+
+Below, we can see how scan 1774 has 4 matches, all to sequence
+`RTRYQAEVR`, which itself matches to 4 different proteins:
+
+```{r}
+i <- which(id$spectrumID == "controllerType=0 controllerNumber=1 scan=1774")
+data.frame(id[i, ])[1:5]
+```
+
+If the goal is to keep all the matches, but arranged by scan/spectrum,
+one can *reduce* the `PSM` object by the `spectrumID` variable, so
+that each scan correponds to a single row that still stores all
+values[^rownames]:
+
+[^rownames]: The rownames aren't needed here are are removed to reduce
+    to output in the the next code chunk display parts of `id2`.
+
+```{r, warning = FALSE}
+id2 <- reducePSMs(id, id$spectrumID)
+id2
+```
+
+The resulting object contains a single entry for scan 1774 with
+information for the multiple matches stored as lists within the cells.
+
+```{r}
+j <- which(id2$spectrumID == "controllerType=0 controllerNumber=1 scan=1774")
+id2[j, ]
+```
+
+```{r}
+id2[j, "DatabaseAccess"]
+```
+
+The is the type of complete identification table that could be used to
+annotate an raw mass spectrometry `Spectra` object, as shown below.
+
+## Filtering data
+
+Often, the PSM data is filtered to only retain reliable matches. The
+`MSnID` package can be used to set thresholds to attain user-defined
+PSM, peptide or protein-level FDRs. Here, we will simply filter out
+wrong identification manually.
+
+Here, the `filter()` from the `dplyr` package comes very handy. We
+will thus start by converting the `DataFrame` to a `tibble`.
+
+```{r, message = FALSE}
+library("dplyr")
+id_tbl <- tidyr::as_tibble(id)
+id_tbl
+```
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+- Remove decoy hits
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r, message = FALSE}
+id_tbl <- id_tbl |>
+    filter(!isDecoy)
+id_tbl
+```
+
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+- Keep first rank matches
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r}
+id_tbl <- id_tbl |>
+    filter(rank == 1)
+id_tbl
+```
+
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+- Remove shared peptides. Start by identifying scans that match
+  different proteins. For example scan 4884 matches proteins
+  `XXX_ECA3406` and `ECA3415`. Scan 4099 match `XXX_ECA4416_1`,
+  `XXX_ECA4416_2` and `XXX_ECA4416_3`. Then remove the scans that
+  match any of these proteins.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r}
+mltm <-
+    id_tbl |>
+    group_by(spectrumID) |>
+    mutate(nProts = length(unique(DatabaseAccess))) |>
+    filter(nProts > 1) |>
+    select(spectrumID, nProts)
+mltm
+```
+```{r}
+id_tbl <-
+    id_tbl |>
+    filter(!spectrumID %in% mltm$spectrumID)
+id_tbl
+```
+
+:::
+::::
+
+Which leaves us with `r nrow(id_tbl)` PSMs.
+
+This can also be achieved with the `filterPSMs()` function, or the
+individual `filterPsmRank()`, `filterPsmDecoy` and `filterPsmShared()`
+functions:
+
+```{r}
+id_filtered <- filterPSMs(id)
+```
+
+The `describePeptides()` and `describeProteins()` functions from the
+`PSMatch` package provide useful summaries of preptides and proteins
+in a PSM search result.
+
+- `describePeptides()` gives the number of unique and shared peptides
+  and for the latter, the size of their protein groups:
+
+```{r}
+describePeptides(id) ## before filtering
+describePeptides(id_filtered) ## filtered
+```
+
+- `describeProteins()` gives the number of proteins defined by only
+  unique, only shared, or a mixture of unique/shared peptides:
+
+```{r}
+describeProteins(id) ## before filtering
+describeProteins(id_filtered) ## filtered
+```
+
+The [Understanding protein groups with adjacency
+matrices](https://rformassspectrometry.github.io/PSMatch/articles/AdjacencyMatrix.html)
+`PSMatch` vignette provides additional tools to explore how proteins
+were inferred from peptides.
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+Compare the distribution of raw identification scores of the decoy and
+non-decoy hits. Interpret the figure.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r}
+library(ggplot2)
+ggplot(id, aes(x = MS.GF.RawScore,
+               colour = isDecoy)) +
+    geom_density()
+```
+
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+The `r CRANpkg("tidyverse")`
+tools are fit for data wrangling with identification data. Using the
+above identification dataframe, calculate the length of each peptide
+(you can use `nchar` with the peptide sequence `sequence`) and the
+number of peptides for each protein (defined as
+`DatabaseDescription`). Plot the length of the proteins against their
+respective number of peptides.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r answid1, fig.cap = "Identifcation data wrangling."}
+suppressPackageStartupMessages(library("dplyr"))
+iddf <- as_tibble(id_filtered) |>
+    mutate(peplen = nchar(sequence))
+npeps <- iddf |>
+    group_by(DatabaseAccess) |>
+    tally()
+iddf <- full_join(iddf, npeps)
+
+library("ggplot2")
+ggplot(iddf, aes(x = n, y = DBseqLength)) + geom_point()
+```
+
+:::
+::::
+
+If you would like to learn more about how the mzid data are handled by
+`PSMatch` via the `r BiocStyle::Biocpkg("mzR")` and `r BiocStyle::Biocpkg("mzID")`
+packages, check out the [-@sec-id2] section in the annex.
+
+## Adding identification data to raw data
+
+We are goind to use the `sp` object created in the previous chapter
+and the `id_filtered` variable generated above.
+
+Identification data (as a `DataFrame`) can be merged into raw data (as
+a `Spectra` object) by adding new spectra variables to the appropriate
+MS2 spectra. Scans and peptide-spectrum matches can be matched by
+their spectrum identifers.
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+Identify the spectum identifier columns in the `sp` the `id_filtered`
+variables.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+In the raw data, it is encoded as `spectrumId`, while in the
+identification data, we have `spectrumID`.
+
+```{r}
+head(id_filtered$spectrumID)
+head(sp$spectrumId)
+```
+
+:::
+::::
+
+We still have several PTMs that are matched to a single spectrum
+identifier:
+
+```{r}
+table(table(id_filtered$spectrumID))
+```
+
+Let's look at `"controllerType=0 controllerNumber=1 scan=5490"`, the
+has 4 matching PSMs in detail.
+
+```{r}
+which(table(id_filtered$spectrumID) == 4)
+id_4 <- id_filtered[id_filtered$spectrumID == "controllerType=0 controllerNumber=1 scan=5490", ] |>
+    as.data.frame()
+id_4
+```
+
+We can see that these 4 PSMs differ by the location of the
+Carbamidomethyl modification.
+
+```{r}
+id_4[, c("modName", "modLocation")]
+```
+
+Let's reduce that PSM table before joining it to the `Spectra` object,
+to make sure we have unique one-to-one matches between the raw spectra
+and the PSMs.
+
+```{r, warning = FALSE}
+id_filtered <- reducePSMs(id_filtered, id_filtered$spectrumID)
+id_filtered
+```
+
+These two data can thus simply be joined using:
+
+```{r}
+sp <- joinSpectraData(sp, id_filtered,
+                      by.x = "spectrumId",
+                      by.y = "spectrumID")
+spectraVariables(sp)
+```
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+Verify that the identification data has been added to the correct
+spectra.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+Let's first verify that no identification data has been added to the
+MS1 scans.
+
+```{r}
+all(is.na(filterMsLevel(sp, 1)$sequence))
+```
+
+They have indeed been added
+to `r sum(!is.na(filterMsLevel(sp, 2)$sequence))` of
+the `r sum(msLevel(sp) == 2)` MS2 spectra.
+
+```{r}
+sp_2 <- filterMsLevel(sp, 2)
+table(is.na(sp_2$sequence))
+```
+
+Let's compare the precursor (experimental) and peptide (calculated)
+mass to charges
+
+```{r}
+sp_2 <- sp_2[!is.na(sp_2$sequence)]
+summary(sp_2$calculatedMassToCharge - sp_2$experimentalMassToCharge)
+```
+
+:::
+::::
+
+## An identification-annotated chromatogram
+
+Now that we have combined raw data and their associated
+peptide-spectrum matches, we can produce an improved total ion
+chromatogram, identifying MS1 scans that lead to successful
+identifications.
+
+The `countIdentifications()` function is going to tally the number of
+identifications (i.e non-missing characters in the `sequence` spectra
+variable) for each scan. In the case of MS2 scans, these will be
+either 1 or 0, depending on the presence of a sequence. For MS1 scans,
+the function will count the number of sequences for the descendant MS2
+scans, i.e. those produced from precursor ions from each MS1 scan.
+
+```{r nSequence, cache = FALSE}
+sp <- countIdentifications(sp)
+```
+
+Below, we see on the second line that 3457 MS2 scans lead to no PSM,
+while 2546 lead to an identification. Among all MS1 scans, 833 lead to
+no MS2 scans with PSMs. 30 MS1 scans generated one MS2 scan that lead
+to a PSM, 45 lead to two PSMs, ...
+
+```{r nSequenceRes}
+table(msLevel(sp), sp$countIdentifications)
+```
+
+These data can also be visualised on the total ion chromatogram:
+
+```{r nSequencePlot, fig.width = 8, fig.height = 4}
+#| column: page
+sp |>
+    filterMsLevel(1) |>
+    spectraData() |>
+    as_tibble() |>
+    ggplot(aes(x = rtime,
+               y = totIonCurrent)) +
+    geom_line(alpha = 0.25) +
+    geom_point(aes(colour = ifelse(countIdentifications == 0,
+                                   NA, countIdentifications)),
+               size = 0.75,
+               alpha = 0.5) +
+    labs(colour = "Number of ids")
+```
+
+## Visualising peptide-spectrum matches
+
+Let's choose a MS2 spectrum with a high identification score and plot
+it.
+
+```{r}
+i <- which(sp$MS.GF.RawScore > 100)[1]
+plotSpectra(sp[i])
+```
+
+We have seen above that we can add labels to each peak using the
+`labels` argument in `plotSpectra()`. The `labelFragments()` function
+takes a spectrum as input (that is a `Spectra` object of length 1) and
+annotates its peaks.
+
+```{r}
+labelFragments(sp[i])
+```
+
+It can be directly used with `plotSpectra()`:
+
+```{r}
+plotSpectra(sp[i], labels = labelFragments,
+            labelPos = 3, labelCol = "steelblue")
+```
+
+When a precursor peptide ion is fragmented in a CID cell, it breaks at
+specific bonds, producing sets of peaks (*a*, *b*, *c* and *x*, *y*,
+*z*) that can be predicted.
+
+```{r frag_img, results='markup', fig.cap="Peptide fragmentation.", echo=FALSE, out.width = "80%"}
+knitr::include_graphics("img/frag.png")
+```
+
+The annotation of spectra is obtained by simulating fragmentation of a
+peptide and matching observed peaks to fragments:
+
+```{r frag}
+sp[i]$sequence
+calculateFragments(sp[i]$sequence)
+```
+
+Note that the `plotSpectraPTM()` from the [`PSMatch`
+package](https://rformassspectrometry.github.io/PSMatch/) offers
+improved visualisation:
+
+1. The function nadds the annotated peptides sequence on the plot with
+   the respective b and y ions and the deviation between observed and
+   calculated fragment masses.
+
+```{r pltpsm}
+plotSpectraPTM(sp[i])
+```
+
+2. It can also display, as its name implies, multi-panel plots for
+   peptides with [variable
+   modifications](https://rformassspectrometry.github.io/PSMatch/reference/plotSpectraPTM.html).
+
+## Comparing spectra
+
+The `compareSpectra()` function can be used to compare spectra (by default,
+computing the normalised dot product).
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+1. Create a new `Spectra` object containing the MS2 spectra with
+   sequences `"SQILQQAGTSVLSQANQVPQTVLSLLR"` and
+   `"TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR"`.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r compare_spectra}
+k <- which(sp$sequence %in% c("SQILQQAGTSVLSQANQVPQTVLSLLR", "TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR"))
+sp_k <- sp[k]
+sp_k
+```
+
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+2. Calculate the `r length(sp_k)` by `r length(sp_k)` similarity
+   matrix between all spectra using `compareSpectra`. See the
+   `?Spectra` man page for details. Draw a heatmap of that matrix.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r spectra_comp_heatmap}
+mat <- compareSpectra(sp_k)
+rownames(mat) <- colnames(mat) <- strtrim(sp_k$sequence, 2)
+mat
+pheatmap::pheatmap(mat)
+```
+
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
+
+3. Compare the spectra with the plotting function seen previously.
+
+:::
+::::
+
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
+
+```{r plot_spectra_compared}
+filterIntensity(sp_k, 1e3) |>
+    plotSpectra(main = sp_k$sequence)
+```
+
+```{r}
+par(mfrow = c(3, 1))
+plotSpectraMirror(sp_k[1], sp_k[2], main = "TK...")
+plotSpectraMirror(sp_k[3], sp_k[4], main = "SQ...")
+plotSpectraMirror(sp_k[3], sp_k[4], main = "SQ...")
+```
+
+:::
+::::
+
+## Reading and processing protein sequences {#sec-id-seq}
+
+It can sometimes be necessary to do some protein sequence processing
+in R, for compute peptides for a set of proteins of interest. Let's
+start by downloading the fasta sequence file from the PXD000001
+experiment.
+
+```{r px1fas}
+library(rpx)
+px <- PXDataset("PXD000001")
+(fas <- pxget(px, grep("fasta", pxfiles(px))))
+```
+
+The fasta file can be read into R as a dedicated `AAStringSet` from
+the `r BiocStyle::Biocpkg("Biostrings")` package, that can be used to
+very efficiently manage DNA, RNA and protein sequence.
+
+```{r aass, message = FALSE}
+library(Biostrings)
+(prots <- readAAStringSet(fas))
+```
+
+Finally, the `r BiocStyle::Biocpkg("cleaver")` package can be used to
+cleave protein sequences using any of the many proteases. Below, we'll
+use trypsin without any miscleavages.
+
+```{r cleaver}
+library(cleaver)
+(peps <- cleave(prots, enzym = "trypsin", missedCleavages = 0))
+```
+
+The resulting `AAStringSetList` contains the one `AAStringSet`
+containing peptides sequences for each of the `r length(prots)`
+proteins.
+
+```{r pep}
+peps[[1]]
+```
+
+It is also possible to repeat the above step to generate a decoy
+database by reversing the protein `AAStringSet` object:
+
+```{r rev}
+(rev <- reverse(prots))
+```
+
+```{r revshow}
+prots[[1]]
+rev[[1]]
+```
+
+## Exploration and Assessment of Identifications using `MSnID`
+
+```{r unload_PSMatch, echo = FALSE}
+unloadNamespace("PSMatch")
+```
+
+The `MSnID` package extracts MS/MS ID data from mzIdentML (leveraging
+the `mzID` package) or text files. After collating the search results
+from multiple datasets it assesses their identification quality and
+optimises filtering criteria to achieve the maximum number of
+identifications while not exceeding a specified false discovery
+rate. It also contains a number of utilities to explore the MS/MS
+results and assess missed and irregular enzymatic cleavages, mass
+measurement accuracy, etc.
+
+### Step-by-step work-flow
+
+Let's reproduce parts of the analysis described the `MSnID`
+vignette. You can explore more with
+
+```{r, eval = FALSE}
+vignette("msnid_vignette", package = "MSnID")
+```
+
+The `r Biocpkg("MSnID")` package can be used for post-search filtering
+of MS/MS identifications. One starts with the construction of an
+`MSnID` object that is populated with identification results that can
+be imported from a `data.frame` or from `mzIdenML` files. Here, we
+will use the example identification data provided with the package.
+
+```{r idf}
+mzids <- system.file("extdata", "c_elegans.mzid.gz", package="MSnID")
+basename(mzids)
+```
+
+We start by loading the package, initialising the `MSnID` object, and
+add the identification result from our `mzid` file (there could of
+course be more than one).
+
+```{r msnid1, warning = FALSE}
+library("MSnID")
+msnid <- MSnID(".")
+msnid <- read_mzIDs(msnid, mzids)
+show(msnid)
+```
+
+Printing the `MSnID` object returns some basic information such as
+
+* Working directory.
+* Number of spectrum files used to generate data.
+* Number of peptide-to-spectrum matches and corresponding FDR.
+* Number of unique peptide sequences and corresponding FDR.
+* Number of unique proteins or amino acid sequence accessions and corresponding FDR.
+
+The package then enables to define, optimise and apply filtering based
+for example on missed cleavages, identification scores, precursor mass
+errors, etc. and assess PSM, peptide and protein FDR levels. To
+properly function, it expects to have access to the following data
+
+```{r msnidcols, echo=FALSE}
+sort(MSnID:::.mustBeColumns)
+```
+
+which are indeed present in our data:
+
+```{r msnidnames}
+names(msnid)
+```
+
+Here, we summarise a few steps and redirect the reader to the
+package's vignette for more details:
+
+### Analysis of peptide sequences
+
+Cleaning irregular cleavages at the termini of the peptides and
+missing cleavage site within the peptide sequences. The following two
+function calls create the new `numMisCleavages` and `numIrregCleavages`
+columns in the `MSnID` object
+
+```{r msnidtermini}
+msnid <- assess_termini(msnid, validCleavagePattern="[KR]\\.[^P]")
+msnid <- assess_missed_cleavages(msnid, missedCleavagePattern="[KR](?=[^P$])")
+```
+
+### Trimming the data
+
+Now, we can use the `apply_filter` function to effectively apply
+filters. The strings passed to the function represent expressions that
+will be evaluated, thus keeping only PSMs that have 0 irregular
+cleavages and 2 or less missed cleavages.
+
+```{r msnidtrim}
+msnid <- apply_filter(msnid, "numIrregCleavages == 0")
+msnid <- apply_filter(msnid, "numMissCleavages <= 2")
+show(msnid)
+```
+
+### Parent ion mass errors
+
+Using `"calculatedMassToCharge"` and `"experimentalMassToCharge"`, the
+`mass_measurement_error` function calculates the parent ion mass
+measurement error in parts per million.
+
+```{r msnidppm1}
+summary(mass_measurement_error(msnid))
+```
+
+We then filter any matches that do not fit the +/- 20 ppm tolerance
+
+```{r msnidppm2}
+msnid <- apply_filter(msnid, "abs(mass_measurement_error(msnid)) < 20")
+summary(mass_measurement_error(msnid))
+```
+
+### Filtering criteria
+
+Filtering of the identification data will rely on
+
+* -log10 transformed MS-GF+ Spectrum E-value, reflecting the goodness
+  of match between experimental and theoretical fragmentation patterns
+
+```{r filt1}
+msnid$msmsScore <- -log10(msnid$`MS-GF:SpecEValue`)
+```
+
+* the absolute mass measurement error (in ppm units) of the parent ion
+
+```{r filt2}
+msnid$absParentMassErrorPPM <- abs(mass_measurement_error(msnid))
+```
+
+### Setting filters
+
+MS2 filters are handled by a special `MSnIDFilter` class objects, where
+individual filters are set by name (that is present in `names(msnid)`)
+and comparison operator (>, <, = , ...)  defining if we should retain
+hits with higher or lower given the threshold and finally the
+threshold value itself.
+
+```{r filt3}
+filtObj <- MSnIDFilter(msnid)
+filtObj$absParentMassErrorPPM <- list(comparison="<", threshold=10.0)
+filtObj$msmsScore <- list(comparison=">", threshold=10.0)
+show(filtObj)
+```
+
+We can then evaluate the filter on the identification data object,
+which returns the false discovery rate and number of retained
+identifications for the filtering criteria at hand.
+
+```{r filt4}
+evaluate_filter(msnid, filtObj)
+```
+
+### Filter optimisation
+
+Rather than setting filtering values by hand, as shown above, these
+can be set automatically to meet a specific false discovery rate.
+
+```{r optim1}
+filtObj.grid <- optimize_filter(filtObj, msnid, fdr.max=0.01,
+                                method="Grid", level="peptide",
+                                n.iter=500)
+show(filtObj.grid)
+```
+
+```{r optim2}
+evaluate_filter(msnid, filtObj.grid)
+```
+
+Filters can eventually be applied (rather than just evaluated) using
+the `apply_filter` function.
+
+```{r optim3}
+msnid <- apply_filter(msnid, filtObj.grid)
+show(msnid)
+```
+
+And finally, identifications that matched decoy and contaminant
+protein sequences are removed
+
+```{r optim4}
+msnid <- apply_filter(msnid, "isDecoy == FALSE")
+msnid <- apply_filter(msnid, "!grepl('Contaminant',accession)")
+show(msnid)
+```
+
+### Export `MSnID` data
+
+The resulting filtered identification data can be exported to a
+`data.frame` (or to a dedicated `MSnSet` data structure from the
+`MSnbase` package) for quantitative MS data, described below, and
+further processed and analysed using appropriate statistical tests.
+
+```{r}
+head(psms(msnid))
+```

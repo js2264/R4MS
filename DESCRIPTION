@@ -1,0 +1,52 @@
+Package: R4MS
+Title: R for Mass Spectrometry
+Description: The aim of the R for Mass Spectrometry initiative is to provide efficient, thoroughly documented, tested and flexible R software for the analysis and interpretation of high throughput mass spectrometry assays, including proteomics and metabolomics experiments. The project formalises the longtime collaborative development efforts of its core members under the RforMassSpectrometry organisation to facilitate dissemination and accessibility of their work. Applications in Proteomics and Metabolomics. This book package was migrated from the bookdown book 'R for Mass Spectrometry' with BiocBook::from_bookdown().
+Version: 0.98.0
+Date: `r date()`
+Authors@R: c(
+    person("Laurent", "Gatto", , "first.last@example.com", role = c("aut", "cre")),
+    person("Sebastian", "Gibb", role = "aut"),
+    person("Johannes", "Rainer", role = "aut")
+  )
+URL: https://github.com/js2264/R4MS
+BugReports: https://github.com/js2264/R4MS
+Depends:
+    R (>= 4.3)
+Imports:
+    Biostrings,
+    cleaver,
+    dplyr,
+    factoextra,
+    ggplot2,
+    gplots,
+    limma,
+    magrittr,
+    MsCoreUtils,
+    MsDataHub,
+    MSnID,
+    mzID,
+    mzR,
+    patchwork,
+    pheatmap,
+    PSMatch,
+    QFeatures,
+    rpx,
+    Spectra,
+    tidyr,
+    tidyverse
+Suggests:
+    BiocBook, 
+    BiocManager, 
+    BiocVersion, 
+    BiocStyle, 
+    reticulate,
+    glue,
+    sessioninfo,
+    knitr 
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+BiocType: Book
+License: MIT + file LICENSE
+VignetteBuilder: knitr
+BiocBookTemplate: 1.1.0
+SystemRequirements: quarto
