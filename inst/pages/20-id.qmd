@@ -355,6 +355,14 @@ packages, check out the [-@sec-id2] section in the annex.
 We are goind to use the `sp` object created in the previous chapter
 and the `id_filtered` variable generated above.
 
+```{r}
+#| include: false
+## Created in the previous chapter (quarto renders each chapter in its own R
+## session); rpx caches the file, so it is not downloaded again
+mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
+sp <- Spectra(mzf)
+```
+
 Identification data (as a `DataFrame`) can be merged into raw data (as
 a `Spectra` object) by adding new spectra variables to the appropriate
 MS2 spectra. Scans and peptide-spectrum matches can be matched by
