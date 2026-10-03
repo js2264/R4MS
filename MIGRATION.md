@@ -1,6 +1,6 @@
 # Migration from bookdown
 
-This book was converted from the bookdown project `/tmp/claude-0/-home-user/72636713-12aa-53c5-b68e-650964832ea2/scratchpad/r4ms/src` by `BiocBook::from_bookdown()` (BiocBook 1.11.2), with the `msmbstyle` style (output format: `msmbstyle::msmb_html_book`).
+This book was converted from the bookdown project <https://github.com/js2264/R4MS> (commit `1c6a15f`) by `BiocBook::from_bookdown()` (BiocBook 1.11.2), with the `msmbstyle` style (output format: `msmbstyle::msmb_html_book`).
 
 ## Converted files
 
