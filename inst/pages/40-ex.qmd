@@ -178,7 +178,7 @@ sp |>
 Download the [spectra and protein
 database](https://dataverse.uclouvain.be/dataset.xhtml?persistentId=doi:10.14428/DVN/QR0OYG&faces-redirect=true#)
 needed for the exercise. The protein database is in fasta format and
-can be processed as described in the section \@ref(sec-id-seq)
+can be processed as described in the @sec-id-seq
 *Reading and processing protein sequences*. The MS2 spectra are
 provided in the Mascot Generic Format (MGF) format, that can be loaded
 using the dedicated
@@ -211,7 +211,7 @@ identification score.
 ## Quantitative data processing
 
 Following up from the quantitative data analysis seen on chapter
-\@ref(sec-quant), the following file includes a third condition C and
+[-@sec-quant], the following file includes a third condition C and
 a two additional lab, tallying now 27 samples.
 
 
@@ -244,7 +244,7 @@ cd[colnames(cptac_se), "previous"] <- ""
 knitr::kable(cd, rownames = TRUE)
 ```
 
-- Repeat the analysis described in chapter \@ref(sec-quant) using the
+- Repeat the analysis described in @sec-quant using the
   extended dataset, trying to optimise true positive results and
   avoiding false positive. Think about the best experimental design
   approach, how to best process the data, visualising important steps

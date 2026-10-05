@@ -293,7 +293,7 @@ ggplot(iddf, aes(x = n, y = DBseqLength)) + geom_point()
 
 If you would like to learn more about how the mzid data are handled by
 `PSMatch` via the `r BiocStyle::Biocpkg("mzR")` and `r BiocStyle::Biocpkg("mzID")`
-packages, check out the \@ref(sec-id2) section in the annex.
+packages, check out the [-@sec-id2] section in the annex.
 
 
 ## Adding identification data to raw data

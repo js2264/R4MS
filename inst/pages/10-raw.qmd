@@ -271,7 +271,7 @@ technologies, while remaining compliant with the `Spectra` interface.
 
 If you would like to learn more about how the raw MS formats are
 handled by `Spectra` via the `r BiocStyle::Biocpkg("mzR")` package,
-check out the \@ref(sec-raw2) section in the annex.
+check out the [-@sec-raw2] section in the annex.
 
 See also [Spectra
 backends](https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html)
