@@ -1,3 +1,15 @@
 .Rcache
 _bookdown_files
 R4MS_cache
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+*.Rproj
+/.quarto/
+/*_cache/
+/*_files/
+/docs/
+NOTES.md
