@@ -1,20 +1,3 @@
----
-title: "R for Mass Spectrometry"
-subtitle: "Applications in Proteomics and Metabolomics"
-author: "Laurent Gatto, Sebastian Gibb, Johannes Rainer"
-date: "`r Sys.Date()`"
-output:
-  msmbstyle::msmb_html_book:
-    highlight: tango
-    toc: TRUE
-    toc_depth: 1
-    split_by: chapter
-    margin_references: TRUE
-    css: style.css
-bibliography: [refs.bib, packages.bib]
-link-citations: yes
----
-
 # Preamble
 
 ```{r, echo = FALSE}

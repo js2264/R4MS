@@ -10,5 +10,14 @@ format:
     highlight-style: atom-one
     code-link: true
     editor: visual
-    bibliography: assets/bibliography.bib
+    bibliography:
+      - assets/bibliography.bib
+      - assets/packages.bib
+      - assets/refs.bib
+      - assets/skeleton.bib
     from: markdown+emoji
+    css:
+      - assets/style.css
+    citation-location: margin
+    toc-depth: 1
+    link-citations: true

@@ -1,7 +1,20 @@
 book:
-  title: "R4MS"
+  title: "R for Mass Spectrometry"
+  subtitle: "Applications in Proteomics and Metabolomics"
+  author:
+    - "Laurent Gatto"
+    - "Sebastian Gibb"
+    - "Johannes Rainer"
+  date: "today"
   chapters:
     - index.qmd
+    - pages/05-intro.qmd
+    - pages/10-raw.qmd
+    - pages/20-id.qmd
+    - pages/30-quant.qmd
+    - pages/40-ex.qmd
+    - pages/95-annex.qmd
+    - pages/99-si.qmd
   cover-image: assets/cover.png
   favicon: assets/favicon.png
   sidebar: 
