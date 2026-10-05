@@ -62,9 +62,10 @@ sp0 <- Spectra(spd)
 sp0
 ```
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
-
+#### Question
 
 Explore the newly created object using
 
@@ -74,7 +75,8 @@ Explore the newly created object using
 - `peaksData` to extract a list containing the raw data.
 - `[` to create subsets.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
 ### `Spectra` from mzML files
 
@@ -87,16 +89,18 @@ sp <- Spectra(mzf)
 sp
 ```
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
-
+#### Question
 
 - Repeat the data manipulations above.
 - Check the number of scans in the object with `length()`.
 - Note the difference in the first line when showing the object in the
   console. We will get back to this idea of backend later.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
 Mass spectrometry data in `Spectra` objects can be thought of as a
 list of individual spectra, with each spectrum having a set of
@@ -162,8 +166,10 @@ sp$rtime_minute <- rtime(sp) / 60
 sp$rtime_minute |> head()
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
 
+#### Question
 
 - Extract a set of spectra variables using the accessor (for example
   `msLevel(.)`) or using the `$` notation (for example `.$msLevel`).
@@ -176,10 +182,13 @@ sp$rtime_minute |> head()
   function to visualise peaks and set the m/z range with the `xlim`
   arguments.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Using the first `MS3TMT10` raw data file from `MsDataHub` , answer the
 following questions:
@@ -191,7 +200,8 @@ following questions:
 * Plot one spectrum of each level. Are they centroided or in profile
   mode?
 
-`r msmbstyle::question_end()`
+:::
+::::
 
 These objects and their manipulations are not limited to single files or
 samples. Below we load data from two mzML files. The MS data from both files in
@@ -311,16 +321,22 @@ knitr::include_graphics("./img/msvisfig.png")
 
 We are going to reproduce the figure above through a set of exercices.
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 1.  The chromatogram can be created by extracting the `totIonCurrent`
    and `rtime` variables for all MS1 spectra. Annotate the spectrum of
    interest.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
-`r msmbstyle::solution_begin()`
+#### Solution
 
 ```{r}
 with(spectraData(filterMsLevel(sp, 1)),
@@ -328,33 +344,50 @@ with(spectraData(filterMsLevel(sp, 1)),
 abline(v = rtime(sp)[2807], col = "red")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 2. The `filterPrecursorScan()` function can be used to retain a set
    parent (MS1) and children scans (MS2), as defined by an acquisition
    number. Use it to extract the MS1 scan of interest and all its MS2
    children.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r}
 ms_2 <- filterPrecursorScan(sp, 2807)
 ms_2
 ```
-`r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin()`
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 3. Plot the MS1 spectrum of interest and highlight all the peaks that
    will be selected for MS2 analysis.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r}
 plotSpectra(sp[2807], xlim = c(400, 1000))
@@ -362,40 +395,55 @@ abline(v = precursorMz(ms_2)[-1], col = "grey")
 abline(v = precursorMz(ms_2)[2], col = "red")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 4. Zoom in mz values 521.1 and 522.5 to reveal the isotopic envelope
    of that peak.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r}
 plotSpectra(sp[2807], xlim = c(521.2, 522.5), type = "l")
 abline(v = precursorMz(ms_2)[2], col = "red")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 5. The `plotSpectra()` function is used to plot all 10 MS2 spectra in
    one call.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r, fig.height = 12, fig.width = 8}
 plotSpectra(ms_2[-1])
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 It is possible to label the peaks with the `plotSpectra()`
 function. The `labels` argument is either a `character` of appropriate
@@ -421,14 +469,21 @@ plotSpectra(ms_2[7],
 Spectra can also be compared either by overlay or mirror plotting
 using the `plotSpectraOverlay()` and `plotSpectraMirror()` functions.
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Filter MS2 level spectra and find any 2 MS2 spectra that have matching
 precursor peaks based on the precursor m/z values.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r}
 sp2 <- filterMsLevel(sp, 2L)
@@ -437,16 +492,24 @@ i <- which(precursorMz(sp2) == precursorMz(sp2)[37])
 sp2i <- sp2[i]
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Visualise the matching pair using the `plotSpectraOverlay()` and
 `plotSpectraMirror()` functions.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r}
 plotSpectraOverlay(sp2i, col = c("red", "steelblue"))
@@ -455,8 +518,9 @@ plotSpectraOverlay(sp2i, col = c("red", "steelblue"))
 ```{r}
 plotSpectraMirror(sp2i[1], sp2i[2])
 ```
-`r msmbstyle::solution_end()`
 
+:::
+::::
 
 It is also possible to explore raw data interactively with the
 [`SpectraVis`
@@ -473,14 +537,16 @@ package](https://rformassspectrometry.github.io/SpectraVis/):
   [`plotly`](https://plotly.com/r/) allowing to explore (zooming,
   panning) the spectrum interactively.
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Test the `SpectraVis` function on some the `Spectra` objects produce
 above.
 
-`r msmbstyle::question_end()`
-
+:::
+::::
 
 ## Raw data processing and manipulation
 
@@ -536,16 +602,22 @@ within a `Spectra`:
 - `reduceSpectra`: filters individual spectra keeping only the largest peak for
   groups of peaks with similar m/z values.
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Using the `sp_sciex` data, select all spectra measured in the second
 mzML file and subsequently filter them to retain spectra measured
 between 175 and 189 seconds in the measurement run.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r filterfile-filterrt1}
 fls <- unique(dataOrigin(sp_sciex))
@@ -562,7 +634,8 @@ sp_sciex |>
     filterRt(c(175, 189))
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 As an example of data processing, we use below the `pickPeaks()`
 function. This function allows to convert *profile mode* MS data to *centroid

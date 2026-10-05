@@ -322,20 +322,29 @@ that assay.
 filterFeatures(feat1, ~ pval < 0.05)
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 As the message above implies, it is also possible to apply a filter to
 only the assays that have a filtering variables by setting the `keep`
 variables.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r ff1b}
 filterFeatures(feat1, ~ pval < 0.05, keep = TRUE)
 ```
-`r msmbstyle::solution_end()`
+
+:::
+::::
 
 On the other hand, if we filter assay rows for those that localise to
 the mitochondrion, we retain the relevant protein, peptides and PSMs.
@@ -344,20 +353,28 @@ the mitochondrion, we retain the relevant protein, peptides and PSMs.
 filterFeatures(feat1, ~ location == "Mitochondrion")
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 As an exercise, let's filter rows that do not localise to the
 mitochondrion.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r ff3}
 filterFeatures(feat1, ~ location != "Mitochondrion")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 You can refer to the [*Quantitative features for mass spectrometry
 data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
@@ -445,15 +462,21 @@ available in the `MsDataHub` package:
 basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 ```
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Read these data in as either a `SummarizedExperiment` or a `QFeatures`
 object.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 From the names of the columns, we see that the quantitative columns,
 starting with `"Intensity."` (note the dot!) are at positions 56 to
@@ -486,18 +509,25 @@ cptac_se <- readSummarizedExperiment(dfr, quantCols = i,
 cptac_se
 ```
 
+:::
+::::
 
-`r msmbstyle::solution_end()`
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Before proceeding, we are going to clean up the sample names by
 removing the unnecessary *Intensity* prefix and annotate the
 experiment in the object's `colData`.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r cptac_names}
 colnames(cptac_se) <- sub("I.+\\.", "", colnames(cptac_se))
@@ -505,17 +535,26 @@ cptac_se$condition <- sub("_[7-9]", "", colnames(cptac_se))
 cptac_se$id <- sub("^.+_", "", colnames(cptac_se))
 colData(cptac_se)
 ```
-`r msmbstyle::solution_end()`
 
-`r msmbstyle::question_begin()`
+:::
+::::
+
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 There are many row variables that aren't useful here. Get rid or all
 of them but `Sequence`, `Proteins`, `Leading.razor.protein`, `PEP`,
 `Score`, `Reverse`, and `Potential.contaminant`.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r vars}
 keep_var <- c("Sequence", "Proteins", "Leading.razor.protein", "PEP",
@@ -524,7 +563,8 @@ keep_var <- c("Sequence", "Proteins", "Leading.razor.protein", "PEP",
 rowData(cptac_se) <- rowData(cptac_se)[, keep_var]
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 ## Analysis pipeline
 
@@ -677,16 +717,23 @@ data(se_na2)
 impute(se_na2, method = "knn")
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Following the example above, apply a mixed imputation, using knn for
 data missing at random and the zero imputation for data missing not at
 random. Hint: the `randna` variable defines which features are assumed
 to be missing at random.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r naex1, message = FALSE}
 impute(se_na2, "mixed",
@@ -694,9 +741,13 @@ impute(se_na2, "mixed",
        mar = "knn", mnar = "zero")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 When assessing missing data imputation methods, such as in [Lazar et
 al. (2016)](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981),
@@ -706,10 +757,13 @@ method of choice, then quantifies the difference between original
 data, use this strategy to assess the difference between knn and
 Bayesian PCA imputation.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
+#### Solution
 
 ```{r naex2, cache = TRUE}
 imp1 <- impute(se_na2, method = "knn")
@@ -717,11 +771,14 @@ imp2 <- impute(se_na2, method = "bpca")
 summary(abs(assay(imp1)[is.na(assay(se_na2))] - assay(imp2)[is.na(assay(se_na2))]))
 summary(as.numeric(na.omit(assay(se_na2))))
 ```
-`r msmbstyle::solution_end()`
 
+:::
+::::
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
 
+#### Question
 
 When assessing the impact of missing value imputation on real data,
 one can't use the strategy above. Another useful approach is to assess
@@ -734,10 +791,13 @@ the `se_na2` data. Verify the effect of applying `knn`, `zero`,
 plot(density(na.omit(assay(se_na2))))
 ```
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
+#### Solution
 
 ```{r naex3, cache = TRUE}
 cls <- c("black", "red", "blue", "steelblue", "orange")
@@ -750,8 +810,8 @@ legend("topright", legend = c("orig", "knn", "zero", "MinDet", "bpca"),
        col = cls, lwd = 2, bty = "n")
 ```
 
-`r msmbstyle::solution_end()`
-
+:::
+::::
 
 **Tip**: When downstream analyses permit, it might be safer not to
 impute data and deal explicitly with missing values. Indeed missing
@@ -786,18 +846,22 @@ table(rowData(cptac_se)$Potential.contaminant)
 Let's visualise some of the cptac's metadata using standard `ggplot2`
 code:
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
-
+#### Question
 
 Visualise the identification score and the posterior error probability
 (PEP) distributions from forward and reverse hits and interpret the
 figure.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
+#### Solution
 
 ```{r idqc1}
 rowData(cptac_se) |>
@@ -814,8 +878,8 @@ rowData(cptac_se) |>
     geom_density()
 ```
 
-`r msmbstyle::solution_end()`
-
+:::
+::::
 
 **Note**: it is also possible to compute and visualise protein groups
 as connected components starting from a quantitative dataset such as a
@@ -850,15 +914,22 @@ assays within a `QFeatures` object.
 
 ### Filtering out contaminants and reverse hits
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Using the `filterFeatures()` function, filter out the reverse and
 contaminant hits, and also retain those that have a posterior error
 probability smaller than 0.05.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r qcfilter}
 cptac <-
@@ -868,7 +939,8 @@ cptac <-
     filterFeatures(~ PEP < 0.05)
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 ### Log-transformation and normalisation
 
@@ -881,15 +953,21 @@ cptac <- logTransform(cptac, i = "peptides",
                       name = "log_peptides")
 ```
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Use the `normalize()` method to normalise the data. The syntax is the
 same as `logTransform()`. Use the `center.median` method.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r nrom}
 cptac <- normalize(cptac, i = "log_peptides",
@@ -897,18 +975,26 @@ cptac <- normalize(cptac, i = "log_peptides",
                    method = "center.median")
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Visualise the result of the transformations above. The
 `plotDensities()` function from the `limma` package is very
 convenient, but feel free to use boxplots, violin plots, or any other
 visualisation that you deem useful to assess the tranformations.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r plotdens, fig.cap = "Three peptide level assays: raw data, log transformed and normalised.", fig.width = 15, fig.height = 5}
 par(mfrow = c(1, 3))
@@ -916,20 +1002,28 @@ limma::plotDensities(assay(cptac[["peptides"]]))
 limma::plotDensities(assay(cptac[["log_peptides"]]))
 limma::plotDensities(assay(cptac[["lognorm_peptides"]]))
 ```
-`r msmbstyle::solution_end()`
+
+:::
+::::
 
 ### Aggregation
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Use median aggregation to aggregation peptides into protein
 values. This is not necessarily the best choice, as we will see
 later, but a good start.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r qfagg1, message = FALSE}
 cptac <-
@@ -941,7 +1035,8 @@ cptac <-
                       na.rm = TRUE)
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
 Looking at the `.n` row variable computed during the aggregation, we
 see that most proteins result from the aggregation of 5 peptides or
@@ -1012,7 +1107,10 @@ their relation.
 plot(cptac)
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 The example above shows a simple linear relationship between
 assays. Create a more interesting one by applying a different
@@ -1020,10 +1118,13 @@ normalisation method on the *log_peptides* assay and aggreate that new
 normalised peptide assay. Visualise the relationship with `plot()`, as
 above.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
-`r msmbstyle::solution_begin()`
+#### Solution
 
 ```{r plotqf2, message = FALSE}
 normalize(cptac, "log_peptides",
@@ -1038,8 +1139,8 @@ normalize(cptac, "log_peptides",
     plot()
 ```
 
-`r msmbstyle::solution_end()`
-
+:::
+::::
 
 ### Statistical analysis
 

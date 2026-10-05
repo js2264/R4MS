@@ -41,15 +41,22 @@ head(peaks(ms, 117))
 str(peaks(ms, 1:5))
 ```
 
-`r msmbstyle::question_begin()`
+:::: {.callout-question}
+::: {.callout-note}
+
+#### Question
 
 Let's extract the index of the MS2 spectrum with the highest base peak
 intensity and plot its spectrum. Is the data centroided or in profile
 mode?
-`r msmbstyle::question_end()`
 
+:::
+::::
 
-`r msmbstyle::solution_begin()`
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
+
+#### Solution
 
 ```{r ex_raw, echo=TRUE, eval=TRUE, fig.align='center'}
 hd2 <- hd[hd$msLevel == 2, ]
@@ -61,18 +68,24 @@ mz <- hd2[i, "basePeakMZ"]
 plot(pi, type = "h", xlim = c(mz - 0.5, mz + 0.5))
 ```
 
-`r msmbstyle::solution_end()`
+:::
+::::
 
+:::: {.callout-question}
+::: {.callout-note}
 
-`r msmbstyle::question_begin()`
+#### Question
 
 Pick an MS1 spectrum and visually check whether it is centroided or in
 profile mode.
 
-`r msmbstyle::question_end()`
+:::
+::::
 
+:::: {.callout-answer}
+::: {.callout-note collapse="true"}
 
-`r msmbstyle::solution_begin()`
+#### Solution
 
 ```{r ex_raw2}
 ## Zooming into spectrum 300 (an MS1 spectrum).
@@ -83,8 +96,8 @@ mz <- hd[j, "basePeakMZ"]
 plot(pj, type = "l", xlim = c(mz - 0.5, mz + 0.5))
 ```
 
-`r msmbstyle::solution_end()`
-
+:::
+::::
 
 ## PSM data under the hood {#sec-id2}
 
