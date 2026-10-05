@@ -1,5 +1,17 @@
 # Identification data {#sec-id}
 
+```{r}
+#| include: false
+## bookdown ran every chapter in a single R session, quarto runs
+## each in its own: setup repeated by BiocBook::from_bookdown()
+options(bitmapType="cairo")
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("mzR"))
+suppressPackageStartupMessages(library("Spectra"))
+suppressPackageStartupMessages(library("QFeatures"))
+suppressPackageStartupMessages(library("MsCoreUtils"))
+```
+
 Peptide identification is performed using third-party software - there
 is no package to run these searches directly in R. When using command
 line search engines it possible to hard-code or automatically generate

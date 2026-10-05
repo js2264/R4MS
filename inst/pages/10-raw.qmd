@@ -1,5 +1,17 @@
 # Raw MS data  {#sec-raw}
 
+```{r}
+#| include: false
+## bookdown ran every chapter in a single R session, quarto runs
+## each in its own: setup repeated by BiocBook::from_bookdown()
+options(bitmapType="cairo")
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("mzR"))
+suppressPackageStartupMessages(library("Spectra"))
+suppressPackageStartupMessages(library("QFeatures"))
+suppressPackageStartupMessages(library("MsCoreUtils"))
+```
+
 
 In this section, we will learn how to read raw data in one of the
 commonly used open formats (`mzML`, `mzXML`, `netCDF` or `mgf`) into

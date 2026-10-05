@@ -1,5 +1,17 @@
 # Annex {#sec-anx}
 
+```{r}
+#| include: false
+## bookdown ran every chapter in a single R session, quarto runs
+## each in its own: setup repeated by BiocBook::from_bookdown()
+options(bitmapType="cairo")
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("mzR"))
+suppressPackageStartupMessages(library("Spectra"))
+suppressPackageStartupMessages(library("QFeatures"))
+suppressPackageStartupMessages(library("MsCoreUtils"))
+```
+
 
 ## Raw MS data under the hood: the `mzR` package {#sec-raw2}
 
