@@ -497,7 +497,8 @@ table(msLevel(sp), sp$countIdentifications)
 
 These data can also be visualised on the total ion chromatogram:
 
-```{r nSequencePlot, fig.fullwidth = TRUE, fig.width = 8, fig.height = 4}
+```{r nSequencePlot, fig.width = 8, fig.height = 4}
+#| column: page
 sp |>
     filterMsLevel(1) |>
     spectraData() |>
@@ -544,7 +545,7 @@ specific bonds, producing sets of peaks (*a*, *b*, *c* and *x*, *y*,
 *z*) that can be predicted.
 
 
-```{r frag_img, results='markup', fig.margin=FALSE, fig.cap="Peptide fragmentation.", echo=FALSE, out.width = "80%"}
+```{r frag_img, results='markup', fig.cap="Peptide fragmentation.", echo=FALSE, out.width = "80%"}
 knitr::include_graphics("img/frag.png")
 ```
 

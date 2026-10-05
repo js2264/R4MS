@@ -40,7 +40,8 @@ development efforts of its core members under the RforMassSpectrometry
 organisation to facilitate dissemination and accessibility of their
 work.
 
-```{r sticker, fig.cap = "The *R for Mass Spectrometry* intiative sticker, designed by Johannes Rainer.", out.width = '50%', fig.margin=TRUE, echo=FALSE}
+```{r sticker, fig.cap = "The *R for Mass Spectrometry* intiative sticker, designed by Johannes Rainer.", out.width = '50%', echo=FALSE}
+#| column: margin
 knitr::include_graphics("https://github.com/rformassspectrometry/stickers/raw/master/sticker/RforMassSpectrometry.png")
 ```
 
