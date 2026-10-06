@@ -35,6 +35,14 @@ RUN if grep -rqsE '^```\{python' /opt/pkg/inst; then \
       Rscript -e 'stopifnot(nzchar(Sys.getenv("RETICULATE_PYTHON"))); cat("book python:", reticulate::py_config()$python, "\n")' ; \
     fi
 
+## On GitHub's runners, rpx::pxget() fails to download the 600 MB mzML file of
+## PXD000001 from PRIDE's FTP server. The PRIDE files the book uses are
+## downloaded over HTTPS instead, into rpx's cache, where pxget() finds them
+RUN Rscript -e 'fls <- rpx::pxfiles(rpx::PXDataset("PXD000001"), as.vector = FALSE); \
+      keep <- fls$NAME == "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" | grepl("fasta", fls$NAME); \
+      for (url in fls$URI[keep]) \
+          curl::curl_download(sub("^ftp://", "https://", url), BiocFileCache::bfcadd(rpx::rpxCache(), url, download = FALSE))'
+
 ## Build/install using same approach than BBS
 RUN R CMD INSTALL /opt/pkg
 RUN R CMD build --keep-empty-dirs --no-resave-data /opt/pkg
