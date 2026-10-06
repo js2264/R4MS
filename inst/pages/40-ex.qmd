@@ -250,6 +250,12 @@ knitr::kable(table(colData(cptac2)[, -1]))
 The full design is shown below.
 
 ```{r, echo=FALSE}
+## cptac_se was created in the chapter on quantitative data
+f_ab <- MsDataHub::cptac_a_b_peptides.txt()
+cptac_se <- readSummarizedExperiment(f_ab, quantCols = grep("Intensity\\.", names(read.delim(f_ab))),
+                                     fnames = "Sequence", sep = "\t")
+colnames(cptac_se) <- sub("I.+\\.", "", colnames(cptac_se))
+# ---
 cd <- data.frame(colData(cptac2))
 cd$previous <- "new"
 cd[colnames(cptac_se), "previous"] <- ""

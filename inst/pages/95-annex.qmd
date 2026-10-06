@@ -141,7 +141,10 @@ The main functions are `mzID` to read the data into a dedicated data
 class and `flatten` to transform it into a `data.frame`.
 
 ```{r mzid1, warning = FALSE}
+## idf was created in the chapter on identification data
+idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
 idf
+# ---
 library("mzID")
 id <- mzID(idf)
 id

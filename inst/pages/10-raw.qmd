@@ -96,6 +96,8 @@ Let's now create a new object using the mzML data previously
 downloaded and available in the `mzf` file.
 
 ```{r, spectra2}
+## This will fetch the cached file
+mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
 mzf
 sp <- Spectra(mzf)
 sp
@@ -222,9 +224,9 @@ and then from the second). The `dataOrigin` function can be used to identify
 spectra from the different data files.
 
 ```{r, sciex_mzr}
-grep("POOL", MsDataHub()[[1]], value = TRUE)
-fls <- c(X20171016_POOL_POS_1_105.134.mzML(),
-         X20171016_POOL_POS_3_105.134.mzML())
+grep("POOL", MsDataHub::MsDataHub()[[1]], value = TRUE)
+fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+         MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 fls
 sp_sciex <- Spectra(fls)
 table(dataOrigin(sp_sciex))
