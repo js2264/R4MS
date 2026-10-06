@@ -95,6 +95,12 @@ Explore the newly created object using
 Let's now create a new object using the mzML data previously
 downloaded and available in the `mzf` file.
 
+```{r}
+#| include: false
+## mzf was created in the introduction
+mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
+```
+
 ```{r, spectra2}
 mzf
 sp <- Spectra(mzf)
