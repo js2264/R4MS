@@ -30,6 +30,7 @@ Imports:
     pheatmap,
     PSMatch,
     QFeatures,
+    rhdf5,
     rpx,
     Spectra,
     tidyr,
