@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.5">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>1&nbsp; Introduction – R for Mass Spectrometry</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pages/10-raw.html" rel="next">
+<link href="../index.html" rel="prev">
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5f883865545033bfab6feb3d329ab180.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e256e1c2045af1c6a2369b0244e0ffcc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" aria-label="Toolbar"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/05-intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Site"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">R for Mass Spectrometry</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-git"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/js2264/R4MS/">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://js2264.github.io/R4MS/devel/">
+            Browse version `devel`
+            </a>
+          </li>
+      </ul>
+</div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preamble</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/05-intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/10-raw.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/20-id.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Identification data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/30-quant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quantitative data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/40-ex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Supplementary exercises</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/95-annex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Annex</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/99-si.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Additional materials and session information</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-msintro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="how-does-mass-spectrometry-work" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="how-does-mass-spectrometry-work">
+<span class="header-section-number">1.1</span> How does mass spectrometry work?</h2>
+<p>Mass spectrometry (MS) is a technology that <em>separates</em> charged molecules (ions) based on their mass to charge ratio (M/Z). It is often coupled to chromatography (liquid LC, but can also be gas-based GC). The time an analyte takes to elute from the chromatography column is the <em>retention time</em>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/chromatogram.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>A chromatogram, illustrating the total amount of analytes over the retention time.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>An mass spectrometer is composed of three components:</p>
+<ol type="1">
+<li>The <em>source</em>, that ionises the molecules: examples are Matrix-assisted laser desorption/ionisation (MALDI) or electrospray ionisation. (ESI)</li>
+<li>The <em>analyser</em>, that separates the ions: Time of flight (TOF) or Orbitrap.</li>
+<li>The <em>detector</em> that quantifies the ions.</li>
+</ol>
+<p>When using mass spectrometry for proteomics, the proteins are first digested with a protease such as trypsin. In mass shotgun proteomics, the analytes assayed in the mass spectrometer are peptides.</p>
+<p>Often, ions are subjected to more than a single MS round. After a first round of separation, the peaks in the spectra, called MS1 spectra, represent peptides. At this stage, the only information we possess about these peptides are their retention time and their mass-to-charge (we can also infer their charge by inspecting their isotopic envelope, i.e the peaks of the individual isotopes, see below), which is not enough to infer their identify (i.e.&nbsp;their sequence).</p>
+<p>In MSMS (or MS2), the settings of the mass spectrometer are set automatically to select a certain number of MS1 peaks (for example 20)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Once a narrow M/Z range has been selected (corresponding to one high-intensity peak, a peptide, and some background noise), it is fragmented (using for example collision-induced dissociation (CID), higher energy collisional dissociation (HCD) or electron-transfer dissociation (ETD)). The fragment ions are then themselves separated in the analyser to produce a MS2 spectrum. The unique fragment ion pattern can then be used to infer the peptide sequence using de novo sequencing (when the spectrum is of high enough quality) or using a search engine such as, for example Mascot, MSGF+, …, that will match the observed, experimental spectrum to theoretical spectra (see details below).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/SchematicMS2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Schematics of a mass spectrometer and two rounds of MS.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The animation below show how 25 ions different ions (i.e.&nbsp;having different M/Z values) are separated throughout the MS analysis and are eventually detected (i.e.&nbsp;quantified). The final frame shows the hypothetical spectrum.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/mstut.gif" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Separation and detection of ions in a mass spectrometer.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The figures below illustrate the two rounds of MS. The spectrum on the left is an MS1 spectrum acquired after 21 minutes and 3 seconds of elution. 10 peaks, highlited by dotted vertical lines, were selected for MS2 analysis. The peak at M/Z 460.79 (488.8) is highlighted by a red (orange) vertical line on the MS1 spectrum and the fragment spectra are shown on the MS2 spectrum on the top (bottom) right figure.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/MS1-MS2-spectra.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Parent ions in the MS1 spectrum (left) and two sected fragment ions MS2 spectra (right)</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The figures below represent the 3 dimensions of MS data: a set of spectra (M/Z and intensity) of retention time, as well as the interleaved nature of MS1 and MS2 (and there could be more levels) data.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/F02-3D-MS1-scans-400-1200-lattice.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>MS1 spectra over retention time.</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="./img/F02-3D-MS1-MS2-scans-100-1200-lattice.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>MS2 spectra interleaved between two MS1 spectra.</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="accessing-data" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="accessing-data">
+<span class="header-section-number">1.2</span> Accessing data</h2>
+<section id="from-the-proteomexchange-database" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="from-the-proteomexchange-database">From the ProteomeXchange database</h3>
+<p>MS-based proteomics data is disseminated through the <a href="http://www.proteomexchange.org/">ProteomeXchange</a> infrastructure, which centrally coordinates submission, storage and dissemination through multiple data repositories, such as the <a href="https://www.ebi.ac.uk/pride/archive/">PRoteomics IDEntifications (PRIDE)</a> database at the EBI for mass spectrometry-based experiments (including quantitative data, as opposed as the name suggests), <a href="http://www.peptideatlas.org/passel/">PASSEL</a> at the ISB for Selected Reaction Monitoring (SRM, i.e.&nbsp;targeted) data and the <a href="http://massive.ucsd.edu/ProteoSAFe/static/massive.jsp">MassIVE</a> resource. These data can be downloaded within R using the <em><a href="https://bioconductor.org/packages/3.24/rpx">rpx</a></em> package.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/lgatto/rpx">"rpx"</a></span><span class="op">)</span></span>
+<span><span class="co">##  OpenTelemetry error: there is no package called 'otelsdk'</span></span>
+<span><span class="co">##  OpenTelemetry error: there is no package called 'otelsdk'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Using the unique <code>PXD000001</code> identifier, we can retrieve the relevant metadata that will be stored in a <code>PXDataset</code> object. The names of the files available in this data can be retrieved with the <code>pxfiles</code> accessor function.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">px</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">PXDataset</a></span><span class="op">(</span><span class="st">"PXD000001"</span><span class="op">)</span></span>
+<span><span class="co">##  Loading PXD000001 from cache.</span></span>
+<span><span class="va">px</span></span>
+<span><span class="co">##  Project PXD000001 with 12 files</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Resource ID BFC1 in cache in /opt/R-cache/R/rpx.</span></span>
+<span><span class="co">##   [1] 'F063721.dat' ... [12] 'erwinia_carotovora.fasta'</span></span>
+<span><span class="co">##   Use 'pxfiles(.)' to see all files.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxfiles</a></span><span class="op">(</span><span class="va">px</span><span class="op">)</span></span>
+<span><span class="co">##  Project PXD000001 files (12):</span></span>
+<span><span class="co">##   [remote] F063721.dat</span></span>
+<span><span class="co">##   [remote] F063721.dat-mztab.txt</span></span>
+<span><span class="co">##   [remote] PRIDE_Exp_Complete_Ac_22134.xml.gz</span></span>
+<span><span class="co">##   [remote] PRIDE_Exp_mzData_Ac_22134.xml.gz</span></span>
+<span><span class="co">##   [remote] PXD000001_community_annotated.sdrf.tsv</span></span>
+<span><span class="co">##   [remote] PXD000001_mztab.txt</span></span>
+<span><span class="co">##   [remote] README.txt</span></span>
+<span><span class="co">##   [local]  TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</span></span>
+<span><span class="co">##   [remote] TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzXML</span></span>
+<span><span class="co">##   [remote] TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzXML</span></span>
+<span><span class="co">##   ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Other metadata for the <code>px</code> data set:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxtax</a></span><span class="op">(</span><span class="va">px</span><span class="op">)</span></span>
+<span><span class="co">##  [1] "Erwinia carotovora"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxurl</a></span><span class="op">(</span><span class="va">px</span><span class="op">)</span></span>
+<span><span class="co">##  [1] "ftp://ftp.pride.ebi.ac.uk/pride/data/archive/2012/03/PXD000001"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxref</a></span><span class="op">(</span><span class="va">px</span><span class="op">)</span></span>
+<span><span class="co">##  [1] "Gatto L, Christoforou A; Using R and Bioconductor for proteomics data analysis., Biochim Biophys Acta, 2013 May 18, doi:10.1016/j.bbapap.2013.04.032 PMID:NA"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Data files can then be downloaded with the <code>pxget</code> function. Below, we retrieve the raw data file. The file is downloaded<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> in the working directory and the name of the file is return by the</p>
+<p>function and stored in the <code>mzf</code> variable for later use <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span>
+<span><span class="va">mzf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset2.html">pxget</a></span><span class="op">(</span><span class="va">px</span>, <span class="va">fn</span><span class="op">)</span></span>
+<span><span class="co">##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.</span></span>
+<span><span class="va">mzf</span></span>
+<span><span class="co">##  [1] "/opt/R-cache/R/rpx/853174f95_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="data-hub" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="data-hub">Data hub</h3>
+<p>The Bioconductor project had dedicated data hubs for experiment and annotation data. Data that is accessed through these hubs are cached centrally to avoid repeated downloads.</p>
+<p>The <em><a href="https://bioconductor.org/packages/3.24/MsDataHub">MsDataHub</a></em> package provides data for mass spectrometry in general, and proteomics in particular. Once loaded, the <code><a href="https://rformassspectrometry.github.io/MsDataHub/reference/MsDataHub.html">MsDataHub()</a></code> function lists the available datasets</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://rformassspectrometry.github.io/MsDataHub">"MsDataHub"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/MsDataHub.html">MsDataHub</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##                                                                      Title</span></span>
+<span><span class="co">##  1                                                                ko15.CDF</span></span>
+<span><span class="co">##  2                                                cptac_a_b_c_peptides.txt</span></span>
+<span><span class="co">##  3                                                  cptac_a_b_peptides.txt</span></span>
+<span><span class="co">##  4                                                      cptac_peptides.txt</span></span>
+<span><span class="co">##  5     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid</span></span>
+<span><span class="co">##  6  TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz</span></span>
+<span><span class="co">##  7                                       X20171016_POOL_POS_1_105.134.mzML</span></span>
+<span><span class="co">##  8                                       X20171016_POOL_POS_3_105.134.mzML</span></span>
+<span><span class="co">##  9                                                       PestMix1_DDA.mzML</span></span>
+<span><span class="co">##  10                                                    PestMix1_SWATH.mzML</span></span>
+<span><span class="co">##  11                                                    benchmarkingDIA.tsv</span></span>
+<span><span class="co">##  12                                           Report.Derks2022.plexDIA.tsv</span></span>
+<span><span class="co">##  13                                                 Ai2025_aCMs_report.tsv</span></span>
+<span><span class="co">##  14                                                 Ai2025_iCMs_report.tsv</span></span>
+<span><span class="co">##  15                                                         crap_gpm.fasta</span></span>
+<span><span class="co">##  16                                                         crap_ccp.fasta</span></span>
+<span><span class="co">##  17                                                 crap_maxquant.fasta.gz</span></span>
+<span><span class="co">##  18                                                        CEMS_10ppm.mzML</span></span>
+<span><span class="co">##  19                                                        CEMS_25ppm.mzML</span></span>
+<span><span class="co">##  20                             HAM004_641fE_14.11.07..Exp1.extracted.mzML</span></span>
+<span><span class="co">##  21                             HAM004_641fE_14.11.07..Exp2.extracted.mzML</span></span>
+<span><span class="co">##  22                             HAM004_641fE_14.11.07..Exp3.extracted.mzML</span></span>
+<span><span class="co">##  23                             HAM004_641fE_14.11.07..Exp4.extracted.mzML</span></span>
+<span><span class="co">##  24                             HAM004_641fE_14.11.07..Exp5.extracted.mzML</span></span>
+<span><span class="co">##  25                             HAM005_641fE_14.11.07..Exp1.extracted.mzML</span></span>
+<span><span class="co">##  26                             HAM005_641fE_14.11.07..Exp2.extracted.mzML</span></span>
+<span><span class="co">##  27                             HAM005_641fE_14.11.07..Exp3.extracted.mzML</span></span>
+<span><span class="co">##  28                             HAM005_641fE_14.11.07..Exp4.extracted.mzML</span></span>
+<span><span class="co">##  29                             HAM005_641fE_14.11.07..Exp5.extracted.mzML</span></span>
+<span><span class="co">##  30                                                    MRM.standmix.5.mzML</span></span>
+<span><span class="co">##  31                                                          MS3TMT11.mzML</span></span>
+<span><span class="co">##  32                                  MS3TMT10_01022016_32917.33481.mzML.gz</span></span>
+<span><span class="co">##  33                                                         fdms3tmt11.rda</span></span>
+<span><span class="co">##  34                                                  D19_15um30cm_SC1.mzML</span></span>
+<span><span class="co">##  35                                   OR11_20160122_PG_HeLa_CVB3_CT_A.mzML</span></span>
+<span><span class="co">##  36                                              D19_15um30cm_SC1.sage.tsv</span></span>
+<span><span class="co">##  37                               OR11_20160122_PG_HeLa_CVB3_CT_A.sage.tsv</span></span>
+<span><span class="co">##  38                                                               ko16.CDF</span></span>
+<span><span class="co">##  39                                                               ko18.CDF</span></span>
+<span><span class="co">##  40                                                               ko19.CDF</span></span>
+<span><span class="co">##  41                                                               ko21.CDF</span></span>
+<span><span class="co">##  42                                                               ko22.CDF</span></span>
+<span><span class="co">##  43                                                               wt15.CDF</span></span>
+<span><span class="co">##  44                                                               wt16.CDF</span></span>
+<span><span class="co">##  45                                                               wt18.CDF</span></span>
+<span><span class="co">##  46                                                               wt19.CDF</span></span>
+<span><span class="co">##  47                                                               wt21.CDF</span></span>
+<span><span class="co">##  48                                                               wt22.CDF</span></span>
+<span><span class="co">##  49                   Christoforou_2016_TMT_DDA_FragPipe_Fraction1_psm.tsv</span></span>
+<span><span class="co">##  50                   Christoforou_2016_TMT_DDA_FragPipe_Fraction2_psm.tsv</span></span>
+<span><span class="co">##  51                        Christoforou_2016_TMT_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  52                        Christoforou_2016_TMT_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  53                                 Christoforou_2016_TMT_DDA_sage_tmt.tsv</span></span>
+<span><span class="co">##  54                            Derks_2022_plex_DIA_DIANN_report_subset.tsv</span></span>
+<span><span class="co">##  55                          vanPuyvelde_2022_LFQ_DDA_FragPipe_A_1_psm.tsv</span></span>
+<span><span class="co">##  56                          vanPuyvelde_2022_LFQ_DDA_FragPipe_A_2_psm.tsv</span></span>
+<span><span class="co">##  57                          vanPuyvelde_2022_LFQ_DDA_FragPipe_A_3_psm.tsv</span></span>
+<span><span class="co">##  58                          vanPuyvelde_2022_LFQ_DDA_FragPipe_B_1_psm.tsv</span></span>
+<span><span class="co">##  59                          vanPuyvelde_2022_LFQ_DDA_FragPipe_B_2_psm.tsv</span></span>
+<span><span class="co">##  60                          vanPuyvelde_2022_LFQ_DDA_FragPipe_B_3_psm.tsv</span></span>
+<span><span class="co">##  61                         vanPuyvelde_2022_LFQ_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  62                         vanPuyvelde_2022_LFQ_DDA_MaxQuant_peptides.txt</span></span>
+<span><span class="co">##  63                    vanPuyvelde_2022_LFQ_DDA_MaxQuant_proteinGroups.txt</span></span>
+<span><span class="co">##  64                          vanPuyvelde_2022_LFQ_DDA_PEAKS_LFQ_report.csv</span></span>
+<span><span class="co">##  65                                  vanPuyvelde_2022_LFQ_DDA_sage_lfq.tsv</span></span>
+<span><span class="co">##  66                         vanPuyvelde_2022_LFQ_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  67                          vanPuyvelde_2022_LFQ_DIA_DIANN_report.parquet</span></span>
+<span><span class="co">##  68                              vanPuyvelde_2022_LFQ_DIA_DIANN_report.tsv</span></span>
+<span><span class="co">##                                                                                                                                   Description</span></span>
+<span><span class="co">##  1  Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 15 sample. See ?faahKO.CDF for details.</span></span>
+<span><span class="co">##  2                            Conditions A, B and C of the CPTAC quantitative proteomics data (tab-delimited format). See ?cptac for details.</span></span>
+<span><span class="co">##  3                               Conditions A and B of the CPTAC quantitative proteomics data (tab-delimited format). See ?cptac for details.</span></span>
+<span><span class="co">##  4                                                         CPTAC quantitative proteomics data (tab-delimited format). See ?cptac for details.</span></span>
+<span><span class="co">##  5                                                        Peptide spectrum matches from the PDX000001 experiment. See ?PXD000001 for details.</span></span>
+<span><span class="co">##  6                                                     Raw MS data from the PDX000001 experiment, in mzML format. See ?PXD000001 for details.</span></span>
+<span><span class="co">##  7                                                      AB Sciex LC-MS data file (injection index 1), in mzML format. See ?sciex for details.</span></span>
+<span><span class="co">##  8                                                     AB Sciex LC-MS data file (injection index 19), in mzML format. See ?sciex for details.</span></span>
+<span><span class="co">##  9                                                                       Triple TOF DDA raw data, in mzML format. See ?TripleTOF for details.</span></span>
+<span><span class="co">##  10                                                                    Triple TOF SWATH raw data, in mzML format. See ?TripleTOF for details.</span></span>
+<span><span class="co">##  11                                                                                                    Output of DIA-NN software (report.tsv)</span></span>
+<span><span class="co">##  12                                                            Derk et al. (2022) single-cell proteomics plexDIA results (DIA-NN report.tsv).</span></span>
+<span><span class="co">##  13   Ai et al. (2025) Single Cell Proteomics Reveals Specific Cellular Subtypes in Cardiomyocytes Derived from Human iPSCs and Adult Hearts.</span></span>
+<span><span class="co">##  14   Ai et al. (2025) Single Cell Proteomics Reveals Specific Cellular Subtypes in Cardiomyocytes Derived from Human iPSCs and Adult Hearts.</span></span>
+<span><span class="co">##  15                                                  common Repository of Adventitious Proteins (cRAP) from the Global Proteome Machine (GPM)</span></span>
+<span><span class="co">##  16                                          common Repository of Adventitious Proteins (cRAP) from the Cambridge Centre for Proteomics (CCP)</span></span>
+<span><span class="co">##  17                                                                                                           MaxQuant's contaminant database</span></span>
+<span><span class="co">##  18                                                                           CE-MS data file (10ppm), in mzML format. See ?CEMS for details.</span></span>
+<span><span class="co">##  19                                                                            CE-MS data file (25ppm) in mzML format. See ?CEMS for details.</span></span>
+<span><span class="co">##  20                                                               FTICR-MS data file HAM4, experiment 1, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  21                                                               FTICR-MS data file HAM4, experiment 2, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  22                                                               FTICR-MS data file HAM4, experiment 3, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  23                                                               FTICR-MS data file HAM4, experiment 4, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  24                                                               FTICR-MS data file HAM4, experiment 5, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  25                                                               FTICR-MS data file HAM5, experiment 1, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  26                                                               FTICR-MS data file HAM5, experiment 2, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  27                                                               FTICR-MS data file HAM5, experiment 3, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  28                                                               FTICR-MS data file HAM5, experiment 4, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  29                                                               FTICR-MS data file HAM5, experiment 5, in mzML file. See ?FTICR for details</span></span>
+<span><span class="co">##  30                                               Multiple Reaction Monitoring mode (MRM) file from a mouse brain sample. See ?MRM fo details</span></span>
+<span><span class="co">##  31                                                        A subset of 994 spectra from a currenly unpublished MS3 SPS TMT 11-plex experiment</span></span>
+<span><span class="co">##  32                                                        A subset of 565 spectra from a currenly unpublished MS3 SPS TMT 10-plex experiment</span></span>
+<span><span class="co">##  33                                                                                                         Feature data of the MS3TMT11 data</span></span>
+<span><span class="co">##  34                                                                        Boekweg et al. (2022) SCP mzML file. See ?Boekweg2022 for details.</span></span>
+<span><span class="co">##  35                                                                       Boekweg et al. (2022) bulk mzML file. See ?Boekweg2022 for details.</span></span>
+<span><span class="co">##  36                                                       Boekweg et al. (2022) Sage PSMs for D19_15um30cm_SC1. See ?Boekweg2022 for details.</span></span>
+<span><span class="co">##  37                                        Boekweg et al. (2022) Sage PSMs for OR11_20160122_PG_HeLa_CVB3_CT_A. See ?Boekweg2022 for details.</span></span>
+<span><span class="co">##  38     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 16 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  39     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 18 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  40     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 19 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  41     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 21 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  42     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. KO 22 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  43     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 15 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  44     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 16 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  45     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 18 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  46     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 19 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  47     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 21 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  48     Saghatelian et al. (2004) FAAH knockout LC/MS data. Raw metabolomics MS file in netCDF format. WT 22 sample. See ?faahKO for details.</span></span>
+<span><span class="co">##  49                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  50                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  51                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  52                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  53                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  54                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  55                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  56                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  57                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  58                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  59                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  60                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  61                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  62                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  63                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  64                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  65                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  66                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  67                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##  68                                                                        Various DDA and DIA files to illustrate QFeatures::readQFeatures()</span></span>
+<span><span class="co">##     BiocVersion Genome SourceType</span></span>
+<span><span class="co">##  1         3.17     NA        CDF</span></span>
+<span><span class="co">##  2         3.17     NA        TXT</span></span>
+<span><span class="co">##  3         3.17     NA        TXT</span></span>
+<span><span class="co">##  4         3.17     NA        TXT</span></span>
+<span><span class="co">##  5         3.17     NA       mzid</span></span>
+<span><span class="co">##  6         3.17     NA       mzML</span></span>
+<span><span class="co">##  7         3.17     NA       mzML</span></span>
+<span><span class="co">##  8         3.17     NA       mzML</span></span>
+<span><span class="co">##  9         3.17     NA       mzML</span></span>
+<span><span class="co">##  10        3.17     NA       mzML</span></span>
+<span><span class="co">##  11        3.17     NA        TSV</span></span>
+<span><span class="co">##  12        3.19     NA        TSV</span></span>
+<span><span class="co">##  13        3.21     NA        TSV</span></span>
+<span><span class="co">##  14        3.21     NA        TSV</span></span>
+<span><span class="co">##  15        3.21     NA      FASTA</span></span>
+<span><span class="co">##  16        3.21     NA      FASTA</span></span>
+<span><span class="co">##  17        3.21     NA      FASTA</span></span>
+<span><span class="co">##  18        3.23     NA       mzML</span></span>
+<span><span class="co">##  19        3.23     NA       mzML</span></span>
+<span><span class="co">##  20        3.23     NA       mzML</span></span>
+<span><span class="co">##  21        3.23     NA       mzML</span></span>
+<span><span class="co">##  22        3.23     NA       mzML</span></span>
+<span><span class="co">##  23        3.23     NA       mzML</span></span>
+<span><span class="co">##  24        3.23     NA       mzML</span></span>
+<span><span class="co">##  25        3.23     NA       mzML</span></span>
+<span><span class="co">##  26        3.23     NA       mzML</span></span>
+<span><span class="co">##  27        3.23     NA       mzML</span></span>
+<span><span class="co">##  28        3.23     NA       mzML</span></span>
+<span><span class="co">##  29        3.23     NA       mzML</span></span>
+<span><span class="co">##  30        3.23     NA       mzML</span></span>
+<span><span class="co">##  31        3.23     NA       mzML</span></span>
+<span><span class="co">##  32        3.23     NA       mzML</span></span>
+<span><span class="co">##  33        3.23     NA        RDA</span></span>
+<span><span class="co">##  34        3.23     NA       mzML</span></span>
+<span><span class="co">##  35        3.23     NA       mzML</span></span>
+<span><span class="co">##  36        3.23     NA        TSV</span></span>
+<span><span class="co">##  37        3.23     NA        TSV</span></span>
+<span><span class="co">##  38        3.23     NA        CDF</span></span>
+<span><span class="co">##  39        3.23     NA        CDF</span></span>
+<span><span class="co">##  40        3.23     NA        CDF</span></span>
+<span><span class="co">##  41        3.23     NA        CDF</span></span>
+<span><span class="co">##  42        3.23     NA        CDF</span></span>
+<span><span class="co">##  43        3.23     NA        CDF</span></span>
+<span><span class="co">##  44        3.23     NA        CDF</span></span>
+<span><span class="co">##  45        3.23     NA        CDF</span></span>
+<span><span class="co">##  46        3.23     NA        CDF</span></span>
+<span><span class="co">##  47        3.23     NA        CDF</span></span>
+<span><span class="co">##  48        3.23     NA        CDF</span></span>
+<span><span class="co">##  49        3.23     NA        TSV</span></span>
+<span><span class="co">##  50        3.23     NA        TSV</span></span>
+<span><span class="co">##  51        3.23     NA        TXT</span></span>
+<span><span class="co">##  52        3.23     NA        TSV</span></span>
+<span><span class="co">##  53        3.23     NA        TSV</span></span>
+<span><span class="co">##  54        3.23     NA        TSV</span></span>
+<span><span class="co">##  55        3.23     NA        TSV</span></span>
+<span><span class="co">##  56        3.23     NA        TSV</span></span>
+<span><span class="co">##  57        3.23     NA        TSV</span></span>
+<span><span class="co">##  58        3.23     NA        TSV</span></span>
+<span><span class="co">##  59        3.23     NA        TSV</span></span>
+<span><span class="co">##  60        3.23     NA        TSV</span></span>
+<span><span class="co">##  61        3.23     NA        TXT</span></span>
+<span><span class="co">##  62        3.23     NA        TXT</span></span>
+<span><span class="co">##  63        3.23     NA        TXT</span></span>
+<span><span class="co">##  64        3.23     NA        CSV</span></span>
+<span><span class="co">##  65        3.23     NA        TSV</span></span>
+<span><span class="co">##  66        3.23     NA        TSV</span></span>
+<span><span class="co">##  67        3.23     NA    Parquet</span></span>
+<span><span class="co">##  68        3.23     NA        TSV</span></span>
+<span><span class="co">##                                                                                                            SourceUrl</span></span>
+<span><span class="co">##  1                                                                https://zenodo.org/records/19606563/files/ko15.CDF</span></span>
+<span><span class="co">##  2                                          https://uclouvain-cbio.github.io/WSBIM2122/data/cptac_a_b_c_peptides.txt</span></span>
+<span><span class="co">##  3                                           https://bioconductor.org/packages/3.16/data/experiment/html/msdata.html</span></span>
+<span><span class="co">##  4  https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt</span></span>
+<span><span class="co">##  5                                           https://bioconductor.org/packages/3.16/data/experiment/html/msdata.html</span></span>
+<span><span class="co">##  6                                                 https://ftp.pride.ebi.ac.uk/pride/data/archive/2012/03/PXD000001/</span></span>
+<span><span class="co">##  7                                        https://zenodo.org/records/20729183/files/20171016_POOL_POS_1_105-134.mzML</span></span>
+<span><span class="co">##  8                                        https://zenodo.org/records/20729183/files/20171016_POOL_POS_3_105-134.mzML</span></span>
+<span><span class="co">##  9                                                       https://zenodo.org/records/20729093/files/PestMix1_DDA.mzML</span></span>
+<span><span class="co">##  10                                                    https://zenodo.org/records/20729093/files/PestMix1_SWATH.mzML</span></span>
+<span><span class="co">##  11                                                                               https://zenodo.org/records/8063173</span></span>
+<span><span class="co">##  12                                         https://drive.google.com/drive/folders/1pUC2zgXKtKYn22mlor0lmUDK0frgwL_-</span></span>
+<span><span class="co">##  13                                                 https://zenodo.org/records/21900721/files/Ai2025_aCMs_report.tsv</span></span>
+<span><span class="co">##  14                                                 https://zenodo.org/records/21900721/files/Ai2025_iCMs_report.tsv</span></span>
+<span><span class="co">##  15                                                         https://zenodo.org/records/15115102/files/crap_gpm.fasta</span></span>
+<span><span class="co">##  16                                                         https://zenodo.org/records/15115102/files/crap_ccp.fasta</span></span>
+<span><span class="co">##  17                                                 https://zenodo.org/records/15115102/files/crap_maxquant.fasta.gz</span></span>
+<span><span class="co">##  18                                                        https://zenodo.org/records/18481720/files/CEMS_10ppm.mzML</span></span>
+<span><span class="co">##  19                                                        https://zenodo.org/records/18481720/files/CEMS_25ppm.mzML</span></span>
+<span><span class="co">##  20                             https://zenodo.org/records/18494294/files/HAM004_641fE_14-11-07--Exp1.extracted.mzML</span></span>
+<span><span class="co">##  21                             https://zenodo.org/records/18494294/files/HAM004_641fE_14-11-07--Exp2.extracted.mzML</span></span>
+<span><span class="co">##  22                             https://zenodo.org/records/18494294/files/HAM004_641fE_14-11-07--Exp3.extracted.mzML</span></span>
+<span><span class="co">##  23                             https://zenodo.org/records/18494294/files/HAM004_641fE_14-11-07--Exp4.extracted.mzML</span></span>
+<span><span class="co">##  24                             https://zenodo.org/records/18494294/files/HAM004_641fE_14-11-07--Exp5.extracted.mzML</span></span>
+<span><span class="co">##  25                             https://zenodo.org/records/18494294/files/HAM005_641fE_14-11-07--Exp1.extracted.mzML</span></span>
+<span><span class="co">##  26                             https://zenodo.org/records/18494294/files/HAM005_641fE_14-11-07--Exp2.extracted.mzML</span></span>
+<span><span class="co">##  27                             https://zenodo.org/records/18494294/files/HAM005_641fE_14-11-07--Exp3.extracted.mzML</span></span>
+<span><span class="co">##  28                             https://zenodo.org/records/18494294/files/HAM005_641fE_14-11-07--Exp4.extracted.mzML</span></span>
+<span><span class="co">##  29                             https://zenodo.org/records/18494294/files/HAM005_641fE_14-11-07--Exp5.extracted.mzML</span></span>
+<span><span class="co">##  30                                                    https://zenodo.org/records/18502866/files/MRM-standmix-5.mzML</span></span>
+<span><span class="co">##  31                                                          https://zenodo.org/records/19127509/files/MS3TMT11.mzML</span></span>
+<span><span class="co">##  32                                  https://zenodo.org/records/19127509/files/MS3TMT10_01022016_32917-33481.mzML.gz</span></span>
+<span><span class="co">##  33                                                         https://zenodo.org/records/19127509/files/fdms3tmt11.rda</span></span>
+<span><span class="co">##  34                                                  https://zenodo.org/records/21900721/files/D19_15um30cm_SC1.mzML</span></span>
+<span><span class="co">##  35                                   https://zenodo.org/records/21900721/files/OR11_20160122_PG_HeLa_CVB3_CT_A.mzML</span></span>
+<span><span class="co">##  36                                              https://zenodo.org/records/19370231/files/D19_15um30cm_SC1.sage.tsv</span></span>
+<span><span class="co">##  37                               https://zenodo.org/records/19370231/files/OR11_20160122_PG_HeLa_CVB3_CT_A.sage.tsv</span></span>
+<span><span class="co">##  38                                                               https://zenodo.org/records/19606563/files/ko16.CDF</span></span>
+<span><span class="co">##  39                                                               https://zenodo.org/records/19606563/files/ko18.CDF</span></span>
+<span><span class="co">##  40                                                               https://zenodo.org/records/19606563/files/ko19.CDF</span></span>
+<span><span class="co">##  41                                                               https://zenodo.org/records/19606563/files/ko21.CDF</span></span>
+<span><span class="co">##  42                                                               https://zenodo.org/records/19606563/files/ko22.CDF</span></span>
+<span><span class="co">##  43                                                               https://zenodo.org/records/19606563/files/wt15.CDF</span></span>
+<span><span class="co">##  44                                                               https://zenodo.org/records/19606563/files/wt16.CDF</span></span>
+<span><span class="co">##  45                                                               https://zenodo.org/records/19606563/files/wt18.CDF</span></span>
+<span><span class="co">##  46                                                               https://zenodo.org/records/19606563/files/wt19.CDF</span></span>
+<span><span class="co">##  47                                                               https://zenodo.org/records/19606563/files/wt21.CDF</span></span>
+<span><span class="co">##  48                                                               https://zenodo.org/records/19606563/files/wt22.CDF</span></span>
+<span><span class="co">##  49                   https://zenodo.org/records/19137577/files/Christoforou_2016_TMT_DDA_FragPipe_Fraction1_psm.tsv</span></span>
+<span><span class="co">##  50                   https://zenodo.org/records/19137577/files/Christoforou_2016_TMT_DDA_FragPipe_Fraction2_psm.tsv</span></span>
+<span><span class="co">##  51                        https://zenodo.org/records/19137577/files/Christoforou_2016_TMT_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  52                        https://zenodo.org/records/19137577/files/Christoforou_2016_TMT_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  53                                 https://zenodo.org/records/19137577/files/Christoforou_2016_TMT_DDA_sage_tmt.tsv</span></span>
+<span><span class="co">##  54                                   https://zenodo.org/records/19137577/files/Derks_2022_plex_DIA_DIANN_report.tsv</span></span>
+<span><span class="co">##  55                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_1_psm.tsv</span></span>
+<span><span class="co">##  56                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_2_psm.tsv</span></span>
+<span><span class="co">##  57                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_3_psm.tsv</span></span>
+<span><span class="co">##  58                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_1_psm.tsv</span></span>
+<span><span class="co">##  59                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_2_psm.tsv</span></span>
+<span><span class="co">##  60                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_3_psm.tsv</span></span>
+<span><span class="co">##  61                         https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  62                         https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_peptides.txt</span></span>
+<span><span class="co">##  63                    https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_proteinGroups.txt</span></span>
+<span><span class="co">##  64                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_PEAKS_LFQ_report.csv</span></span>
+<span><span class="co">##  65                                  https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_sage_lfq.tsv</span></span>
+<span><span class="co">##  66                         https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  67                          https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DIA_DIANN_report.parquet</span></span>
+<span><span class="co">##  68                              https://zenodo.org/records/19137577/files/vanPuyvelde_2022_LFQ_DIA_DIANN_report.tsv</span></span>
+<span><span class="co">##     SourceVersion                  Species TaxonomyId Coordinate_1_based</span></span>
+<span><span class="co">##  1              1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  2              1 Saccharomyces cerevisiae       4932                 NA</span></span>
+<span><span class="co">##  3              1 Saccharomyces cerevisiae       4932                 NA</span></span>
+<span><span class="co">##  4              1 Saccharomyces cerevisiae       4932                 NA</span></span>
+<span><span class="co">##  5              1       Erwinia carotovora        554                 NA</span></span>
+<span><span class="co">##  6              1       Erwinia carotovora        554                 NA</span></span>
+<span><span class="co">##  7              1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  8              1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  9              1                                  NA                 NA</span></span>
+<span><span class="co">##  10             1                                  NA                 NA</span></span>
+<span><span class="co">##  11             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  12             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  13             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  14             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  15             1                                  NA                 NA</span></span>
+<span><span class="co">##  16             1                                  NA                 NA</span></span>
+<span><span class="co">##  17             1                                  NA                 NA</span></span>
+<span><span class="co">##  18             1                                  NA                 NA</span></span>
+<span><span class="co">##  19             1                                  NA                 NA</span></span>
+<span><span class="co">##  20             1                                  NA                 NA</span></span>
+<span><span class="co">##  21             1                                  NA                 NA</span></span>
+<span><span class="co">##  22             1                                  NA                 NA</span></span>
+<span><span class="co">##  23             1                                  NA                 NA</span></span>
+<span><span class="co">##  24             1                                  NA                 NA</span></span>
+<span><span class="co">##  25             1                                  NA                 NA</span></span>
+<span><span class="co">##  26             1                                  NA                 NA</span></span>
+<span><span class="co">##  27             1                                  NA                 NA</span></span>
+<span><span class="co">##  28             1                                  NA                 NA</span></span>
+<span><span class="co">##  29             1                                  NA                 NA</span></span>
+<span><span class="co">##  30             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  31             1                                  NA                 NA</span></span>
+<span><span class="co">##  32             1                                  NA                 NA</span></span>
+<span><span class="co">##  33             1                                  NA                 NA</span></span>
+<span><span class="co">##  34             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  35             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  36             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  37             1             Homo sapiens       9606                 NA</span></span>
+<span><span class="co">##  38             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  39             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  40             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  41             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  42             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  43             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  44             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  45             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  46             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  47             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  48             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  49             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  50             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  51             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  52             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  53             1             Mus musculus      10090                 NA</span></span>
+<span><span class="co">##  54             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  55             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  56             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  57             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  58             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  59             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  60             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  61             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  62             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  63             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  64             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  65             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  66             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  67             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##  68             1                     &lt;NA&gt;         NA                 NA</span></span>
+<span><span class="co">##     DataProvider                                 Maintainer  RDataClass</span></span>
+<span><span class="co">##  1            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  2            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  3            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  4            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  5            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  6            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;         PSM</span></span>
+<span><span class="co">##  7            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  8            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  9            NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  10           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  11           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  12           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  13           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  14           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  15           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt; AAStringSet</span></span>
+<span><span class="co">##  16           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt; AAStringSet</span></span>
+<span><span class="co">##  17           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt; AAStringSet</span></span>
+<span><span class="co">##  18           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  19           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  20           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  21           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  22           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  23           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  24           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  25           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  26           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  27           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  28           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  29           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  30           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  31           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  32           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  33           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  34           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  35           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  36           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  37           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  38           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  39           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  40           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  41           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  42           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  43           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  44           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  45           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  46           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  47           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  48           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;     Spectra</span></span>
+<span><span class="co">##  49           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  50           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  51           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  52           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  53           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  54           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  55           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  56           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  57           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  58           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  59           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  60           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  61           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  62           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  63           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  64           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  65           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  66           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  67           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##  68           NA Laurent Gatto &lt;laurent.gatto@uclouvain.be&gt;  data.frame</span></span>
+<span><span class="co">##     DispatchClass     Location_Prefix</span></span>
+<span><span class="co">##  1       FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  2       FilePath                    </span></span>
+<span><span class="co">##  3       FilePath                    </span></span>
+<span><span class="co">##  4       FilePath                    </span></span>
+<span><span class="co">##  5       FilePath                    </span></span>
+<span><span class="co">##  6       FilePath                    </span></span>
+<span><span class="co">##  7       FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  8       FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  9       FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  10      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  11      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  12      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  13      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  14      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  15      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  16      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  17      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  18      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  19      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  20      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  21      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  22      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  23      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  24      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  25      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  26      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  27      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  28      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  29      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  30      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  31      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  32      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  33      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  34      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  35      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  36      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  37      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  38      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  39      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  40      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  41      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  42      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  43      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  44      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  45      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  46      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  47      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  48      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  49      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  50      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  51      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  52      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  53      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  54      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  55      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  56      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  57      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  58      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  59      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  60      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  61      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  62      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  63      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  64      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  65      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  66      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  67      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##  68      FilePath https://zenodo.org/</span></span>
+<span><span class="co">##                                                                                      RDataPath</span></span>
+<span><span class="co">##  1                                                             records/19606563/files/ko15.CDF</span></span>
+<span><span class="co">##  2                                                    MsDataHub/cptac/cptac_a_b_c_peptides.txt</span></span>
+<span><span class="co">##  3                                                      MsDataHub/cptac/cptac_a_b_peptides.txt</span></span>
+<span><span class="co">##  4                                                          MsDataHub/cptac/cptac_peptides.txt</span></span>
+<span><span class="co">##  5     MsDataHub/PXD000001/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid</span></span>
+<span><span class="co">##  6  MsDataHub/PXD000001/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz</span></span>
+<span><span class="co">##  7                                     records/20729183/files/20171016_POOL_POS_1_105-134.mzML</span></span>
+<span><span class="co">##  8                                     records/20729183/files/20171016_POOL_POS_3_105-134.mzML</span></span>
+<span><span class="co">##  9                                                    records/20729093/files/PestMix1_DDA.mzML</span></span>
+<span><span class="co">##  10                                                 records/20729093/files/PestMix1_SWATH.mzML</span></span>
+<span><span class="co">##  11                                                   record/8063173/files/benchmarkingDIA.tsv</span></span>
+<span><span class="co">##  12                                        records/10938597/files/Report-Derks2022-plexDIA.tsv</span></span>
+<span><span class="co">##  13                                              records/21900721/files/Ai2025_aCMs_report.tsv</span></span>
+<span><span class="co">##  14                                              records/21900721/files/Ai2025_iCMs_report.tsv</span></span>
+<span><span class="co">##  15                                                      records/15115102/files/crap_gpm.fasta</span></span>
+<span><span class="co">##  16                                                      records/15115102/files/crap_ccp.fasta</span></span>
+<span><span class="co">##  17                                              records/15115102/files/crap_maxquant.fasta.gz</span></span>
+<span><span class="co">##  18                                                     records/18481720/files/CEMS_10ppm.mzML</span></span>
+<span><span class="co">##  19                                                     records/18481720/files/CEMS_25ppm.mzML</span></span>
+<span><span class="co">##  20                          records/18494294/files/HAM004_641fE_14-11-07--Exp1.extracted.mzML</span></span>
+<span><span class="co">##  21                          records/18494294/files/HAM004_641fE_14-11-07--Exp2.extracted.mzML</span></span>
+<span><span class="co">##  22                          records/18494294/files/HAM004_641fE_14-11-07--Exp3.extracted.mzML</span></span>
+<span><span class="co">##  23                          records/18494294/files/HAM004_641fE_14-11-07--Exp4.extracted.mzML</span></span>
+<span><span class="co">##  24                          records/18494294/files/HAM004_641fE_14-11-07--Exp5.extracted.mzML</span></span>
+<span><span class="co">##  25                          records/18494294/files/HAM005_641fE_14-11-07--Exp1.extracted.mzML</span></span>
+<span><span class="co">##  26                          records/18494294/files/HAM005_641fE_14-11-07--Exp2.extracted.mzML</span></span>
+<span><span class="co">##  27                          records/18494294/files/HAM005_641fE_14-11-07--Exp3.extracted.mzML</span></span>
+<span><span class="co">##  28                          records/18494294/files/HAM005_641fE_14-11-07--Exp4.extracted.mzML</span></span>
+<span><span class="co">##  29                          records/18494294/files/HAM005_641fE_14-11-07--Exp5.extracted.mzML</span></span>
+<span><span class="co">##  30                                                 records/18502866/files/MRM-standmix-5.mzML</span></span>
+<span><span class="co">##  31                                                       records/19127509/files/MS3TMT11.mzML</span></span>
+<span><span class="co">##  32                               records/19127509/files/MS3TMT10_01022016_32917-33481.mzML.gz</span></span>
+<span><span class="co">##  33                                                      records/19127509/files/fdms3tmt11.rda</span></span>
+<span><span class="co">##  34                                               records/21900721/files/D19_15um30cm_SC1.mzML</span></span>
+<span><span class="co">##  35                                records/21900721/files/OR11_20160122_PG_HeLa_CVB3_CT_A.mzML</span></span>
+<span><span class="co">##  36                                           records/19370231/files/D19_15um30cm_SC1.sage.tsv</span></span>
+<span><span class="co">##  37                            records/19370231/files/OR11_20160122_PG_HeLa_CVB3_CT_A.sage.tsv</span></span>
+<span><span class="co">##  38                                                            records/19606563/files/ko16.CDF</span></span>
+<span><span class="co">##  39                                                            records/19606563/files/ko18.CDF</span></span>
+<span><span class="co">##  40                                                            records/19606563/files/ko19.CDF</span></span>
+<span><span class="co">##  41                                                            records/19606563/files/ko21.CDF</span></span>
+<span><span class="co">##  42                                                            records/19606563/files/ko22.CDF</span></span>
+<span><span class="co">##  43                                                            records/19606563/files/wt15.CDF</span></span>
+<span><span class="co">##  44                                                            records/19606563/files/wt16.CDF</span></span>
+<span><span class="co">##  45                                                            records/19606563/files/wt18.CDF</span></span>
+<span><span class="co">##  46                                                            records/19606563/files/wt19.CDF</span></span>
+<span><span class="co">##  47                                                            records/19606563/files/wt21.CDF</span></span>
+<span><span class="co">##  48                                                            records/19606563/files/wt22.CDF</span></span>
+<span><span class="co">##  49                records/19137577/files/Christoforou_2016_TMT_DDA_FragPipe_Fraction1_psm.tsv</span></span>
+<span><span class="co">##  50                records/19137577/files/Christoforou_2016_TMT_DDA_FragPipe_Fraction2_psm.tsv</span></span>
+<span><span class="co">##  51                     records/19137577/files/Christoforou_2016_TMT_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  52                     records/19137577/files/Christoforou_2016_TMT_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  53                              records/19137577/files/Christoforou_2016_TMT_DDA_sage_tmt.tsv</span></span>
+<span><span class="co">##  54                               /records/19137577/files/Derks_2022_plex_DIA_DIANN_report.tsv</span></span>
+<span><span class="co">##  55                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_1_psm.tsv</span></span>
+<span><span class="co">##  56                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_2_psm.tsv</span></span>
+<span><span class="co">##  57                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_A_3_psm.tsv</span></span>
+<span><span class="co">##  58                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_1_psm.tsv</span></span>
+<span><span class="co">##  59                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_2_psm.tsv</span></span>
+<span><span class="co">##  60                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_FragPipe_B_3_psm.tsv</span></span>
+<span><span class="co">##  61                      records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_evidence.txt</span></span>
+<span><span class="co">##  62                      records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_peptides.txt</span></span>
+<span><span class="co">##  63                 records/19137577/files/vanPuyvelde_2022_LFQ_DDA_MaxQuant_proteinGroups.txt</span></span>
+<span><span class="co">##  64                       records/19137577/files/vanPuyvelde_2022_LFQ_DDA_PEAKS_LFQ_report.csv</span></span>
+<span><span class="co">##  65                               records/19137577/files/vanPuyvelde_2022_LFQ_DDA_sage_lfq.tsv</span></span>
+<span><span class="co">##  66                      records/19137577/files/vanPuyvelde_2022_LFQ_DDA_sage_results.sage.tsv</span></span>
+<span><span class="co">##  67                       records/19137577/files/vanPuyvelde_2022_LFQ_DIA_DIANN_report.parquet</span></span>
+<span><span class="co">##  68                           records/19137577/files/vanPuyvelde_2022_LFQ_DIA_DIANN_report.tsv</span></span>
+<span><span class="co">##     Tags</span></span>
+<span><span class="co">##  1    NA</span></span>
+<span><span class="co">##  2    NA</span></span>
+<span><span class="co">##  3    NA</span></span>
+<span><span class="co">##  4    NA</span></span>
+<span><span class="co">##  5    NA</span></span>
+<span><span class="co">##  6    NA</span></span>
+<span><span class="co">##  7    NA</span></span>
+<span><span class="co">##  8    NA</span></span>
+<span><span class="co">##  9    NA</span></span>
+<span><span class="co">##  10   NA</span></span>
+<span><span class="co">##  11   NA</span></span>
+<span><span class="co">##  12   NA</span></span>
+<span><span class="co">##  13   NA</span></span>
+<span><span class="co">##  14   NA</span></span>
+<span><span class="co">##  15   NA</span></span>
+<span><span class="co">##  16   NA</span></span>
+<span><span class="co">##  17   NA</span></span>
+<span><span class="co">##  18   NA</span></span>
+<span><span class="co">##  19   NA</span></span>
+<span><span class="co">##  20   NA</span></span>
+<span><span class="co">##  21   NA</span></span>
+<span><span class="co">##  22   NA</span></span>
+<span><span class="co">##  23   NA</span></span>
+<span><span class="co">##  24   NA</span></span>
+<span><span class="co">##  25   NA</span></span>
+<span><span class="co">##  26   NA</span></span>
+<span><span class="co">##  27   NA</span></span>
+<span><span class="co">##  28   NA</span></span>
+<span><span class="co">##  29   NA</span></span>
+<span><span class="co">##  30   NA</span></span>
+<span><span class="co">##  31   NA</span></span>
+<span><span class="co">##  32   NA</span></span>
+<span><span class="co">##  33   NA</span></span>
+<span><span class="co">##  34   NA</span></span>
+<span><span class="co">##  35   NA</span></span>
+<span><span class="co">##  36   NA</span></span>
+<span><span class="co">##  37   NA</span></span>
+<span><span class="co">##  38   NA</span></span>
+<span><span class="co">##  39   NA</span></span>
+<span><span class="co">##  40   NA</span></span>
+<span><span class="co">##  41   NA</span></span>
+<span><span class="co">##  42   NA</span></span>
+<span><span class="co">##  43   NA</span></span>
+<span><span class="co">##  44   NA</span></span>
+<span><span class="co">##  45   NA</span></span>
+<span><span class="co">##  46   NA</span></span>
+<span><span class="co">##  47   NA</span></span>
+<span><span class="co">##  48   NA</span></span>
+<span><span class="co">##  49   NA</span></span>
+<span><span class="co">##  50   NA</span></span>
+<span><span class="co">##  51   NA</span></span>
+<span><span class="co">##  52   NA</span></span>
+<span><span class="co">##  53   NA</span></span>
+<span><span class="co">##  54   NA</span></span>
+<span><span class="co">##  55   NA</span></span>
+<span><span class="co">##  56   NA</span></span>
+<span><span class="co">##  57   NA</span></span>
+<span><span class="co">##  58   NA</span></span>
+<span><span class="co">##  59   NA</span></span>
+<span><span class="co">##  60   NA</span></span>
+<span><span class="co">##  61   NA</span></span>
+<span><span class="co">##  62   NA</span></span>
+<span><span class="co">##  63   NA</span></span>
+<span><span class="co">##  64   NA</span></span>
+<span><span class="co">##  65   NA</span></span>
+<span><span class="co">##  66   NA</span></span>
+<span><span class="co">##  67   NA</span></span>
+<span><span class="co">##  68   NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The dataset table is also available as an <a href="https://rformassspectrometry.github.io/MsDataHub/articles/MsDataHub.html">interactive table</a> on the package page.</p>
+<p>Each data can then be downloaded with a dedicated function, for example</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/faahKO.html">ko15.CDF</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span></span>
+<span><span class="co">##  downloading 1 resources</span></span>
+<span><span class="co">##  retrieving 1 resource</span></span>
+<span><span class="co">##  loading from cache</span></span>
+<span><span class="co">##                                          EH7803 </span></span>
+<span><span class="co">##  "/opt/R-cache/R/ExperimentHub/ff14abae56_7853"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note that the (compressed) <code>TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML</code> file downloaded above happens to also be available in <code>MsDataHub</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/PXD000001.html">TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span></span>
+<span><span class="co">##  downloading 1 resources</span></span>
+<span><span class="co">##  retrieving 1 resource</span></span>
+<span><span class="co">##  loading from cache</span></span>
+<span><span class="co">##                                         EH7808 </span></span>
+<span><span class="co">##  "/opt/R-cache/R/ExperimentHub/ff313a5c2_7858"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In addition to raw data, there’s also the matchin identification data</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/PXD000001.html">TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##                                          EH7807 </span></span>
+<span><span class="co">##  "/opt/R-cache/R/ExperimentHub/ff6de9f5cf_7857"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>and a quantitative proteomics data table</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/cptac.html">cptac_a_b_peptides.txt</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##                                          EH7805 </span></span>
+<span><span class="co">##  "/opt/R-cache/R/ExperimentHub/ff45b46872_7855"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Often, experiment packages distribute processed data; examples thereof are the <em><a href="https://bioconductor.org/packages/3.24/pRolocdata">pRolocdata</a></em> and <em><a href="https://bioconductor.org/packages/3.24/scpdata">scpdata</a></em> packages, that ship processed and annotated quantitative spatial and single-cell proteomics data.</p>
+
+
+</section></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>Here, we will focus on data dependent acquisition (DDA), where MS1 peaks are selected. In data independent acquisition (DIA), all peaks in the MS1 spectrum are fragmented.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>If the file is already available, it is not downloaded a second time.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>This and other files are also availabel in the <code>MsDataHub</code> package, described below<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation" aria-label="Page"><div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Preamble">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preamble</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../pages/10-raw.html" class="pagination-link" aria-label="Raw MS data">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Raw MS data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>This book was built with <a href="https://github.com/js2264/BiocBook/">BiocBook</a> with <span class="emoji" data-emoji="heart">❤️</span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+</body></html>
