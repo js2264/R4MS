@@ -12,13 +12,13 @@ Johannes Rainer
 
 Published
 
-October 6, 2026
+October 30, 2026
 
 ![](assets/cover.png "R for Mass Spectrometry")
 
 **Package:** R4MS\
 **Authors:** Laurent Gatto \[aut, cre\], Sebastian Gibb \[aut\], Johannes Rainer \[aut\]\
-**Compiled:** 2026-10-06\
+**Compiled:** 2026-10-30\
 **Package version:** 0.98.0\
 **R version:** **R version 4.6.1 (2026-06-24)**\
 **BioC version:** **3.24**\
@@ -51,7 +51,7 @@ This material uses the latest version of the R for Mass Spectrometry package and
 
 To install all the necessary package, please use the latest release of R and execute:
 
-``` downlit
+``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -78,7 +78,7 @@ BiocManager::install("RforMassSpectrometry/SpectraVis")
 
 After installation, you can download some data that will be used in the latter chapter running the following:
 
-``` downlit
+``` r
 library(rpx)
 px <- PXDataset("PXD000001") ## answer yes if asked to create a cache directory
 fn <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
@@ -151,7 +151,7 @@ The `Docker` image ships the book’s `conda` environment, holding everything li
 docker run -it ghcr.io/js2264/r4ms:devel R
 ```
 
-``` downlit
+``` r
 library(reticulate)
 py_config()          # already points at the book's environment
 ```
@@ -162,7 +162,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > sessioninfo::session_info(
 >     installed.packages()[,"Package"], 
 >     include_base = TRUE
@@ -170,15 +170,15 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##  ─ Session info ────────────────────────────────────────────────────────────
 > ##   setting  value
 > ##   version  R version 4.6.1 (2026-06-24)
-> ##   os       Ubuntu 24.04.4 LTS
+> ##   os       Ubuntu 24.04.5 LTS
 > ##   system   x86_64, linux-gnu
 > ##   ui       X11
 > ##   language (EN)
 > ##   collate  C
 > ##   ctype    en_US.UTF-8
 > ##   tz       Etc/UTC
-> ##   date     2026-10-06
-> ##   pandoc   3.11 @ /usr/bin/ (via rmarkdown)
+> ##   date     2026-10-30
+> ##   pandoc   3.12.1 @ /usr/bin/ (via rmarkdown)
 > ##   quarto   1.11.5 @ /usr/local/bin/quarto
 > ##  
 > ##  ─ Packages ────────────────────────────────────────────────────────────────
@@ -188,15 +188,15 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   affyio                 1.83.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   AnnotationDbi          1.75.2     2026-07-21 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   AnnotationFilter       1.37.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   AnnotationHub          4.3.2      2026-06-30 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   AnnotationHub          4.3.3      2026-10-23 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   askpass                1.2.1      2024-10-04 [2] RSPM (R 4.6.0)
 > ##   backports              1.5.1      2026-04-03 [2] RSPM (R 4.6.0)
-> ##   base                 * 4.6.1      2026-09-11 [3] local
+> ##   base                 * 4.6.1      2026-10-15 [3] local
 > ##   base64enc              0.1-6      2026-02-02 [2] RSPM (R 4.6.0)
 > ##   BH                     1.90.0-1   2025-12-14 [2] RSPM (R 4.6.0)
 > ##   Biobase              * 2.73.2     2026-07-29 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   BiocBaseUtils          1.15.1     2026-05-10 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   BiocBook               1.11.1     2026-09-06 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   BiocBook               1.11.4     2026-10-05 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   BiocFileCache          3.3.0      2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   BiocGenerics         * 0.59.12    2026-08-11 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   biocmake               1.5.1      2026-08-21 [2] Bioconductor 3.24 (R 4.6.1)
@@ -221,16 +221,16 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   carData                3.0-6      2026-01-30 [2] RSPM (R 4.6.0)
 > ##   caTools                1.18.4     2026-07-20 [2] RSPM (R 4.6.0)
 > ##   cellranger             1.1.0      2016-07-27 [2] RSPM (R 4.6.0)
-> ##   class                  7.3-24     2026-08-03 [2] RSPM (R 4.6.0)
+> ##   class                  7.3-24     2026-08-03 [2] RSPM (R 4.6.1)
 > ##   cleaver                1.51.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   cli                    3.6.6      2026-04-09 [2] RSPM (R 4.6.0)
 > ##   clipr                  0.8.1      2026-05-25 [2] RSPM (R 4.6.0)
 > ##   clue                   0.3-68     2026-03-26 [2] RSPM (R 4.6.0)
-> ##   cluster                2.1.8.3    2026-07-30 [2] RSPM (R 4.6.0)
+> ##   cluster                2.1.8.3    2026-07-30 [2] RSPM (R 4.6.1)
 > ##   codetools              0.2-20     2024-03-31 [3] CRAN (R 4.6.1)
-> ##   colorspace             2.1-3      2026-07-12 [2] RSPM (R 4.6.0)
+> ##   colorspace             2.1-4      2026-10-08 [2] RSPM (R 4.6.0)
 > ##   commonmark             2.0.0      2025-07-07 [2] RSPM (R 4.6.0)
-> ##   compiler               4.6.1      2026-09-11 [3] local
+> ##   compiler               4.6.1      2026-10-15 [3] local
 > ##   conflicted             1.2.0      2023-02-01 [2] RSPM (R 4.6.0)
 > ##   corrplot               0.95       2024-10-14 [2] RSPM (R 4.6.0)
 > ##   cowplot                1.2.0      2025-07-07 [2] RSPM (R 4.6.0)
@@ -238,14 +238,14 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   crayon                 1.5.3      2024-06-20 [2] RSPM (R 4.6.0)
 > ##   credentials            2.0.3      2025-09-12 [2] RSPM (R 4.6.0)
 > ##   crosstalk              1.2.2      2025-08-26 [2] RSPM (R 4.6.0)
-> ##   curl                   8.0.0      2026-08-25 [2] RSPM (R 4.6.0)
+> ##   curl                   8.1.0      2026-10-14 [2] RSPM (R 4.6.0)
 > ##   data.table             1.18.6.1   2026-08-24 [2] RSPM (R 4.6.0)
-> ##   datasets             * 4.6.1      2026-09-11 [3] local
+> ##   datasets             * 4.6.1      2026-10-15 [3] local
 > ##   DBI                    1.3.0      2026-02-25 [2] RSPM (R 4.6.0)
 > ##   dbplyr                 2.6.0      2026-06-17 [2] RSPM (R 4.6.0)
 > ##   DelayedArray           0.39.8     2026-09-30 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   dendextend             1.19.1     2025-07-15 [2] RSPM (R 4.6.0)
-> ##   Deriv                  4.3.5      2026-09-03 [2] RSPM (R 4.6.0)
+> ##   Deriv                  4.3.6      2026-10-21 [2] RSPM (R 4.6.0)
 > ##   desc                   1.4.3      2023-12-10 [2] RSPM (R 4.6.0)
 > ##   devtools               2.5.2      2026-04-30 [2] RSPM (R 4.6.0)
 > ##   diffobj                0.3.9      2026-09-11 [2] RSPM (R 4.6.0)
@@ -258,7 +258,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   dplyr                  1.2.1      2026-04-03 [2] RSPM (R 4.6.0)
 > ##   DT                     0.34.0     2025-09-02 [2] RSPM (R 4.6.0)
 > ##   dtplyr                 1.3.3      2026-02-11 [2] RSPM (R 4.6.0)
-> ##   edgeR                  4.99.6     2026-09-13 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   edgeR                  4.99.10    2026-10-18 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   ellipse                0.5.0      2023-07-20 [2] RSPM (R 4.6.0)
 > ##   ellipsis               0.3.3      2026-04-04 [2] RSPM (R 4.6.0)
 > ##   emmeans                2.0.4      2026-07-15 [2] RSPM (R 4.6.0)
@@ -266,7 +266,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   evaluate               1.0.5      2025-08-27 [2] RSPM (R 4.6.0)
 > ##   ExperimentHub          3.3.2      2026-08-12 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   factoextra             2.2.0      2026-07-24 [2] RSPM (R 4.6.0)
-> ##   FactoMineR             2.17       2026-09-08 [2] RSPM (R 4.6.0)
+> ##   FactoMineR             2.18       2026-10-14 [2] RSPM (R 4.6.0)
 > ##   fansi                  1.0.7      2025-11-19 [2] RSPM (R 4.6.0)
 > ##   farver                 2.1.2      2024-05-13 [2] RSPM (R 4.6.0)
 > ##   fastmap                1.2.0      2024-05-15 [2] RSPM (R 4.6.0)
@@ -276,17 +276,17 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   forcats                1.0.1      2025-09-25 [2] RSPM (R 4.6.0)
 > ##   foreach                1.5.2      2022-02-02 [2] RSPM (R 4.6.0)
 > ##   forecast               9.0.2      2026-03-18 [2] RSPM (R 4.6.0)
-> ##   foreign                0.8-91     2026-01-29 [3] CRAN (R 4.6.1)
+> ##   foreign                0.8-92     2026-10-17 [2] RSPM (R 4.6.1)
 > ##   formatR                1.14       2023-01-17 [2] RSPM (R 4.6.0)
 > ##   Formula                1.2-6      2026-08-03 [2] RSPM (R 4.6.0)
 > ##   fracdiff               1.5-4      2026-04-28 [2] RSPM (R 4.6.0)
 > ##   fs                     2.1.0      2026-04-18 [2] RSPM (R 4.6.0)
 > ##   futile.logger          1.4.9      2025-12-29 [2] RSPM (R 4.6.0)
 > ##   futile.options         1.0.1      2018-04-20 [2] RSPM (R 4.6.0)
-> ##   gargle                 1.6.1      2026-01-29 [2] RSPM (R 4.6.0)
+> ##   gargle                 1.7.0      2026-10-28 [2] RSPM (R 4.6.0)
 > ##   generics             * 0.1.4      2025-05-09 [2] RSPM (R 4.6.0)
 > ##   GenomicRanges        * 1.65.4     2026-09-02 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   gert                   2.4.1      2026-08-19 [2] RSPM (R 4.6.0)
+> ##   gert                   2.5.0      2026-10-14 [2] RSPM (R 4.6.0)
 > ##   ggplot2                4.0.3      2026-04-22 [2] RSPM (R 4.6.0)
 > ##   ggpubr                 1.0.0      2026-07-06 [2] RSPM (R 4.6.0)
 > ##   ggrepel                0.9.8      2026-03-17 [2] RSPM (R 4.6.0)
@@ -295,12 +295,12 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   gh                     1.6.1      2026-07-20 [2] RSPM (R 4.6.0)
 > ##   gitcreds               0.1.2      2022-09-08 [2] RSPM (R 4.6.0)
 > ##   glue                   1.8.1      2026-04-17 [2] RSPM (R 4.6.0)
-> ##   googledrive            2.1.2      2025-09-10 [2] RSPM (R 4.6.0)
-> ##   googlesheets4          1.1.2      2025-09-03 [2] RSPM (R 4.6.0)
+> ##   googledrive            2.2.0      2026-10-29 [2] RSPM (R 4.6.0)
+> ##   googlesheets4          1.1.3      2026-10-29 [2] RSPM (R 4.6.0)
 > ##   gplots                 3.3.0      2025-11-30 [2] RSPM (R 4.6.0)
-> ##   graphics             * 4.6.1      2026-09-11 [3] local
-> ##   grDevices            * 4.6.1      2026-09-11 [3] local
-> ##   grid                   4.6.1      2026-09-11 [3] local
+> ##   graphics             * 4.6.1      2026-10-15 [3] local
+> ##   grDevices            * 4.6.1      2026-10-15 [3] local
+> ##   grid                   4.6.1      2026-10-15 [3] local
 > ##   gridExtra              2.3.1      2026-06-25 [2] RSPM (R 4.6.0)
 > ##   gtable                 0.3.6      2024-10-25 [2] RSPM (R 4.6.0)
 > ##   gtools                 3.9.5      2023-11-20 [2] RSPM (R 4.6.0)
@@ -324,31 +324,31 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   jquerylib              0.1.4      2021-04-26 [2] RSPM (R 4.6.0)
 > ##   jsonlite               2.0.0      2025-03-27 [2] RSPM (R 4.6.0)
 > ##   KEGGREST               1.53.6     2026-07-23 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   KernSmooth             2.23-27    2026-08-12 [2] RSPM (R 4.6.0)
+> ##   KernSmooth             2.23-27    2026-08-12 [2] RSPM (R 4.6.1)
 > ##   knitr                  1.52       2026-09-06 [2] RSPM (R 4.6.0)
 > ##   labeling               0.4.3      2023-08-29 [2] RSPM (R 4.6.0)
-> ##   lambda.r               1.2.4      2019-09-18 [2] RSPM (R 4.6.0)
+> ##   lambda.r               1.2.6      2026-10-13 [2] RSPM (R 4.6.0)
 > ##   later                  1.4.8      2026-03-05 [2] RSPM (R 4.6.0)
-> ##   lattice                0.23-1     2026-08-12 [2] RSPM (R 4.6.0)
+> ##   lattice                0.23-1     2026-08-12 [2] RSPM (R 4.6.1)
 > ##   lazyeval               0.2.3      2026-04-04 [2] RSPM (R 4.6.0)
 > ##   leaps                  3.2        2024-06-10 [2] RSPM (R 4.6.0)
 > ##   lifecycle              1.0.5      2026-01-08 [2] RSPM (R 4.6.0)
-> ##   limma                  3.99.0     2026-08-31 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   limma                  3.99.3     2026-10-22 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   littler                0.3.23     2026-04-12 [2] RSPM (R 4.6.1)
-> ##   lme4                   2.0-6      2026-07-16 [2] RSPM (R 4.6.0)
+> ##   lme4                   2.1-0      2026-10-23 [2] RSPM (R 4.6.0)
 > ##   lmtest                 0.9-40     2022-03-21 [2] RSPM (R 4.6.0)
 > ##   locfit                 1.5-9.12   2025-03-05 [2] RSPM (R 4.6.0)
 > ##   lubridate              1.9.5      2026-02-04 [2] RSPM (R 4.6.0)
 > ##   magrittr               2.0.5      2026-04-04 [2] RSPM (R 4.6.0)
 > ##   MALDIquant             1.22.3     2024-08-19 [2] RSPM (R 4.6.0)
-> ##   MASS                   7.3-66     2026-07-15 [2] RSPM (R 4.6.0)
-> ##   Matrix                 1.7-6      2026-07-25 [2] RSPM (R 4.6.0)
+> ##   MASS                   7.3-66     2026-07-15 [2] RSPM (R 4.6.1)
+> ##   Matrix                 1.7-6      2026-07-25 [2] RSPM (R 4.6.1)
 > ##   MatrixGenerics       * 1.25.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   MatrixModels           0.5-4      2025-03-26 [2] RSPM (R 4.6.0)
 > ##   matrixStats          * 1.5.0      2025-01-07 [2] RSPM (R 4.6.0)
 > ##   memoise                2.0.1      2021-11-26 [2] RSPM (R 4.6.0)
-> ##   MetaboCoreUtils        1.21.1     2026-04-30 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   methods              * 4.6.1      2026-09-11 [3] local
+> ##   MetaboCoreUtils        1.21.2     2026-10-20 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   methods              * 4.6.1      2026-10-15 [3] local
 > ##   mgcv                   1.9-4      2025-11-07 [3] CRAN (R 4.6.1)
 > ##   mime                   0.13       2025-03-17 [2] RSPM (R 4.6.0)
 > ##   miniUI                 0.1.2      2025-04-17 [2] RSPM (R 4.6.0)
@@ -366,14 +366,14 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   mzID                   1.51.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   mzR                  * 2.47.1     2026-09-02 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   ncdf4                  1.24       2025-03-25 [2] RSPM (R 4.6.0)
-> ##   nlme                   3.1-171    2026-09-01 [2] RSPM (R 4.6.0)
+> ##   nlme                   3.1-171    2026-09-01 [2] RSPM (R 4.6.1)
 > ##   nloptr                 2.2.1      2025-03-17 [2] RSPM (R 4.6.0)
-> ##   nnet                   7.3-21     2026-08-03 [2] RSPM (R 4.6.0)
+> ##   nnet                   7.3-21     2026-08-03 [2] RSPM (R 4.6.1)
 > ##   numDeriv               2016.8-1.1 2019-06-06 [2] RSPM (R 4.6.0)
 > ##   openssl                2.4.2      2026-06-09 [2] RSPM (R 4.6.0)
 > ##   otel                   0.2.0      2025-08-29 [2] RSPM (R 4.6.0)
 > ##   pak                    0.11.1     2026-07-22 [2] RSPM (R 4.6.0)
-> ##   parallel               4.6.1      2026-09-11 [3] local
+> ##   parallel               4.6.1      2026-10-15 [3] local
 > ##   patchwork              1.3.2      2025-08-25 [2] RSPM (R 4.6.0)
 > ##   pbkrtest               0.5.5      2025-07-18 [2] RSPM (R 4.6.0)
 > ##   pcaMethods             2.5.0      2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
@@ -407,7 +407,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   R.methodsS3            1.8.2      2022-06-13 [2] RSPM (R 4.6.0)
 > ##   R.oo                   1.27.1     2025-05-02 [2] RSPM (R 4.6.0)
 > ##   R.utils                2.13.0     2025-02-24 [2] RSPM (R 4.6.0)
-> ##   R4MS                   0.98.0     2026-10-06 [1] local
+> ##   R4MS                   0.98.0     2026-10-30 [1] local
 > ##   R6                     2.6.1      2025-02-15 [2] RSPM (R 4.6.0)
 > ##   ragg                   1.5.2      2026-03-23 [2] RSPM (R 4.6.0)
 > ##   rappdirs               0.3.4      2026-01-17 [2] RSPM (R 4.6.0)
@@ -415,28 +415,28 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   rcmdcheck              1.4.0      2021-09-27 [2] RSPM (R 4.6.0)
 > ##   RColorBrewer           1.1-3      2022-04-03 [2] RSPM (R 4.6.0)
 > ##   Rcpp                 * 1.1.2      2026-07-05 [2] RSPM (R 4.6.0)
-> ##   RcppArmadillo          15.6.0-1   2026-09-08 [2] RSPM (R 4.6.0)
+> ##   RcppArmadillo          15.6.2-1   2026-10-17 [2] RSPM (R 4.6.0)
 > ##   RcppEigen              0.3.4.0.2  2024-08-24 [2] RSPM (R 4.6.0)
 > ##   RcppTOML               0.2.3      2025-03-08 [2] RSPM (R 4.6.0)
 > ##   RCurl                  1.98-1.20  2026-08-21 [2] RSPM (R 4.6.0)
 > ##   Rdpack                 2.6.6      2026-02-08 [2] RSPM (R 4.6.0)
 > ##   rdtools                0.1.0      2026-07-16 [2] RSPM (R 4.6.0)
 > ##   readr                  2.2.0      2026-02-19 [2] RSPM (R 4.6.0)
-> ##   readxl                 1.5.0.1    2026-09-16 [2] RSPM (R 4.6.0)
+> ##   readxl                 1.6.0      2026-10-17 [2] RSPM (R 4.6.0)
 > ##   reformulas             0.4.4      2026-02-02 [2] RSPM (R 4.6.0)
 > ##   rematch                2.0.0      2023-08-30 [2] RSPM (R 4.6.0)
 > ##   rematch2               2.1.2      2020-05-01 [2] RSPM (R 4.6.0)
 > ##   remotes                2.5.0      2024-03-17 [2] RSPM (R 4.6.0)
-> ##   renv                   1.3.0      2026-09-29 [2] RSPM (R 4.6.0)
+> ##   renv                   1.3.1      2026-10-06 [2] RSPM (R 4.6.0)
 > ##   reprex                 2.1.1      2024-07-06 [2] RSPM (R 4.6.0)
 > ##   reshape2               1.4.5      2025-11-12 [2] RSPM (R 4.6.0)
 > ##   reticulate             1.47.0     2026-09-03 [2] RSPM (R 4.6.0)
-> ##   rhdf5                  2.57.18    2026-09-23 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   rhdf5filters           1.25.4     2026-08-06 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   rhdf5                  2.57.20    2026-10-06 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   rhdf5filters           1.25.5     2026-10-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   Rhdf5lib               2.1.0      2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   rlang                  1.3.0      2026-07-05 [2] RSPM (R 4.6.0)
 > ##   rmarkdown              2.32       2026-09-01 [2] RSPM (R 4.6.0)
-> ##   roxygen2               8.1.0      2026-08-04 [2] RSPM (R 4.6.0)
+> ##   roxygen2               8.1.1      2026-10-08 [2] RSPM (R 4.6.0)
 > ##   rpart                  4.1.27     2026-03-27 [3] CRAN (R 4.6.1)
 > ##   rprojroot              2.1.1      2025-08-26 [2] RSPM (R 4.6.0)
 > ##   rpx                    2.21.2     2026-09-29 [2] Bioconductor 3.24 (R 4.6.1)
@@ -462,20 +462,20 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   sourcetools            0.1.7-2    2026-03-28 [2] RSPM (R 4.6.0)
 > ##   SparseArray            1.13.4     2026-09-30 [2] Bioconductor 3.24 (R 4.6.1)
 > ##   SparseM                1.84-2     2024-07-17 [2] RSPM (R 4.6.0)
-> ##   spatial                7.3-19     2026-08-03 [2] RSPM (R 4.6.0)
-> ##   Spectra              * 1.23.5     2026-09-14 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   splines                4.6.1      2026-09-11 [3] local
+> ##   spatial                7.3-19     2026-08-03 [2] RSPM (R 4.6.1)
+> ##   Spectra              * 1.23.6     2026-10-22 [2] Bioconductor 3.24 (R 4.6.1)
+> ##   splines                4.6.1      2026-10-15 [3] local
 > ##   statmod                1.5.2      2026-05-17 [2] RSPM (R 4.6.0)
-> ##   stats                * 4.6.1      2026-09-11 [3] local
-> ##   stats4               * 4.6.1      2026-09-11 [3] local
+> ##   stats                * 4.6.1      2026-10-15 [3] local
+> ##   stats4               * 4.6.1      2026-10-15 [3] local
 > ##   stringi                1.8.9      2026-08-04 [2] RSPM (R 4.6.0)
 > ##   stringr                1.6.0      2025-11-04 [2] RSPM (R 4.6.0)
 > ##   SummarizedExperiment * 1.43.0     2026-04-28 [2] Bioconductor 3.24 (R 4.6.1)
-> ##   survival               3.8-12     2026-09-09 [2] RSPM (R 4.6.0)
+> ##   survival               3.8-12     2026-09-09 [2] RSPM (R 4.6.1)
 > ##   sys                    3.4.3      2024-10-04 [2] RSPM (R 4.6.0)
 > ##   sysfonts               0.8.9      2024-03-02 [2] RSPM (R 4.6.0)
 > ##   systemfonts            1.3.2      2026-03-05 [2] RSPM (R 4.6.0)
-> ##   tcltk                  4.6.1      2026-09-11 [3] local
+> ##   tcltk                  4.6.1      2026-10-15 [3] local
 > ##   testthat               3.3.2      2026-01-11 [2] RSPM (R 4.6.0)
 > ##   textshaping            1.0.5      2026-03-06 [2] RSPM (R 4.6.0)
 > ##   tibble                 3.3.1      2026-01-11 [2] RSPM (R 4.6.0)
@@ -485,13 +485,13 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   timechange             0.4.0      2026-01-29 [2] RSPM (R 4.6.0)
 > ##   timeDate               4052.112   2026-01-28 [2] RSPM (R 4.6.0)
 > ##   tinytex                0.61       2026-09-17 [2] RSPM (R 4.6.0)
-> ##   tools                  4.6.1      2026-09-11 [3] local
+> ##   tools                  4.6.1      2026-10-15 [3] local
 > ##   tzdb                   0.5.0      2025-03-15 [2] RSPM (R 4.6.0)
 > ##   urca                   1.3-4      2024-05-27 [2] RSPM (R 4.6.0)
 > ##   urlchecker             2.0.0      2026-07-08 [2] RSPM (R 4.6.0)
 > ##   usethis                3.2.2      2026-09-10 [2] RSPM (R 4.6.0)
 > ##   utf8                   1.2.6      2025-06-08 [2] RSPM (R 4.6.0)
-> ##   utils                * 4.6.1      2026-09-11 [3] local
+> ##   utils                * 4.6.1      2026-10-15 [3] local
 > ##   uuid                   1.2-2      2026-01-23 [2] RSPM (R 4.6.0)
 > ##   vctrs                  0.7.3      2026-04-11 [2] RSPM (R 4.6.0)
 > ##   viridis                0.6.5      2024-01-29 [2] RSPM (R 4.6.0)
@@ -501,7 +501,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   waldo                  0.6.2      2025-07-11 [2] RSPM (R 4.6.0)
 > ##   whisker                0.4.1      2022-12-05 [2] RSPM (R 4.6.0)
 > ##   withr                  3.0.3      2026-06-19 [2] RSPM (R 4.6.0)
-> ##   xfun                   0.61       2026-09-16 [2] RSPM (R 4.6.0)
+> ##   xfun                   0.62       2026-10-16 [2] RSPM (R 4.6.0)
 > ##   XML                    3.99-0.25  2026-09-27 [2] RSPM (R 4.6.0)
 > ##   xml2                   1.6.0      2026-06-22 [2] RSPM (R 4.6.0)
 > ##   xopen                  1.0.1      2024-04-25 [2] RSPM (R 4.6.0)
@@ -511,7 +511,7 @@ To execute `python` in a book page, open the page with an `R` chunk calling [`Bi
 > ##   zip                    3.0.2      2026-08-04 [2] RSPM (R 4.6.0)
 > ##   zoo                    1.9-1      2026-09-25 [2] RSPM (R 4.6.0)
 > ##  
-> ##   [1] /tmp/RtmpSfuPi0/Rinstb7ff10afe
+> ##   [1] /tmp/Rtmpo1NSO8/Rinstb75e1651c
 > ##   [2] /usr/local/lib/R/site-library
 > ##   [3] /usr/local/lib/R/library
 > ##   * ── Packages attached to the search path.

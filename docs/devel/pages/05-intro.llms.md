@@ -52,7 +52,7 @@ MS2 spectra interleaved between two MS1 spectra.
 
 MS-based proteomics data is disseminated through the [ProteomeXchange](http://www.proteomexchange.org/) infrastructure, which centrally coordinates submission, storage and dissemination through multiple data repositories, such as the [PRoteomics IDEntifications (PRIDE)](https://www.ebi.ac.uk/pride/archive/) database at the EBI for mass spectrometry-based experiments (including quantitative data, as opposed as the name suggests), [PASSEL](http://www.peptideatlas.org/passel/) at the ISB for Selected Reaction Monitoring (SRM, i.e. targeted) data and the [MassIVE](http://massive.ucsd.edu/ProteoSAFe/static/massive.jsp) resource. These data can be downloaded within R using the *[rpx](https://bioconductor.org/packages/3.24/rpx)* package.
 
-``` downlit
+``` r
 library("rpx")
 ##  OpenTelemetry error: there is no package called 'otelsdk'
 ##  OpenTelemetry error: there is no package called 'otelsdk'
@@ -60,7 +60,7 @@ library("rpx")
 
 Using the unique `PXD000001` identifier, we can retrieve the relevant metadata that will be stored in a `PXDataset` object. The names of the files available in this data can be retrieved with the `pxfiles` accessor function.
 
-``` downlit
+``` r
 px <- PXDataset("PXD000001")
 ##  Loading PXD000001 from cache.
 px
@@ -86,7 +86,7 @@ pxfiles(px)
 
 Other metadata for the `px` data set:
 
-``` downlit
+``` r
 pxtax(px)
 ##  [1] "Erwinia carotovora"
 pxurl(px)
@@ -99,12 +99,12 @@ Data files can then be downloaded with the `pxget` function. Below, we retrieve 
 
 function and stored in the `mzf` variable for later use [^3].
 
-``` downlit
+``` r
 fn <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 mzf <- pxget(px, fn)
 ##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.
 mzf
-##  [1] "/opt/R-cache/R/rpx/853174f95_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
+##  [1] "/opt/R-cache/R/rpx/73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 ```
 
 ### Data hub
@@ -113,7 +113,7 @@ The Bioconductor project had dedicated data hubs for experiment and annotation d
 
 The *[MsDataHub](https://bioconductor.org/packages/3.24/MsDataHub)* package provides data for mass spectrometry in general, and proteomics in particular. Once loaded, the [`MsDataHub()`](https://rformassspectrometry.github.io/MsDataHub/reference/MsDataHub.html) function lists the available datasets
 
-``` downlit
+``` r
 library("MsDataHub")
 MsDataHub()
 ##                                                                      Title
@@ -743,42 +743,42 @@ The dataset table is also available as an [interactive table](https://rformasssp
 
 Each data can then be downloaded with a dedicated function, for example
 
-``` downlit
+``` r
 ko15.CDF()
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  downloading 1 resources
 ##  retrieving 1 resource
 ##  loading from cache
 ##                                          EH7803 
-##  "/opt/R-cache/R/ExperimentHub/ff14abae56_7853"
+##  "/opt/R-cache/R/ExperimentHub/ff2c085659_7853"
 ```
 
 Note that the (compressed) `TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML` file downloaded above happens to also be available in `MsDataHub`.
 
-``` downlit
+``` r
 MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  downloading 1 resources
 ##  retrieving 1 resource
 ##  loading from cache
-##                                         EH7808 
-##  "/opt/R-cache/R/ExperimentHub/ff313a5c2_7858"
+##                                          EH7808 
+##  "/opt/R-cache/R/ExperimentHub/ff1648c644_7858"
 ```
 
 In addition to raw data, there’s also the matchin identification data
 
-``` downlit
+``` r
 MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
 ##                                          EH7807 
-##  "/opt/R-cache/R/ExperimentHub/ff6de9f5cf_7857"
+##  "/opt/R-cache/R/ExperimentHub/ff2d4fe6bf_7857"
 ```
 
 and a quantitative proteomics data table
 
-``` downlit
+``` r
 MsDataHub::cptac_a_b_peptides.txt()
 ##                                          EH7805 
-##  "/opt/R-cache/R/ExperimentHub/ff45b46872_7855"
+##  "/opt/R-cache/R/ExperimentHub/ff2ef36f48_7855"
 ```
 
 Often, experiment packages distribute processed data; examples thereof are the *[pRolocdata](https://bioconductor.org/packages/3.24/pRolocdata)* and *[scpdata](https://bioconductor.org/packages/3.24/scpdata)* packages, that ship processed and annotated quantitative spatial and single-cell proteomics data.

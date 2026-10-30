@@ -16,7 +16,7 @@ Schematic representation of what is referred to by *raw data*: a collection of m
 
 We are going to use the [`Spectra`](https://rformassspectrometry.github.io/Spectra/) package as an abstraction to raw mass spectrometry data.
 
-``` downlit
+``` r
 library(Spectra)
 ```
 
@@ -24,7 +24,7 @@ library(Spectra)
 
 Let’s create a `DataFrame`[^1] containing MS levels, retention time, m/z and intensities for 2 spectra:
 
-``` downlit
+``` r
 spd <- DataFrame(msLevel = c(1L, 2L), rtime = c(1.1, 1.2))
 spd$mz <- list(c(100, 103.2, 104.3, 106.5), c(45.6, 120.4, 190.2))
 spd$intensity <- list(c(200, 400, 34.2, 17), c(12.3, 15.2, 6.8))
@@ -38,7 +38,7 @@ spd
 
 And now convert this `DataFrame` into a `Spectra` object:
 
-``` downlit
+``` r
 sp0 <- Spectra(spd)
 sp0
 ##  MSn data (Spectra) with 2 spectra in a MsBackendMemory backend:
@@ -62,7 +62,7 @@ sp0
 
 Let’s now create a new object using the mzML data previously downloaded and available in the `mzf` file.
 
-``` downlit
+``` r
 ## This will fetch the cached file
 mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
 ##  OpenTelemetry error: there is no package called 'otelsdk'
@@ -70,7 +70,7 @@ mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_iso
 ##  Loading PXD000001 from cache.
 ##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.
 mzf
-##  [1] "/opt/R-cache/R/rpx/853174f95_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
+##  [1] "/opt/R-cache/R/rpx/73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 sp <- Spectra(mzf)
 sp
 ##  MSn data (Spectra) with 7534 spectra in a MsBackendMzR backend:
@@ -90,7 +90,7 @@ sp
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  853174f95_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
+##  73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 ```
 
 > **NOTE:**
@@ -125,7 +125,7 @@ For details on the individual variables and their getter/setter function see the
 
 In addition to the core spectra variables it is also possible to add additional spectra variables to a `Spectra` object. As an example we add below a spectra variable representing the retention times in minutes to the object. This information can then be extracted again using the `$` notation (similar to accessing a column in a `data.frame`, i.e., `$` and the name of the spectra variable).
 
-``` downlit
+``` r
 sp$rtime_minute <- rtime(sp) / 60
 sp$rtime_minute |> head()
 ##  [1] 0.00764000 0.01620833 0.03087333 0.04570667 0.06020667 0.07487500
@@ -150,7 +150,7 @@ sp$rtime_minute |> head()
 
 These objects and their manipulations are not limited to single files or samples. Below we load data from two mzML files. The MS data from both files in the `Spectra` is organized linearly (first all spectra from the first file and then from the second). The `dataOrigin` function can be used to identify spectra from the different data files.
 
-``` downlit
+``` r
 grep("POOL", MsDataHub::MsDataHub()[[1]], value = TRUE)
 ##  [1] "X20171016_POOL_POS_1_105.134.mzML" "X20171016_POOL_POS_3_105.134.mzML"
 fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
@@ -165,15 +165,15 @@ fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
 ##  loading from cache
 fls
 ##                                           EH7809 
-##  "/opt/R-cache/R/ExperimentHub/13d2e1d4fd5_7859" 
+##  "/opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859" 
 ##                                           EH7810 
-##  "/opt/R-cache/R/ExperimentHub/13d65a062f8_7860"
+##  "/opt/R-cache/R/ExperimentHub/13d725ab055_7860"
 sp_sciex <- Spectra(fls)
 table(dataOrigin(sp_sciex))
 ##  
-##  /opt/R-cache/R/ExperimentHub/13d2e1d4fd5_7859 
+##  /opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859 
 ##                                            931 
-##  /opt/R-cache/R/ExperimentHub/13d65a062f8_7860 
+##  /opt/R-cache/R/ExperimentHub/13d725ab055_7860 
 ##                                            931
 ```
 
@@ -183,7 +183,7 @@ Backends allow to use different *backends* to store mass spectrometry data while
 
 - `MsBackendMzR`: this backend keeps only general spectra variables in memory and relies on the *[mzR](https://bioconductor.org/packages/3.24/mzR)* package to read mass peaks (m/z and intensity values) from the original MS files on-demand.
 
-``` downlit
+``` r
 sp_sciex
 ##  MSn data (Spectra) with 1862 spectra in a MsBackendMzR backend:
 ##         msLevel     rtime scanIndex
@@ -202,13 +202,13 @@ sp_sciex
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  13d2e1d4fd5_7859
-##  13d65a062f8_7860
+##  13d3b9d4be7_7859
+##  13d725ab055_7860
 ```
 
 - `MsBackendMemory` and `MsBackendDataFrame`: the full mass spectrometry data is stored (in-memory) within the object. Keeping the data in memory guarantees high performance but has also, depending on the number of mass peaks in each spectrum, a much higher memory footprint.
 
-``` downlit
+``` r
 setBackend(sp_sciex, MsBackendMemory())
 ##  MSn data (Spectra) with 1862 spectra in a MsBackendMemory backend:
 ##         msLevel     rtime scanIndex
@@ -226,14 +226,14 @@ setBackend(sp_sciex, MsBackendMemory())
 ##  1862         1   259.752       931
 ##   ... 34 more variables/columns.
 ##  Processing:
-##   Switch backend from MsBackendMzR to MsBackendMemory [Tue Oct  6 14:03:42 2026]
+##   Switch backend from MsBackendMzR to MsBackendMemory [Fri Oct 30 10:41:39 2026]
 ```
 
 - `MsBackendHdf5Peaks`: similar to `MsBackendMzR` this backend reads peak data only on-demand from disk while all other spectra variables are kept in memory. The peak data are stored in Hdf5 files which guarantees scalability.
 
 With the example below we load the data from a single mzML file and use a `MsBackendHdf5Peaks` backend for data storage. The `hdf5path` parameter allows us to specify the storage location of the HDF5 file.
 
-``` downlit
+``` r
 sp_hdf5 <- setBackend(sp_sciex, MsBackendHdf5Peaks(), hdf5path = tempdir())
 sp_hdf5
 ##  MSn data (Spectra) with 1862 spectra in a MsBackendHdf5Peaks backend:
@@ -253,19 +253,19 @@ sp_hdf5
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##   13d2e1d4fd5_7859.h5
-##   13d65a062f8_7860.h5
+##   13d3b9d4be7_7859.h5
+##   13d725ab055_7860.h5
 ##  Processing:
-##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Tue Oct  6 14:03:46 2026]
+##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Fri Oct 30 10:41:45 2026]
 table(sp_hdf5$dataOrigin)
 ##  
-##  /opt/R-cache/R/ExperimentHub/13d2e1d4fd5_7859 
+##  /opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859 
 ##                                            931 
-##  /opt/R-cache/R/ExperimentHub/13d65a062f8_7860 
+##  /opt/R-cache/R/ExperimentHub/13d725ab055_7860 
 ##                                            931
 table(sp_hdf5$dataStorage)
 ##  
-##  /tmp/RtmpqljaJW/13d2e1d4fd5_7859.h5 /tmp/RtmpqljaJW/13d65a062f8_7860.h5 
+##  /tmp/RtmpFydmAq/13d3b9d4be7_7859.h5 /tmp/RtmpFydmAq/13d725ab055_7860.h5 
 ##                                  931                                 931
 ```
 
@@ -301,7 +301,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > with(spectraData(filterMsLevel(sp, 1)),
 >      plot(rtime, totIonCurrent, type = "l"))
 > abline(v = rtime(sp)[2807], col = "red")
@@ -315,7 +315,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > ms_2 <- filterPrecursorScan(sp, 2807)
 > ms_2
 > ##  MSn data (Spectra) with 11 spectra in a MsBackendMzR backend:
@@ -335,9 +335,9 @@ We are going to reproduce the figure above through a set of exercices.
 > ##   ... 35 more variables/columns.
 > ##  
 > ##  file(s):
-> ##  853174f95_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
+> ##  73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 > ##  Processing:
-> ##   Filter: select parent/children scans for 2807 [Tue Oct  6 14:03:46 2026]
+> ##   Filter: select parent/children scans for 2807 [Fri Oct 30 10:41:45 2026]
 > ```
 
 > **NOTE:**
@@ -346,7 +346,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > plotSpectra(sp[2807], xlim = c(400, 1000))
 > abline(v = precursorMz(ms_2)[-1], col = "grey")
 > abline(v = precursorMz(ms_2)[2], col = "red")
@@ -360,7 +360,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > plotSpectra(sp[2807], xlim = c(521.2, 522.5), type = "l")
 > abline(v = precursorMz(ms_2)[2], col = "red")
 > ```
@@ -373,7 +373,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > plotSpectra(ms_2[-1])
 > ```
 >
@@ -381,7 +381,7 @@ We are going to reproduce the figure above through a set of exercices.
 
 It is possible to label the peaks with the [`plotSpectra()`](https://rdrr.io/pkg/Spectra/man/spectra-plotting.html) function. The `labels` argument is either a `character` of appropriate length (i.e. with a label for each peak) or, as illustrated below, a function that computes the labels.
 
-``` downlit
+``` r
 mzLabel <- function(z) {
     z <- peaksData(z)[[1L]]
     lbls <- format(z[, "mz"], digits = 4)
@@ -406,7 +406,7 @@ Spectra can also be compared either by overlay or mirror plotting using the [`pl
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > sp2 <- filterMsLevel(sp, 2L)
 > anyDuplicated(precursorMz(filterMsLevel(sp, 2)))
 > ##  [1] 37
@@ -420,13 +420,13 @@ Spectra can also be compared either by overlay or mirror plotting using the [`pl
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > plotSpectraOverlay(sp2i, col = c("red", "steelblue"))
 > ```
 >
 > ![](10-raw_files/figure-html/unnamed-chunk-13-1.png)
 >
-> ``` downlit
+> ``` r
 > plotSpectraMirror(sp2i[1], sp2i[2])
 > ```
 >
@@ -478,11 +478,11 @@ In addition to these, there is also a set of filter functions that operate on th
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > fls <- unique(dataOrigin(sp_sciex))
 > fls
-> ##  [1] "/opt/R-cache/R/ExperimentHub/13d2e1d4fd5_7859"
-> ##  [2] "/opt/R-cache/R/ExperimentHub/13d65a062f8_7860"
+> ##  [1] "/opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859"
+> ##  [2] "/opt/R-cache/R/ExperimentHub/13d725ab055_7860"
 > file_2 <- filterDataOrigin(sp_sciex, dataOrigin = fls[2])
 > length(file_2)
 > ##  [1] 931
@@ -491,7 +491,7 @@ In addition to these, there is also a set of filter functions that operate on th
 > ##  [1] 50
 > ```
 >
-> ``` downlit
+> ``` r
 > sp_sciex |>
 >     filterDataOrigin(fls[2]) |>
 >     filterRt(c(175, 189))
@@ -512,15 +512,15 @@ In addition to these, there is also a set of filter functions that operate on th
 > ##   ... 34 more variables/columns.
 > ##  
 > ##  file(s):
-> ##  13d65a062f8_7860
+> ##  13d725ab055_7860
 > ##  Processing:
-> ##   Filter: select data origin(s) /opt/R-cache/R/ExperimentHub/13d65a062f8_7860 [Tue Oct  6 14:03:47 2026]
-> ##   Filter: select retention time [175..189] on MS level(s)  [Tue Oct  6 14:03:47 2026]
+> ##   Filter: select data origin(s) /opt/R-cache/R/ExperimentHub/13d725ab055_7860 [Fri Oct 30 10:41:46 2026]
+> ##   Filter: select retention time [175..189] on MS level(s)  [Fri Oct 30 10:41:46 2026]
 > ```
 
 As an example of data processing, we use below the [`pickPeaks()`](https://rdrr.io/pkg/Spectra/man/addProcessing.html) function. This function allows to convert *profile mode* MS data to *centroid mode* data (a process also referred to as *centroiding*).
 
-``` downlit
+``` r
 plotSpectra(sp[2807], xlim = c(521.2, 522.5))
 ```
 
@@ -528,7 +528,7 @@ plotSpectra(sp[2807], xlim = c(521.2, 522.5))
 
 Centroiding reduces the profile mode MS data to a *representative* single mass peak per ion.
 
-``` downlit
+``` r
 pickPeaks(sp[2807]) |>
     filterIntensity(1e7) |>
     plotSpectra(xlim = c(521.2, 522.5))
@@ -554,7 +554,7 @@ Most functions on `Spectra` support (and use) parallel processing out of the box
 
 Data manipulations on Spectra objects are not immediately applied to the peak data. They are added to a so called processing queue which is applied each time peak data is accessed (with the `peaksData`, `mz` or `intensity` functions). Thanks to this processing queue data manipulation operations are also possible for read-only backends (e.g. mzML-file based backends or database-based backends). The information about the number of such processing steps can be seen below (next to Lazy evaluation queue).
 
-``` downlit
+``` r
 min(intensity(sp_sciex[1]))
 ##  [1] 0
 sp_sciex <- filterIntensity(sp_sciex, intensity = c(10, Inf))
@@ -576,11 +576,11 @@ sp_sciex ## Note the lazy evaluation queue
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  13d2e1d4fd5_7859
-##  13d65a062f8_7860
+##  13d3b9d4be7_7859
+##  13d725ab055_7860
 ##  Lazy evaluation queue: 1 processing step(s)
 ##  Processing:
-##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Tue Oct  6 14:03:48 2026]
+##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Fri Oct 30 10:41:47 2026]
 min(intensity(sp_sciex[1]))
 ##  [1] 412
 sp_sciex@processingQueue
@@ -594,7 +594,7 @@ sp_sciex@processingQueue
 
 Through this lazy evaluation system it is also possible to *undo* data manipulations:
 
-``` downlit
+``` r
 sp_sciex <- reset(sp_sciex)
 sp_sciex@processingQueue
 ##  list()

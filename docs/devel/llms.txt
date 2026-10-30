@@ -1,12 +1,21 @@
 # R for Mass Spectrometry
 
+> The aim of the R for Mass Spectrometry initiative is to provide efficient, thoroughly documented, tested and flexible R software for the analysis and interpretation of high throughput mass spectrometry assays, including proteomics and metabolomics experiments. The project formalises the longtime collaborative development efforts of its core members under the RforMassSpectrometry organisation to facilitate dissemination and accessibility of their work. Applications in Proteomics and Metabolomics. This book package was migrated from the bookdown book 'R for Mass Spectrometry' with BiocBook::from_bookdown().
+
+<!-- biocbook:start -->
+- Book package: `R4MS` 0.98.0 (Bioconductor 3.24), source: <https://github.com/js2264/R4MS>
+- Install: `BiocManager::install("R4MS")` (Bioconductor) or `BiocManager::install("js2264/R4MS")` (GitHub)
+- Docker image with every dependency: `docker run -it ghcr.io/js2264/r4ms:0.98.0 R`
+- Other versions of this book: one per Bioconductor release, at `https://js2264.github.io/R4MS/<version>/` (e.g. <https://js2264.github.io/R4MS/devel/>), indexed in <https://js2264.github.io/R4MS/llms.txt>
+<!-- biocbook:end -->
+
 ## Pages
 
 - [R for Mass Spectrometry](index.llms.md)
-- [[[1]{.chapter-number}  [Introduction]{.chapter-title}]{#sec-msintro .quarto-section-identifier}](pages/05-intro.llms.md)
-- [[[2]{.chapter-number}  [Raw MS data ]{.chapter-title}]{#sec-raw .quarto-section-identifier}](pages/10-raw.llms.md)
-- [[[3]{.chapter-number}  [Identification data]{.chapter-title}]{#sec-id .quarto-section-identifier}](pages/20-id.llms.md)
-- [[[4]{.chapter-number}  [Quantitative data]{.chapter-title}]{#sec-quant .quarto-section-identifier}](pages/30-quant.llms.md)
-- [[[5]{.chapter-number}  [Supplementary exercises]{.chapter-title}]{#sec-ex .quarto-section-identifier}](pages/40-ex.llms.md)
-- [[[6]{.chapter-number}  [Annex]{.chapter-title}]{#sec-anx .quarto-section-identifier}](pages/95-annex.llms.md)
-- [[[7]{.chapter-number}  [Additional materials and session information]{.chapter-title}]{#sec-si .quarto-section-identifier}](pages/99-si.llms.md)
+- [1 Introduction](pages/05-intro.llms.md)
+- [2 Raw MS data ](pages/10-raw.llms.md)
+- [3 Identification data](pages/20-id.llms.md)
+- [4 Quantitative data](pages/30-quant.llms.md)
+- [5 Supplementary exercises](pages/40-ex.llms.md)
+- [6 Annex](pages/95-annex.llms.md)
+- [7 Additional materials and session information](pages/99-si.llms.md)

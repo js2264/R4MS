@@ -70,13 +70,13 @@ Conceptual representation of a `QFeatures` object and the aggregative relation b
 
 We are going to start to familiarise ourselves with the `QFeatures` class implemented in the [`QFeatures`](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html) package. The class is derived from the Bioconductor `MultiAssayExperiment` ([Ramos et al. 2017](#ref-MAE)) (MAE) class. Let’s start by loading the `QFeatures` package.
 
-``` downlit
+``` r
 library("QFeatures")
 ```
 
 Next, we load the `feat1` test data, which is composed of single *assay* of class `SummarizedExperiment` composed of 10 rows and 2 columns.
 
-``` downlit
+``` r
 data(feat1)
 feat1
 ##  An instance of class QFeatures (type: bulk) with 1 set:
@@ -88,7 +88,7 @@ Let’s perform some simple operations to familiarise ourselves with the `QFeatu
 
 - Extract the sample metadata using the `colData()` accessor (like you have previously done with `SummarizedExperiment` objects).
 
-``` downlit
+``` r
 colData(feat1)
 ##  DataFrame with 2 rows and 1 column
 ##         Group
@@ -99,7 +99,7 @@ colData(feat1)
 
 We can also further annotate the experiment by adding columns to the `colData` slot:
 
-``` downlit
+``` r
 colData(feat1)$X <- c("X1", "X2")
 feat1$Y <- c("Y1", "Y2")
 colData(feat1)
@@ -112,7 +112,7 @@ colData(feat1)
 
 - Extract the first (and only) assay composing this `QFeatures` data using the `[[` operator (as you have done to extract elements of a list) by using the assay’s index or name.
 
-``` downlit
+``` r
 feat1[[1]]
 ##  class: SummarizedExperiment 
 ##  dim: 10 2 
@@ -135,7 +135,7 @@ feat1[["psms"]]
 
 - Extract the `psms` assay’s row data and quantitative values.
 
-``` downlit
+``` r
 assay(feat1[[1]])
 ##        S1 S2
 ##  PSM1   1 11
@@ -194,7 +194,7 @@ feat1
 
 - Let’s convince ourselves that we understand the effect of feature aggregation and repeat the calculations manually and check the content of the new assay’s row data.
 
-``` downlit
+``` r
 ## SYGFNAAR
 colMeans(assay(feat1[[1]])[1:3, ])
 ##  S1 S2 
@@ -220,7 +220,7 @@ assay(feat1[[2]])["IAEESNFPFIK", ]
 ##   8.5 18.5
 ```
 
-``` downlit
+``` r
 rowData(feat1[[2]])
 ##  DataFrame with 3 rows and 4 columns
 ##                   Sequence     Protein      location        .n
@@ -258,7 +258,7 @@ assay(feat1[["proteins"]])
 
 The link between the assays becomes apparent when we now subset the assays for protein A as shown below or using the [`subsetByFeature()`](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-subsetBy.html) function. This creates a new instance of class `QFeatures` containing assays with the expression data for protein, its peptides and their PSMs.
 
-``` downlit
+``` r
 feat1["ProtA", , ]
 ##  An instance of class QFeatures (type: bulk) with 3 sets:
 ##  
@@ -269,7 +269,7 @@ feat1["ProtA", , ]
 
 The [`filterFeatures()`](https://rdrr.io/pkg/ProtGenerics/man/filterFeatures.html) function can be used to filter rows the assays composing a `QFeatures` object using the row data variables. We can for example retain rows that have a `pval` \< 0.05, which would only keep rows in the `psms` assay because the `pval` is only relevant for that assay.
 
-``` downlit
+``` r
 filterFeatures(feat1, ~ pval < 0.05)
 ##  'pval' found in 1 out of 3 assay(s).
 ##  No filter applied to the following assay(s) because one or more
@@ -289,7 +289,7 @@ filterFeatures(feat1, ~ pval < 0.05)
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > filterFeatures(feat1, ~ pval < 0.05, keep = TRUE)
 > ##  'pval' found in 1 out of 3 assay(s).
 > ##  An instance of class QFeatures (type: bulk) with 3 sets:
@@ -301,7 +301,7 @@ filterFeatures(feat1, ~ pval < 0.05)
 
 On the other hand, if we filter assay rows for those that localise to the mitochondrion, we retain the relevant protein, peptides and PSMs.
 
-``` downlit
+``` r
 filterFeatures(feat1, ~ location == "Mitochondrion")
 ##  'location' found in 3 out of 3 assay(s).
 ##  An instance of class QFeatures (type: bulk) with 3 sets:
@@ -317,7 +317,7 @@ filterFeatures(feat1, ~ location == "Mitochondrion")
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > filterFeatures(feat1, ~ location != "Mitochondrion")
 > ##  'location' found in 3 out of 3 assay(s).
 > ##  An instance of class QFeatures (type: bulk) with 3 sets:
@@ -333,7 +333,7 @@ You can refer to the [*Quantitative features for mass spectrometry data*](https:
 
 While `QFeatures` objects can be created manually (see [`?QFeatures`](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html) for details), most users have a quantitative data in a spreadsheet or a data.frame. In such cases, the easiest is to use the `readQFeatures` function to extract the quantitative data and metadata columns. Below, we load the `hlpsms` dataframe that contains data for 28 PSMs from the TMT-10plex *hyper*LOPIT spatial proteomics experiment from ([Christoforou et al. 2016](#ref-Christoforou:2016)). The `quantCols` argument specifies that columns 1 to 10 contain quantitation data, and that the assay should be named `psms` in the returned `QFeatures` object, to reflect the nature of the data.
 
-``` downlit
+``` r
 data(hlpsms)
 hl <- readQFeatures(hlpsms, quantCols = 1:10, name = "psms")
 ##  Checking arguments.
@@ -348,7 +348,7 @@ hl
 
 Below, we see that we can extract an assay using its index or its name. The individual assays are stored as *SummarizedExperiment* object and further access its quantitative data and metadata using the `assay` and `rowData` functions.
 
-``` downlit
+``` r
 hl[[1]]
 ##  class: SummarizedExperiment 
 ##  dim: 3010 10 
@@ -422,7 +422,7 @@ For further details on how to manipulate such objects, refer to the *[MultiAssay
 
 It is also possible to first create a `SummarizedExperiment`, and then only include it into a `QFeatures` object.
 
-``` downlit
+``` r
 se <- readSummarizedExperiment(hlpsms, quantCols = 1:10)
 se
 ##  class: SummarizedExperiment 
@@ -435,7 +435,7 @@ se
 ##  colData names(0):
 ```
 
-``` downlit
+``` r
 QFeatures(list(psm = se))
 ##  An instance of class QFeatures (type: bulk) with 1 set:
 ##  
@@ -454,13 +454,13 @@ The CPTAC spike-in study design (credit Lieven Clement, statOmics, Ghent Univers
 
 The peptide-level data, as processed by MaxQuant ([Cox and Mann 2008](#ref-Cox:2008)) is available in the `MsDataHub` package:
 
-``` downlit
+``` r
 basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 ##  OpenTelemetry error: there is no package called 'otelsdk'
 ##  OpenTelemetry error: there is no package called 'otelsdk'
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  loading from cache
-##  [1] "ff45b46872_7855"
+##  [1] "ff2ef36f48_7855"
 ```
 
 > **NOTE:**
@@ -471,7 +471,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 >
 > From the names of the columns, we see that the quantitative columns, starting with `"Intensity."` (note the dot!) are at positions 56 to 61.
 >
-> ``` downlit
+> ``` r
 > names(read.delim(f))
 > ##   [1] "Sequence"                 "N.term.cleavage.window"  
 > ##   [3] "C.term.cleavage.window"   "Amino.acid.before"       
@@ -515,7 +515,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 >
 > We now read these data using the `readSummarizedExperiment` function. This peptide-level expression data will be imported into R as an instance of class `SummarizedExperiment`. We also use the `fnames` argument to set the row-names of the `peptides` assay to the peptide sequences and specify that the file is a tab-separated table.
 >
-> ``` downlit
+> ``` r
 > cptac_se <- readSummarizedExperiment(f, quantCols = i,
 >                                      fnames = "Sequence",
 >                                      sep = "\t")
@@ -535,7 +535,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 >
 > or
 >
-> ``` downlit
+> ``` r
 > dfr <- read.delim(f)
 > cptac_se <- readSummarizedExperiment(dfr, quantCols = i,
 >                                      fnames = "Sequence")
@@ -559,7 +559,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > colnames(cptac_se) <- sub("I.+\\.", "", colnames(cptac_se))
 > cptac_se$condition <- sub("_[7-9]", "", colnames(cptac_se))
 > cptac_se$id <- sub("^.+_", "", colnames(cptac_se))
@@ -581,7 +581,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > keep_var <- c("Sequence", "Proteins", "Leading.razor.protein", "PEP",
 >               "Score", "Reverse", "Potential.contaminant")
 >
@@ -600,7 +600,7 @@ A typical quantitative proteomics data processing is composed of the following s
 - Aggregation
 - Downstream analysis
 
-``` downlit
+``` r
 library("tidyverse")
 library("ggplot2")
 library("QFeatures")
@@ -617,7 +617,7 @@ Missing values can be highly frequent in proteomics. There are two reasons suppo
 
 Often, third party software that produce quantitative data use zeros instead of properly reporting missing values. We can use the [`zeroIsNA()`](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-missing-data.html) function to replace the `0` by `NA` values in our `cptac_se` object and then explore the missing data patterns across columns and rows.
 
-``` downlit
+``` r
 cptac_se <- zeroIsNA(cptac_se)
 nNA(cptac_se)
 ##  $nNA
@@ -662,13 +662,13 @@ Let’s now explore these missing values:
 
 - Explore the number or proportion of missing values across peptides and samples of the `cptac_se` data.
 
-``` downlit
+``` r
 barplot(nNA(cptac_se)$nNAcols$pNA)
 ```
 
 ![](30-quant_files/figure-html/na2-1.png)
 
-``` downlit
+``` r
 
 table(nNA(cptac_se)$nNArows$nNA)
 ##  
@@ -678,7 +678,7 @@ table(nNA(cptac_se)$nNArows$nNA)
 
 - Remove rows that have *too many* missing values. You can do this by hand or using the [`filterNA()`](https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html) function.
 
-``` downlit
+``` r
 ## remove rows that have 4 or more NAs out of 6
 cptac_se <- filterNA(cptac_se, pNA = 4/6)
 ```
@@ -701,7 +701,7 @@ There are various methods to perform data imputation, as described in [`?impute`
 
 The general syntax for imputation is shown below, using the `se_na2` object as an example:
 
-``` downlit
+``` r
 data(se_na2)
 ## impute missing values using knn imputation
 impute(se_na2, method = "knn")
@@ -725,7 +725,7 @@ impute(se_na2, method = "knn")
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > impute(se_na2, "mixed",
 >        randna = rowData(se_na2)$randna,
 >        mar = "knn", mnar = "zero")
@@ -745,7 +745,7 @@ impute(se_na2, method = "knn")
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > imp1 <- impute(se_na2, method = "knn")
 > ##  Imputing along margin 1 (features/rows).
 > ##  Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 12 rows with more than 50 % entries missing;
@@ -765,7 +765,7 @@ impute(se_na2, method = "knn")
 >
 > When assessing the impact of missing value imputation on real data, one can’t use the strategy above. Another useful approach is to assess the impact of the imputation method on the distribution of the quantitative data. For instance, here is the intensity distribution of the `se_na2` data. Verify the effect of applying `knn`, `zero`, `MinDet` and `bpca` on this distribution.
 >
-> ``` downlit
+> ``` r
 > plot(density(na.omit(assay(se_na2))))
 > ```
 >
@@ -775,7 +775,7 @@ impute(se_na2, method = "knn")
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > cls <- c("black", "red", "blue", "steelblue", "orange")
 > plot(density(na.omit(assay(se_na2))), col = cls[1])
 > lines(density(assay(impute(se_na2, method = "knn"))), col = cls[2])
@@ -801,7 +801,7 @@ The [Imputing quantitative proteomics data](https://rformassspectrometry.github.
 
 As discussed in the previous chapter, PSMs are deemed relevant after comparison against hits from a decoy database. The origin of these hits is recorded with `+` in the `Reverse` variable:
 
-``` downlit
+``` r
 table(rowData(cptac_se)$Reverse)
 ##  
 ##          + 
@@ -810,7 +810,7 @@ table(rowData(cptac_se)$Reverse)
 
 Similarly, a proteomics experiment is also searched against a database of contaminants:
 
-``` downlit
+``` r
 table(rowData(cptac_se)$Potential.contaminant)
 ##  
 ##          + 
@@ -825,7 +825,7 @@ Let’s visualise some of the cptac’s metadata using standard `ggplot2` code:
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > rowData(cptac_se) |>
 >     as_tibble() |>
 >     ggplot(aes(x = Score, colour = Reverse)) +
@@ -834,7 +834,7 @@ Let’s visualise some of the cptac’s metadata using standard `ggplot2` code:
 >
 > ![](30-quant_files/figure-html/idqc1-1.png)
 >
-> ``` downlit
+> ``` r
 > rowData(cptac_se) |>
 >     as_tibble() |>
 >     ggplot(aes(x = PEP, colour = Reverse)) +
@@ -849,7 +849,7 @@ Let’s visualise some of the cptac’s metadata using standard `ggplot2` code:
 
 We can now create our `QFeatures` object using the `SummarizedExperiment` as shown below.
 
-``` downlit
+``` r
 cptac <- QFeatures(list(peptides = cptac_se))
 cptac
 ##  An instance of class QFeatures (type: bulk) with 1 set:
@@ -859,7 +859,7 @@ cptac
 
 We should also assign the `QFeatures` column data with the `SummarizedExperiment` slot.
 
-``` downlit
+``` r
 colData(cptac) <- colData(cptac_se)
 ```
 
@@ -873,7 +873,7 @@ Note that it is also possible to directly create a `QFeatures` object with the [
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > cptac <-
 >     cptac |>
 >     filterFeatures(~ Reverse != "+") |>
@@ -888,7 +888,7 @@ Note that it is also possible to directly create a `QFeatures` object with the [
 
 The two code chunks below log-transform and normalise using the assay `i` as input and adding a new one names as defined by `name`.
 
-``` downlit
+``` r
 cptac <- logTransform(cptac, i = "peptides",
                       name = "log_peptides")
 ```
@@ -899,7 +899,7 @@ cptac <- logTransform(cptac, i = "peptides",
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > cptac <- normalize(cptac, i = "log_peptides",
 >                    name = "lognorm_peptides",
 >                    method = "center.median")
@@ -911,7 +911,7 @@ cptac <- logTransform(cptac, i = "peptides",
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > par(mfrow = c(1, 3))
 > limma::plotDensities(assay(cptac[["peptides"]]))
 > limma::plotDensities(assay(cptac[["log_peptides"]]))
@@ -947,7 +947,7 @@ cptac <- logTransform(cptac, i = "peptides",
 
 Looking at the `.n` row variable computed during the aggregation, we see that most proteins result from the aggregation of 5 peptides or less, while very few proteins are accounted for by tens of peptides.
 
-``` downlit
+``` r
 table(rowData(cptac[["proteins_med"]])$.n)
 ##  
 ##    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19 
@@ -962,7 +962,7 @@ table(rowData(cptac[["proteins_med"]])$.n)
 
 Below we apply PCA using the processed peptide level data and the summarized protein level data. Since PCA does not accept missing values we first need to remove `NA` using `filterNA`. Note that several alternative dimension reduction methods allow the use of incomplete data (e.g. nipals ([Wold 1966](#ref-wold:1966)) or bpca ([Bishop 1998](#ref-bishop:1998)))
 
-``` downlit
+``` r
 library("factoextra")
 
 pca_pep <-
@@ -983,7 +983,7 @@ pca_prot <-
                  title = "Proteins (median aggregation)")
 ```
 
-``` downlit
+``` r
 library("patchwork")
 pca_pep + pca_prot
 ```
@@ -996,7 +996,7 @@ Peptide and protein level PCA analyses.
 
 Below, we use the [`longForm()`](https://rdrr.io/pkg/BiocGenerics/man/longForm.html) function to extract the quantitative and row data in a long format, that can be directly reused by the tidyverse tools.
 
-``` downlit
+``` r
 longForm(cptac["P02787ups|TRFE_HUMAN_UPS", ,
                c("lognorm_peptides", "proteins_med")]) |>
     as_tibble() |>
@@ -1014,7 +1014,7 @@ Peptide and protein expression profile.
 
 We can also visualise the assays withing a `QFeatures` object and their relation.
 
-``` downlit
+``` r
 plot(cptac)
 ```
 
@@ -1064,7 +1064,7 @@ Others, while not specfic to proteomics, are also recommended, such as the *[lim
 
 Below, we are going to perform our statistical analysis on the protein data using `limma`.
 
-``` downlit
+``` r
 prots <- getWithColData(cptac, "proteins_med")
 ##  Warning: 'experiments' dropped; see 'drops()'
 ##  Warning: Ignoring redundant column names in 'colData(x)':
@@ -1076,7 +1076,7 @@ The `limma` package implements an empirical Bayes method that borrows informatio
 
 The code chunk below illustrates how to set up the model, fit it, and apply the empirical Bayes moderation.
 
-``` downlit
+``` r
 library("limma")
 design <- model.matrix(~ prots$condition)
 fit <- lmFit(assay(prots), design)
@@ -1086,7 +1086,7 @@ fit <- eBayes(fit)
 
 Finally, the [`topTable()`](https://rdrr.io/pkg/limma/man/toptable.html) function is used the extract the results for the coefficient of interest.
 
-``` downlit
+``` r
 res <-
     topTable(fit, coef = "prots$condition6B", number = Inf) |>
     rownames_to_column("protein") |>
@@ -1096,7 +1096,7 @@ res <-
 
 Note the warning about partial `NA` coefficients for 23 probes:
 
-``` downlit
+``` r
 na_coefs <-
     filter(res, is.na(t)) |>
     pull(protein)
@@ -1157,7 +1157,7 @@ assay(prots[na_coefs, ])
 
 We can now visualise the results using a volcano plot:
 
-``` downlit
+``` r
 res |>
     ggplot(aes(x = logFC, y = -log10(adj.P.Val))) +
     geom_point(aes(colour = TP)) +

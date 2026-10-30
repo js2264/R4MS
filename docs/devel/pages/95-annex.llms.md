@@ -6,7 +6,7 @@ The `mzR` package is a direct interface to the [proteowizard](http://proteowizar
 
 Let’s start by getting some raw data from the `MsDataHub` package.
 
-``` downlit
+``` r
 f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ##  OpenTelemetry error: there is no package called 'otelsdk'
 ##  OpenTelemetry error: there is no package called 'otelsdk'
@@ -22,16 +22,16 @@ The three main functions of `mzR` are
 
 Other functions such as `instrumentInfo`, or `runInfo` can be used to gather general information about a run.
 
-``` downlit
+``` r
 library("mzR")
 ms <- openMSfile(f)
 ms
 ##  Mass Spectrometry file handle.
-##  Filename:  ff313a5c2_7858 
+##  Filename:  ff1648c644_7858 
 ##  Number of scans:  7534
 ```
 
-``` downlit
+``` r
 hd <- header(ms)
 dim(hd)
 ##  [1] 7534   32
@@ -54,7 +54,7 @@ names(hd)
 ##  [31] "scanWindowLowerLimit"       "scanWindowUpperLimit"
 ```
 
-``` downlit
+``` r
 head(peaks(ms, 117))
 ##             mz intensity
 ##  [1,] 399.9976         0
@@ -93,7 +93,7 @@ str(peaks(ms, 1:5))
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > hd2 <- hd[hd$msLevel == 2, ]
 > i <- which.max(hd2$basePeakIntensity)
 > hd2[i, ]
@@ -121,7 +121,7 @@ str(peaks(ms, 1:5))
 >
 > ![](95-annex_files/figure-html/ex_raw-1.png)
 >
-> ``` downlit
+> ``` r
 > mz <- hd2[i, "basePeakMZ"]
 > plot(pi, type = "h", xlim = c(mz - 0.5, mz + 0.5))
 > ```
@@ -134,7 +134,7 @@ str(peaks(ms, 1:5))
 
 > **NOTE:**
 >
-> ``` downlit
+> ``` r
 > ## Zooming into spectrum 300 (an MS1 spectrum).
 > j <- 300
 > pj <- peaks(ms, j)
@@ -143,7 +143,7 @@ str(peaks(ms, 1:5))
 >
 > ![](95-annex_files/figure-html/ex_raw2-1.png)
 >
-> ``` downlit
+> ``` r
 > mz <- hd[j, "basePeakMZ"]
 > plot(pj, type = "l", xlim = c(mz - 0.5, mz + 0.5))
 > ```
@@ -165,18 +165,18 @@ Which of these packages is used by `PSM()` can be defined by the `parser` argume
 
 The main functions are `mzID` to read the data into a dedicated data class and `flatten` to transform it into a `data.frame`.
 
-``` downlit
+``` r
 ## idf was created in the chapter on identification data
 idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  loading from cache
 idf
 ##                                          EH7807 
-##  "/opt/R-cache/R/ExperimentHub/ff6de9f5cf_7857"
+##  "/opt/R-cache/R/ExperimentHub/ff2d4fe6bf_7857"
 # ---
 library("mzID")
 id <- mzID(idf)
-##  reading ff6de9f5cf_7857...
+##  reading ff2d4fe6bf_7857...
 ##   DONE!
 id
 ##  An mzID object
@@ -193,7 +193,7 @@ id
 
 Various data can be extracted from the `mzID` object, using one of the accessor functions such as `database`, `software`, `scans`, `peptides`, … The object can also be converted into a `data.frame` using the `flatten` function.
 
-``` downlit
+``` r
 head(flatten(id))
 ##                                       spectrumid scan number(s)
 ##  1 controllerType=0 controllerNumber=1 scan=5782           5782
@@ -238,12 +238,12 @@ head(flatten(id))
 ##  5   ECA1443    298      UTP--glucose-1-phosphate uridylyltransferase
 ##  6   ECA1444    468 6-phosphogluconate dehydrogenase, decarboxylating
 ##                                 pepseq modified modification          idFile
-##  1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR    FALSE         <NA> ff6de9f5cf_7857
-##  2        TQVLDGLINANDIEVPVALIDGEIDVLR    FALSE         <NA> ff6de9f5cf_7857
-##  3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR    FALSE         <NA> ff6de9f5cf_7857
-##  4         SQILQQAGTSVLSQANQVPQTVLSLLR    FALSE         <NA> ff6de9f5cf_7857
-##  5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR    FALSE         <NA> ff6de9f5cf_7857
-##  6             WTSQSSLDLGEPLSLITESVFAR    FALSE         <NA> ff6de9f5cf_7857
+##  1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR    FALSE         <NA> ff2d4fe6bf_7857
+##  2        TQVLDGLINANDIEVPVALIDGEIDVLR    FALSE         <NA> ff2d4fe6bf_7857
+##  3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR    FALSE         <NA> ff2d4fe6bf_7857
+##  4         SQILQQAGTSVLSQANQVPQTVLSLLR    FALSE         <NA> ff2d4fe6bf_7857
+##  5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR    FALSE         <NA> ff2d4fe6bf_7857
+##  6             WTSQSSLDLGEPLSLITESVFAR    FALSE         <NA> ff2d4fe6bf_7857
 ##                                                           spectrumFile
 ##  1 TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 ##  2 TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
@@ -264,12 +264,12 @@ head(flatten(id))
 
 The `mzR` interface provides a similar interface. It is however much faster as it does not read all the data into memory and only extracts relevant data on demand. It has also accessor functions such as `softwareInfo`, `mzidInfo`, … (use `showMethods(classes = "mzRident", where = "package:mzR")`) to see all available methods.
 
-``` downlit
+``` r
 library("mzR")
 id2 <- openIDfile(idf)
 id2
 ##  Identification file handle.
-##  Filename:  ff6de9f5cf_7857 
+##  Filename:  ff2d4fe6bf_7857 
 ##  Number of psms:  5759
 softwareInfo(id2)
 ##  [1] "MS-GF+ Beta (v10072) "                        
@@ -278,7 +278,7 @@ softwareInfo(id2)
 
 The identification data can be accessed as a `data.frame` with the `psms` accessor.
 
-``` downlit
+``` r
 head(psms(id2))
 ##                                       spectrumID chargeState rank
 ##  1 controllerType=0 controllerNumber=1 scan=5782           3    1
