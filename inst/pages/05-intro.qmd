@@ -179,8 +179,8 @@ on the package page.
 
 Each data can then be downloaded with a dedicated function, for example
 
-```{r ko15}
-ko15.CDF()
+```{r MsDataHubRaw}
+X20171016_POOL_POS_1_105.134.mzML()
 ```
 
 Note that the (compressed)
