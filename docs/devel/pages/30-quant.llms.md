@@ -460,7 +460,7 @@ basename(f <- MsDataHub::cptac_a_b_peptides.txt())
 ##  OpenTelemetry error: there is no package called 'otelsdk'
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  loading from cache
-##  [1] "ff2ef36f48_7855"
+##  [1] "ff36ab04c2_7855"
 ```
 
 > **NOTE:**

@@ -27,7 +27,7 @@ library("mzR")
 ms <- openMSfile(f)
 ms
 ##  Mass Spectrometry file handle.
-##  Filename:  ff1648c644_7858 
+##  Filename:  ff5df30e08_7858 
 ##  Number of scans:  7534
 ```
 
@@ -171,12 +171,12 @@ idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  loading from cache
 idf
-##                                          EH7807 
-##  "/opt/R-cache/R/ExperimentHub/ff2d4fe6bf_7857"
+##                                         EH7807 
+##  "/opt/R-cache/R/ExperimentHub/ffd0cf9b4_7857"
 # ---
 library("mzID")
 id <- mzID(idf)
-##  reading ff2d4fe6bf_7857...
+##  reading ffd0cf9b4_7857...
 ##   DONE!
 id
 ##  An mzID object
@@ -237,13 +237,13 @@ head(flatten(id))
 ##  4   ECA1731    290                                         flagellin
 ##  5   ECA1443    298      UTP--glucose-1-phosphate uridylyltransferase
 ##  6   ECA1444    468 6-phosphogluconate dehydrogenase, decarboxylating
-##                                 pepseq modified modification          idFile
-##  1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR    FALSE         <NA> ff2d4fe6bf_7857
-##  2        TQVLDGLINANDIEVPVALIDGEIDVLR    FALSE         <NA> ff2d4fe6bf_7857
-##  3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR    FALSE         <NA> ff2d4fe6bf_7857
-##  4         SQILQQAGTSVLSQANQVPQTVLSLLR    FALSE         <NA> ff2d4fe6bf_7857
-##  5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR    FALSE         <NA> ff2d4fe6bf_7857
-##  6             WTSQSSLDLGEPLSLITESVFAR    FALSE         <NA> ff2d4fe6bf_7857
+##                                 pepseq modified modification         idFile
+##  1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR    FALSE         <NA> ffd0cf9b4_7857
+##  2        TQVLDGLINANDIEVPVALIDGEIDVLR    FALSE         <NA> ffd0cf9b4_7857
+##  3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR    FALSE         <NA> ffd0cf9b4_7857
+##  4         SQILQQAGTSVLSQANQVPQTVLSLLR    FALSE         <NA> ffd0cf9b4_7857
+##  5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR    FALSE         <NA> ffd0cf9b4_7857
+##  6             WTSQSSLDLGEPLSLITESVFAR    FALSE         <NA> ffd0cf9b4_7857
 ##                                                           spectrumFile
 ##  1 TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 ##  2 TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
@@ -269,7 +269,7 @@ library("mzR")
 id2 <- openIDfile(idf)
 id2
 ##  Identification file handle.
-##  Filename:  ff2d4fe6bf_7857 
+##  Filename:  ffd0cf9b4_7857 
 ##  Number of psms:  5759
 softwareInfo(id2)
 ##  [1] "MS-GF+ Beta (v10072) "                        

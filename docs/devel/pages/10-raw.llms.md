@@ -70,7 +70,7 @@ mzf <- rpx::pxget(rpx::PXDataset("PXD000001"), "TMT_Erwinia_1uLSike_Top10HCD_iso
 ##  Loading PXD000001 from cache.
 ##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.
 mzf
-##  [1] "/opt/R-cache/R/rpx/73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
+##  [1] "/opt/R-cache/R/rpx/73c7050d_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 sp <- Spectra(mzf)
 sp
 ##  MSn data (Spectra) with 7534 spectra in a MsBackendMzR backend:
@@ -90,7 +90,7 @@ sp
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
+##  73c7050d_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 ```
 
 > **NOTE:**
@@ -156,8 +156,6 @@ grep("POOL", MsDataHub::MsDataHub()[[1]], value = TRUE)
 fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
          MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
-##  downloading 1 resources
-##  retrieving 1 resource
 ##  loading from cache
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  downloading 1 resources
@@ -165,15 +163,15 @@ fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
 ##  loading from cache
 fls
 ##                                           EH7809 
-##  "/opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859" 
+##   "/opt/R-cache/R/ExperimentHub/ff609412ff_7859" 
 ##                                           EH7810 
-##  "/opt/R-cache/R/ExperimentHub/13d725ab055_7860"
+##  "/opt/R-cache/R/ExperimentHub/13d1168ec83_7860"
 sp_sciex <- Spectra(fls)
 table(dataOrigin(sp_sciex))
 ##  
-##  /opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859 
+##  /opt/R-cache/R/ExperimentHub/13d1168ec83_7860 
 ##                                            931 
-##  /opt/R-cache/R/ExperimentHub/13d725ab055_7860 
+##   /opt/R-cache/R/ExperimentHub/ff609412ff_7859 
 ##                                            931
 ```
 
@@ -202,8 +200,8 @@ sp_sciex
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  13d3b9d4be7_7859
-##  13d725ab055_7860
+##  ff609412ff_7859
+##  13d1168ec83_7860
 ```
 
 - `MsBackendMemory` and `MsBackendDataFrame`: the full mass spectrometry data is stored (in-memory) within the object. Keeping the data in memory guarantees high performance but has also, depending on the number of mass peaks in each spectrum, a much higher memory footprint.
@@ -226,7 +224,7 @@ setBackend(sp_sciex, MsBackendMemory())
 ##  1862         1   259.752       931
 ##   ... 34 more variables/columns.
 ##  Processing:
-##   Switch backend from MsBackendMzR to MsBackendMemory [Fri Oct 30 10:41:39 2026]
+##   Switch backend from MsBackendMzR to MsBackendMemory [Tue Nov  3 18:30:36 2026]
 ```
 
 - `MsBackendHdf5Peaks`: similar to `MsBackendMzR` this backend reads peak data only on-demand from disk while all other spectra variables are kept in memory. The peak data are stored in Hdf5 files which guarantees scalability.
@@ -253,19 +251,19 @@ sp_hdf5
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##   13d3b9d4be7_7859.h5
-##   13d725ab055_7860.h5
+##   ff609412ff_7859.h5
+##   13d1168ec83_7860.h5
 ##  Processing:
-##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Fri Oct 30 10:41:45 2026]
+##   Switch backend from MsBackendMzR to MsBackendHdf5Peaks [Tue Nov  3 18:30:42 2026]
 table(sp_hdf5$dataOrigin)
 ##  
-##  /opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859 
+##  /opt/R-cache/R/ExperimentHub/13d1168ec83_7860 
 ##                                            931 
-##  /opt/R-cache/R/ExperimentHub/13d725ab055_7860 
+##   /opt/R-cache/R/ExperimentHub/ff609412ff_7859 
 ##                                            931
 table(sp_hdf5$dataStorage)
 ##  
-##  /tmp/RtmpFydmAq/13d3b9d4be7_7859.h5 /tmp/RtmpFydmAq/13d725ab055_7860.h5 
+##  /tmp/RtmpN9GXvD/13d1168ec83_7860.h5  /tmp/RtmpN9GXvD/ff609412ff_7859.h5 
 ##                                  931                                 931
 ```
 
@@ -335,9 +333,9 @@ We are going to reproduce the figure above through a set of exercices.
 > ##   ... 35 more variables/columns.
 > ##  
 > ##  file(s):
-> ##  73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
+> ##  73c7050d_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
 > ##  Processing:
-> ##   Filter: select parent/children scans for 2807 [Fri Oct 30 10:41:45 2026]
+> ##   Filter: select parent/children scans for 2807 [Tue Nov  3 18:30:42 2026]
 > ```
 
 > **NOTE:**
@@ -481,8 +479,8 @@ In addition to these, there is also a set of filter functions that operate on th
 > ``` r
 > fls <- unique(dataOrigin(sp_sciex))
 > fls
-> ##  [1] "/opt/R-cache/R/ExperimentHub/13d3b9d4be7_7859"
-> ##  [2] "/opt/R-cache/R/ExperimentHub/13d725ab055_7860"
+> ##  [1] "/opt/R-cache/R/ExperimentHub/ff609412ff_7859" 
+> ##  [2] "/opt/R-cache/R/ExperimentHub/13d1168ec83_7860"
 > file_2 <- filterDataOrigin(sp_sciex, dataOrigin = fls[2])
 > length(file_2)
 > ##  [1] 931
@@ -512,10 +510,10 @@ In addition to these, there is also a set of filter functions that operate on th
 > ##   ... 34 more variables/columns.
 > ##  
 > ##  file(s):
-> ##  13d725ab055_7860
+> ##  13d1168ec83_7860
 > ##  Processing:
-> ##   Filter: select data origin(s) /opt/R-cache/R/ExperimentHub/13d725ab055_7860 [Fri Oct 30 10:41:46 2026]
-> ##   Filter: select retention time [175..189] on MS level(s)  [Fri Oct 30 10:41:46 2026]
+> ##   Filter: select data origin(s) /opt/R-cache/R/ExperimentHub/13d1168ec83_7860 [Tue Nov  3 18:30:44 2026]
+> ##   Filter: select retention time [175..189] on MS level(s)  [Tue Nov  3 18:30:44 2026]
 > ```
 
 As an example of data processing, we use below the [`pickPeaks()`](https://rdrr.io/pkg/Spectra/man/addProcessing.html) function. This function allows to convert *profile mode* MS data to *centroid mode* data (a process also referred to as *centroiding*).
@@ -576,11 +574,11 @@ sp_sciex ## Note the lazy evaluation queue
 ##   ... 34 more variables/columns.
 ##  
 ##  file(s):
-##  13d3b9d4be7_7859
-##  13d725ab055_7860
+##  ff609412ff_7859
+##  13d1168ec83_7860
 ##  Lazy evaluation queue: 1 processing step(s)
 ##  Processing:
-##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Fri Oct 30 10:41:47 2026]
+##   Remove peaks with intensities outside [10, Inf] in spectra of MS level(s) 1. [Tue Nov  3 18:30:44 2026]
 min(intensity(sp_sciex[1]))
 ##  [1] 412
 sp_sciex@processingQueue

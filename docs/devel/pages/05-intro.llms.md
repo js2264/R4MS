@@ -104,7 +104,7 @@ fn <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 mzf <- pxget(px, fn)
 ##  Loading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML from cache.
 mzf
-##  [1] "/opt/R-cache/R/rpx/73ae6019a_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
+##  [1] "/opt/R-cache/R/rpx/73c7050d_TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 ```
 
 ### Data hub
@@ -744,13 +744,13 @@ The dataset table is also available as an [interactive table](https://rformasssp
 Each data can then be downloaded with a dedicated function, for example
 
 ``` r
-ko15.CDF()
+X20171016_POOL_POS_1_105.134.mzML()
 ##  see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 ##  downloading 1 resources
 ##  retrieving 1 resource
 ##  loading from cache
-##                                          EH7803 
-##  "/opt/R-cache/R/ExperimentHub/ff2c085659_7853"
+##                                          EH7809 
+##  "/opt/R-cache/R/ExperimentHub/ff609412ff_7859"
 ```
 
 Note that the (compressed) `TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML` file downloaded above happens to also be available in `MsDataHub`.
@@ -762,15 +762,15 @@ MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.g
 ##  retrieving 1 resource
 ##  loading from cache
 ##                                          EH7808 
-##  "/opt/R-cache/R/ExperimentHub/ff1648c644_7858"
+##  "/opt/R-cache/R/ExperimentHub/ff5df30e08_7858"
 ```
 
 In addition to raw data, there’s also the matchin identification data
 
 ``` r
 MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
-##                                          EH7807 
-##  "/opt/R-cache/R/ExperimentHub/ff2d4fe6bf_7857"
+##                                         EH7807 
+##  "/opt/R-cache/R/ExperimentHub/ffd0cf9b4_7857"
 ```
 
 and a quantitative proteomics data table
@@ -778,7 +778,7 @@ and a quantitative proteomics data table
 ``` r
 MsDataHub::cptac_a_b_peptides.txt()
 ##                                          EH7805 
-##  "/opt/R-cache/R/ExperimentHub/ff2ef36f48_7855"
+##  "/opt/R-cache/R/ExperimentHub/ff36ab04c2_7855"
 ```
 
 Often, experiment packages distribute processed data; examples thereof are the *[pRolocdata](https://bioconductor.org/packages/3.24/pRolocdata)* and *[scpdata](https://bioconductor.org/packages/3.24/scpdata)* packages, that ship processed and annotated quantitative spatial and single-cell proteomics data.
