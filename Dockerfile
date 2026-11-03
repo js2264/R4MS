@@ -38,10 +38,18 @@ RUN if grep -rqsE '^```\{python' /opt/pkg/inst; then \
 ## On GitHub's runners, rpx::pxget() fails to download the 600 MB mzML file of
 ## PXD000001 from PRIDE's FTP server. The PRIDE files the book uses are
 ## downloaded over HTTPS instead, into rpx's cache, where pxget() finds them.
-## PRIDE's HTTPS server can take longer to accept a connection than curl waits
-## by default (14 s for a first connection), so each download waits up to 2 min
-## for it, and is retried up to 5 times
-RUN Rscript -e 'fls <- rpx::pxfiles(rpx::PXDataset("PXD000001"), as.vector = FALSE); \
+## PRIDE's servers fail now and then: its FTP server can refuse to list the
+## dataset, and its HTTPS server can take longer to accept a connection than
+## curl waits by default (14 s for a first connection). So listing the files is
+## retried up to 5 times, and each download waits up to 2 min for the
+## connection, and is retried up to 5 times
+RUN Rscript -e 'for (i in 1:5) { \
+          fls <- tryCatch(rpx::pxfiles(rpx::PXDataset("PXD000001"), as.vector = FALSE), \
+              error = function(e) { message("Attempt ", i, " to list PXD000001: ", conditionMessage(e)); NULL }); \
+          if (!is.null(fls)) break; \
+          Sys.sleep(30); \
+      }; \
+      if (is.null(fls)) stop("Could not list the files of PXD000001"); \
       keep <- fls$NAME == "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" | grepl("fasta", fls$NAME); \
       for (url in fls$URI[keep]) { \
           dest <- BiocFileCache::bfcadd(rpx::rpxCache(), url, download = FALSE); \
