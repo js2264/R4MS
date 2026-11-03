@@ -37,11 +37,22 @@ RUN if grep -rqsE '^```\{python' /opt/pkg/inst; then \
 
 ## On GitHub's runners, rpx::pxget() fails to download the 600 MB mzML file of
 ## PXD000001 from PRIDE's FTP server. The PRIDE files the book uses are
-## downloaded over HTTPS instead, into rpx's cache, where pxget() finds them
+## downloaded over HTTPS instead, into rpx's cache, where pxget() finds them.
+## PRIDE's HTTPS server can take longer to accept a connection than curl waits
+## by default (14 s for a first connection), so each download waits up to 2 min
+## for it, and is retried up to 5 times
 RUN Rscript -e 'fls <- rpx::pxfiles(rpx::PXDataset("PXD000001"), as.vector = FALSE); \
       keep <- fls$NAME == "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" | grepl("fasta", fls$NAME); \
-      for (url in fls$URI[keep]) \
-          curl::curl_download(sub("^ftp://", "https://", url), BiocFileCache::bfcadd(rpx::rpxCache(), url, download = FALSE))'
+      for (url in fls$URI[keep]) { \
+          dest <- BiocFileCache::bfcadd(rpx::rpxCache(), url, download = FALSE); \
+          for (i in 1:5) { \
+              ok <- tryCatch({ curl::curl_download(sub("^ftp://", "https://", url), dest, handle = curl::new_handle(connecttimeout = 120)); TRUE }, \
+                  error = function(e) { message("Attempt ", i, " for ", url, ": ", conditionMessage(e)); FALSE }); \
+              if (ok) break; \
+              Sys.sleep(30); \
+          }; \
+          if (!ok) stop("Could not download ", url); \
+      }'
 
 ## Build/install using same approach than BBS
 RUN R CMD INSTALL /opt/pkg
